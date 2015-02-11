@@ -1,0 +1,42 @@
+<div class="jumbotron">
+    <h2><?php echo "Usuários"; ?></h2>
+</div>
+<?php
+//monta a string com os registros no formato array do jquery p/ adicionar ao grid
+$recursos[] = null;
+$registros="[";
+foreach ($this->perfis as $perfil):
+	foreach ($perfil->getRecursos() as $recurso):
+		if (!in_array($recurso->getRecurso()->getRecurso(), $recursos)) 
+    		$recursos[] = $recurso->getRecurso()->getRecurso()."/".$recurso->getPermissao();
+	endforeach;
+	foreach ($perfil->getUsuarios() as $usuario):
+		$registros .= "{
+			id: '".$perfil->getId()."', 
+			perfil: '[".strtoupper($perfil->getPerfil())."] [".implode(' - ',$recursos)." - ]', 
+			usuario: '".$usuario->getNome()."',
+			cargo: '".$usuario->getCargo()."',
+			login: '".$usuario->getLogin()."'
+		},";
+	endforeach;
+endforeach;
+$registros .= "]";
+?>
+<!-- quebra de linha -->
+<style type="text/css">
+table.ui-jqgrid-btable tbody tr td b{
+        white-space: normal !important;
+    }
+</style>
+<!-- adiciona os registros ao grid -->
+<script type="text/javascript">
+window.onload=function(){
+	jQuery(document).ready(function(){
+		jQuery("#gridperfil").jqGrid('setGridParam',{data:<?=$registros?>}).trigger('reloadGrid');
+	});
+}
+</script> 
+
+<table id="gridperfil" class="scroll"></table> 
+<div id="paginacao"></div>
+<div id="pesquisa"></div>
