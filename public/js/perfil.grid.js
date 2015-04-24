@@ -1,12 +1,11 @@
 jQuery(document).ready(function(){
 	jQuery("#gridperfil").jqGrid({ //#list é o id da tabela para receber o jqgrid
 		datatype: 'local',//na linha abaixo jogo os dados pro jqgrid 
-		colNames:['Id','Perfil','Usuário','Cargo','Login'], 
+		colNames:['Id','Perfil','Usuário','Cargo'], 
 		colModel :[ {name:'id', index:'id', width:'10px', sorttype: 'int', align:'left'},
 			   		{name:'perfil', index:'perfil', width:'500px', search:true, align:'left'}, 
 		    		{name:'usuario', index:'usuario', width:'200px', align:'left'},
-		    		{name:'cargo', index:'cargo', width:'150px', align:'left'},
-		    		{name:'login', index:'login', width:'150px', align:'left'}
+		    		{name:'cargo', index:'cargo', width:'150px', align:'left'}
 				  ],
 		width:'1800',
 		height:'300',
@@ -18,7 +17,7 @@ jQuery(document).ready(function(){
 		sortorder: "desc", 
 		viewrecords: true, 
 		imgpath: 'js/jqgrid/css/images', 
-		caption: 'Perfis de Usuários com seus Recursos',
+		caption: 'duplo clique para abrir',
 		grouping:true,
 	   	groupingView : {
 	   		groupField : ['perfil'],
@@ -29,7 +28,7 @@ jQuery(document).ready(function(){
 			groupSummary : [true]
 	   	},
 		ondblClickRow: function(id){
-			location.href = location.href.slice(0,location.href.indexOf('perfil'))+'perfil/edita/id/'+id
+			location.href = location.href.slice(0,location.href.indexOf('equipe'))+'equipe/edita/id/'+id
 		}
 	});
 	jQuery("#gridperfil").jqGrid('navGrid','#paginacao',{edit:false,add:false,del:false});

@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador de Projetos
+ * Controlador de Configurações
  */
 namespace Application\Controller;
 

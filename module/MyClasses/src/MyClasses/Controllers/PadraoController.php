@@ -19,10 +19,14 @@ use MyClasses\Conn\Conn,
 //require_once __DIR__.'/../Entities/Proxies/__CG__MyClassesEntitiesAclPerfil.php';
 
 abstract class PadraoController extends AbstractActionController{
+    /** @var MyClasses\Conn\Conn */
 	protected $conn;
+    /** @var Doctrine\ORM\EntityManager */
+    private $em;
+    /** @var Zend\Authentication\AuthenticationService */
 	protected $auth;
 	protected $identity;
-	protected $usuario;
+	//protected $usuario;
 	
 	public function __construct(){
 		$this->conn = Conn::getConn();
@@ -30,6 +34,14 @@ abstract class PadraoController extends AbstractActionController{
 		$this->identity = $this->auth->getIdentity()[0];//getStorage()->read();
 		//$this->usuario = $this->conn->find('MyClasses\Entities\AclUsuario',$this->identity->getId());
 	}
+    
+    /** @return Doctrine\ORM\EntityManager */
+    public function getEm(){
+        if (null === $this->em){
+            $this->em = Conn::getConn();
+        }
+        return $this->em;
+    }
 	
 	/**
 	 * sobrepondo o método setEventManager do AbstractActionControler
@@ -49,14 +61,31 @@ abstract class PadraoController extends AbstractActionController{
 	/**
 	 * verifica autenticação
 	 */
-	public function verificaAuth(){
+    public function verificaAuth(){
+		//quebrando a URL
+		$uri = explode('/',substr($_SERVER['REQUEST_URI'],1));
+		//print_r($uri);
+		//print_r($uri);
+		$uri[2] = !isset($uri[2]) ? "index" : $uri[2];
+	    $auth = new AuthenticationService();
+	    $identity = $auth->getStorage()->read();
+	    $acl = $identity[2];
+	    //echo "uri ".$uri[0];
 	    //verificando autenticidade
-		if (!$this->auth->hasIdentity())	//existe identidade?
-			$this->redirect()->toRoute('inicio');
-		else{
-    	    $this->layout()->id = $this->identity->getId();
-    	    $this->layout()->nome = $this->identity->getNome();
-    	}
+		if (!$auth->hasIdentity()){	//existe identidade?
+		    //echo "nao existe identidade";
+			$this->redirect()->toRoute('logoff');
+		}//elseif (	!$acl->hasResource( $uri[2] )){ /* || //existe o recurso na acl?	    							 									
+	    //			!$acl->isAllowed( $identity[1], $uri[2] ) )*/ //ou existe, mas tem a permissão no perfil, recurso, ação, privilégio?
+                    //echo "nao existe recurso";
+			//		$this->redirect()->toRoute('logoff');
+			/* else{
+	    	    $this->layout()->id = $identity[0]->getId();
+	    	    $this->layout()->nome = $identity[0]->getNome();
+	    	    $this->layout()->cargo = $identity[0]->getCargo();
+	    	    $this->layout()->recursos = $acl->getResources();
+	    	} */
+		//}
 	}
 	
 	/** gera PDF de um registro

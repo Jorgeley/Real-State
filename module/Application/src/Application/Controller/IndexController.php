@@ -12,7 +12,9 @@ use MyClasses\Conn\Conn,
 	Zend\Permissions\Acl\Role\GenericRole as Role,
 	Zend\Permissions\Acl\Resource\GenericResource as Resource,
 	Zend\Mvc\Controller\AbstractActionController,
-	Zend\View\Model\ViewModel;
+	Zend\View\Model\ViewModel,
+    Zend\Soap\Server as Soap,
+    Zend\Soap\AutoDiscover;
 
 class IndexController extends AbstractActionController{
     private $adapter;
@@ -25,16 +27,17 @@ class IndexController extends AbstractActionController{
 	}
 
 	public function indexAction(){
-	    if ($this->auth->hasIdentity()){	//existe identidade?
-	        $usuario = $this->auth->getIdentity()[0];
-	        $this->layout()->id = $usuario->getId();
-	        $this->layout()->nome = $usuario->getNome();
-	    }else
-	        $this->redirect()->toRoute("login");
+	    /**if (!$this->auth->hasIdentity())	//ñ existe identidade?
+	        $this->redirect()->toRoute("login");*/
 	}
 	
 	public function loginAction(){
-	    return new ViewModel();
+	    if (null===$this->Params('wsdl'))
+	       return new ViewModel();
+	    elseif ($this->Params('wsdl')=='login')
+	        $this->wsdl();	        
+	    elseif ($this->Params('wsdl')=='logado')
+	        $this->soap();
 	}
 	
 	/**
@@ -42,7 +45,7 @@ class IndexController extends AbstractActionController{
 	 */
 	public function autenticaAction(){
 		if ($this->getRequest()->isPost()) {
-			$this->adapter->setOptions(array(
+            $this->adapter->setOptions(array(
 					'object_manager' => Conn::getConn(),
 					'identity_class' => 'MyClasses\Entities\AclUsuario',
 					'identity_property' => 'login',
@@ -53,20 +56,25 @@ class IndexController extends AbstractActionController{
 			$this->adapter->setCredentialValue(sha1($this->getRequest()->getPost('senha')));
 			$result = $this->auth->authenticate($this->adapter);
 			if ($result->isValid()){
-			    $perfil = $result->getIdentity()->getPerfil();
+			    $equipes = $result->getIdentity()->getEquipes();
 			    $acl = new Acl();
-			    $acl->addRole(new Role($perfil->getPerfil()));
-			    $recursos = $perfil->getRecursos();
+			    $acl->addRole(new Role($equipes[0]->getPerfil()));
+			    $recursos = $equipes[0]->getRecursos();
 			    foreach ($recursos as $recurso){
-			        if (! $acl->hasResource($recurso->getRecurso()->getRecurso()))
-			            $acl->addResource(new Resource($recurso->getRecurso()->getRecurso()));
+			        if (! $acl->hasResource($recurso->getRecurso())){
+			            /* echo "add recurso: ".
+			            $perfil->getPerfil().", ".
+			            $recurso->getRecurso()->getRecurso().", ".
+			            $recurso->getPermissao(); */ 
+			            $acl->addResource(new Resource($recurso->getRecurso()));
 			        $acl->allow(
-			            $perfil->getPerfil(),
-			            $recurso->getRecurso()->getRecurso(),
-			            $recurso->getPermissao()
+			            $equipes[0]->getPerfil(),
+			            $recurso->getRecurso()/* ,
+			            $recurso->getPermissao() */
 			        );
+			        }
 			    }
-				$this->auth->getStorage()->write(array($result->getIdentity(),$perfil->getPerfil(),$acl));
+				$this->auth->getStorage()->write(array($result->getIdentity(),$equipes[0]->getPerfil(),$acl));
 				$this->layout()->id = $result->getIdentity()->getId();
 				$this->layout()->nome = $result->getIdentity()->getNome();
 				return new ViewModel(array('nome' => $result->getIdentity()->getNome()));

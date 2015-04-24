@@ -1,6 +1,9 @@
 <?php
 namespace MyClasses\Entities;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection,
+    MyClasses\Entities\AclUsuario,
+    MyClasses\Entities\AclRecurso,
+    MyClasses\Entities\Projeto;
 /**
  * @Entity
  */
@@ -8,6 +11,7 @@ class AclPerfil{
 
 	public function __construct(){
     	$this->usuarios = new ArrayCollection();
+    	$this->projetos = new ArrayCollection();
     	$this->recursos = new ArrayCollection();
     }
         
@@ -18,36 +22,73 @@ class AclPerfil{
     /** @Column(type="string", length=100) */
     private $perfil;
     
-    /** @OneToMany(targetEntity="AclUsuariosRecursos", mappedBy="perfil", cascade="persist") */
+    /** @ManyToMany(targetEntity="AclUsuario", mappedBy="equipes") */
+    private $usuarios;
+    
+    /** adiciona AclUsuario para o AclPerfil
+     *  @param AclUsuario $usuario */
+    public function addUsuario(AclUsuario $usuario){
+        if ($this->usuarios->contains($usuario))
+            return;
+        $this->usuarios->add($usuario);
+        $usuario->addEquipe($this);
+    }
+    
+    /** deleta AclUsuario do AclPerfil
+     *  @param AclUsuario $usuario */
+    public function delUsuario(AclUsuario $usuario){
+        if (!$this->usuarios->contains($usuario))
+            return;
+        $this->usuarios->removeElement($usuario);
+        $usuario->delEquipe($this);
+    }
+    
+    /** @return Doctrine\Common\Collections\ArrayCollection */
+    public function getUsuarios(){
+        return $this->usuarios;
+    }
+    
+    /**
+     * @OneToMany(targetEntity="Projeto", mappedBy="equipe")
+     */
+    private $projetos;
+    
+    /** adiciona projeto ao perfil 
+     *  @param Projeto $projeto */
+    public function addProjeto(Projeto $projeto){
+    	$this->projetos->add($projeto);
+    	$projeto->setEquipe($this);
+    }
+
+    /** @return Doctrine\Common\Collections\ArrayCollection */
+    public function getProjetos() {
+    	return $this->projetos;
+    }
+    
+    /** @ManyToMany(targetEntity="AclRecurso", mappedBy="perfis") */
     private $recursos;
     
-    /** adiciona recursos ao perfil 
+    /** adiciona AclRecurso para o AclPerfil
      *  @param AclRecurso $recurso */
-    public function addRecurso(AclUsuariosRecursos $recurso){
-    	$this->recursos->add($recurso);
-    	$recurso->setPerfil($this);
+    public function addRecurso(AclRecurso $recurso){
+        if ($this->recursos->contains($recurso))
+            return;
+        $this->recursos->add($recurso);
+        $recurso->addPerfil($this);
+    }
+    
+    /** deleta AclRecurso do AclPerfil
+     *  @param AclRecurso $recurso */
+    public function delRecurso(AclRecurso $recurso){
+        if (!$this->recursos->contains($recurso))
+            return;
+        $this->recursos->removeElement($recurso);
+        $recurso->delPerfil($this);
     }
     
     /** @return Doctrine\Common\Collections\ArrayCollection */
     public function getRecursos(){
         return $this->recursos;
-    }
-    
-    /**
-     * @OneToMany(targetEntity="AclUsuario", mappedBy="perfil", cascade="persist")
-     */
-    private $usuarios;
-    
-    /** adiciona usuario ao perfil 
-     *  @param AclUsuario $usuario */
-    public function addUsuario(AclUsuario $usuario){
-    	$this->usuarios->add($usuario);
-    	$usuario->setPerfil($this);
-    }
-
-    /** @return Doctrine\Common\Collections\ArrayCollection */
-    public function getUsuarios() {
-    	return $this->usuarios;
     }
     	
 	public function getId() {

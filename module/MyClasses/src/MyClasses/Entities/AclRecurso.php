@@ -17,14 +17,25 @@ class AclRecurso{
     /** @Column(type="string", length=100) */
     private $recurso;
     
-    /** @OneToMany(targetEntity="AclUsuariosRecursos", mappedBy="recurso", cascade="persist") */
+    /** @ManyToMany(targetEntity="AclPerfil", inversedBy="recursos") */
     private $perfis;
     
-    /** adiciona perfil ao recurso 
+    /** adiciona AclPerfil para o AclRecurso
      *  @param AclPerfil $perfil */
-    public function addPerfil(AclUsuariosRecursos $perfil){
-    	$this->perfis->add($perfil);
-    	$perfil->setRecurso($this);
+    public function addPerfil(AclPerfil $perfil){
+        if ($this->perfis->contains($perfil))
+            return;
+        $this->perfis->add($perfil);
+        $perfil->addRecurso($this);
+    }
+    
+    /** deleta AclPerfil do AclRecurso
+     *  @param AclPerfil $perfil */
+    public function delPerfil(AclPerfil $perfil){
+        if (!$this->perfis->contains($perfil))
+            return;
+        $this->perfis->removeElement($perfil);
+        $perfil->delRecurso($this);
     }
     
     /** @return Doctrine\Common\Collections\ArrayCollection */

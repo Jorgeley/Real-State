@@ -1,4 +1,5 @@
 #!/bin/bash
+export JAVA_CMD=java
 echo "ui-jqgrid..."
 yui-compressor --type css --charset utf-8 ./jquery-ui-1.11.2.custom/jquery-ui.css > tudo.min.css
 yui-compressor --type css --charset utf-8 ui.jqgrid.css >> tudo.min.css

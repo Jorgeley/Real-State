@@ -151,15 +151,10 @@ legend {
 button,
 input,
 select,
-textarea {
-  margin: 0;
-  font-family: inherit;
-  font-size: 100%;
-}
 
 button,
 input {
-  line-height: normal;
+  /* line-height: normal; */
 }
 
 button,
@@ -204,10 +199,6 @@ input::-moz-focus-inner {
   border: 0;
 }
 
-textarea {
-  overflow: auto;
-  vertical-align: top;
-}
 
 table {
   border-collapse: collapse;
@@ -313,11 +304,6 @@ body {
 input,
 button,
 select,
-textarea {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
 
 a {
   color: #428bca;
@@ -1870,7 +1856,7 @@ legend {
 }
 
 label {
-  display: inline-block;
+/*  display: inline-block;*/
   margin-bottom: 5px;
   font-weight: bold;
 }
@@ -1977,9 +1963,6 @@ fieldset[disabled] .form-control {
   background-color: #eeeeee;
 }
 
-textarea.form-control {
-  height: auto;
-}
 
 .form-group {
   margin-bottom: 15px;
@@ -2060,9 +2043,6 @@ select.input-sm {
   line-height: 30px;
 }
 
-textarea.input-sm {
-  height: auto;
-}
 
 .input-lg {
   height: 46px;
@@ -2077,9 +2057,6 @@ select.input-lg {
   line-height: 46px;
 }
 
-textarea.input-lg {
-  height: auto;
-}
 
 .has-warning .help-block,
 .has-warning .control-label,
@@ -3938,11 +3915,6 @@ select.input-group-lg > .input-group-btn > .btn {
   line-height: 46px;
 }
 
-textarea.input-group-lg > .form-control,
-textarea.input-group-lg > .input-group-addon,
-textarea.input-group-lg > .input-group-btn > .btn {
-  height: auto;
-}
 
 .input-group-sm > .form-control,
 .input-group-sm > .input-group-addon,
@@ -3961,11 +3933,6 @@ select.input-group-sm > .input-group-btn > .btn {
   line-height: 30px;
 }
 
-textarea.input-group-sm > .form-control,
-textarea.input-group-sm > .input-group-addon,
-textarea.input-group-sm > .input-group-btn > .btn {
-  height: auto;
-}
 
 .input-group-addon,
 .input-group-btn,
@@ -5097,7 +5064,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .label {
-  display: inline;
+/*  display: inline;*/
   padding: .2em .6em .3em;
   font-size: 75%;
   font-weight: bold;

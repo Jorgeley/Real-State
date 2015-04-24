@@ -1,49 +1,217 @@
-<?php echo $this->doctype(); ?>
-
-<html lang="en">
+<!doctype html>
     <head>
-        <title>GPA Engenharia</title>
+        <title>Imobiliaria Virtual</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="shortcut icon" href='<?php echo $this->basePath(); ?>/img/favicon.ico' />
-        <link rel="stylesheet" type="text/css" href='<?php echo $this->basePath(); ?>/css/tudo.min.css' />
-        <script async defer type="text/javascript" src="<?php echo $this->basePath(); ?>/js/tudo.min.js"></script> <!-- async defer  -->
+        <link rel="shortcut icon" href='<?=$this->basePath()?>/img/favicon.ico' />
+        <link rel="stylesheet" type="text/css" href='<?=$this->basePath()?>/css/style.css' />        
+        <script src="./js/jquery-1.11.2.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js"></script>
+	    <script>
+			var estilo = [
+			              {
+			            	    "featureType": "administrative.land_parcel",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "administrative.neighborhood",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "landscape.man_made",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "landscape.natural",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "poi.attraction",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "poi.business",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "poi.government",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "poi.medical",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "poi.park",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "poi.place_of_worship",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "poi.school",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "poi.sports_complex",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "road.highway",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "road.arterial",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "road.local",
+			            	    "elementType": "labels.text",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "transit",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "featureType": "water",
+			            	    "stylers": [
+			            	      { "visibility": "off" }
+			            	    ]
+			            	  },{
+			            	    "stylers": [
+			            	      { "hue": "#1900ff" },
+			            	      { "saturation": 97 }
+			            	    ]
+			            	  }
+			            	];
+	    	var mapa;
+			function criaMapa() {
+				var mapaEstilizado = new google.maps.StyledMapType(estilo,
+					    {name: "imoveis em Rio Verde"});
+				var mapaCanvas = document.getElementById('mapa');
+				var latLng = new google.maps.LatLng(-17.7913301,-50.9322535,14);
+				var opcoesMapa = {
+					center: latLng,
+					zoom: 14,
+					disableDefaultUI: true,
+					disableDoubleClickZoom: true,
+					keyboardShortcuts: false,
+					mapTypeControlOptions: {
+					      mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+					    }
+				};
+				mapa = new google.maps.Map(mapaCanvas, opcoesMapa);
+				for (var i=0; i<=0.009; (i=i+0.001)){
+					var latLng = new google.maps.LatLng( -17.7993301+i, -50.9322535+i);
+			        var marcadorCasa = new google.maps.Marker({
+			          position: latLng,
+			          map: mapa,
+			          icon: './img/casa.png',
+			          //title: '3/4, 2 garagens'
+			        });
+					var infoCasa = new google.maps.InfoWindow({
+					      content: "<div><img src='./img/casa.jpg'></div>"
+					  });
+			        google.maps.event.addListener(marcadorCasa, 'mouseover', function() {
+			        	infoPredio.close(mapa,this);
+			        	infoCasa.close(mapa,this);
+			        	infoCasa.open(mapa,this);
+		          	});
+			        /* google.maps.event.addListener(marcadorCasa, 'mouseout', function() {
+			        	window.setTimeout(function() {
+			        		infoCasa.close(mapa,this);
+			        	},1000);
+		          	}); */
+				}
+				for (var i=0; i<=0.009; (i=i+0.001)){
+					var latLng = new google.maps.LatLng( -17.7993301+i, -50.9372535+i);
+			        var marcadorPredio = new google.maps.Marker({
+			          position: latLng,
+			          map: mapa,
+			          icon: './img/predio.png',
+			          //title: '3/4, 2 garagens'
+			        });
+					var infoPredio = new google.maps.InfoWindow({
+					      content: "<div><img src='./img/predio.jpg'></div>"
+					  });
+			        google.maps.event.addListener(marcadorPredio, 'mouseover', function() {
+				        infoCasa.close(mapa,this);
+			        	infoPredio.close(mapa,this);
+			        	infoPredio.open(mapa,this);
+		          	});
+			        /* google.maps.event.addListener(marcadorPredio, 'mouseout', function() {
+			        	window.setTimeout(function() {
+			        		infoPredio.close(mapa,this);
+			        	},1000);
+		          	}); */
+				}
+		        google.maps.event.addListener(mapa, 'mouseout', function() {
+	        		infoPredio.close(mapa,this);
+	        		infoCasa.close(mapa, this);
+	          	});
+				mapa.mapTypes.set('map_style', mapaEstilizado);
+				mapa.setMapTypeId('map_style');
+				//mapa.data.loadGeoJson('mapa.json');
+			}
+			google.maps.event.addDomListener(window, 'load', criaMapa);
+	    </script>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><img src="<?php echo $this->basePath('img/logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php echo $this->translate('GPA Engenharia') ?></a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
-                        <?php if ($this->nome): ?>
-                            <li class="active"><a href="<?php echo $this->url('tarefa') ?>"><?php echo $this->translate('Tarefas') ?></a></li>
-                            <li class="active"><a href="<?php echo $this->url('usuario') ?>"><?php echo $this->translate('Usuários') ?></a></li>
-                            <li class="active"><a href="<?php echo $this->url('conf') ?>"><?php echo $this->translate('Configurações') ?></a></li>
-                            <li class="active"><a href="<?php echo $this->url('logoff') ?>"><span id="logoff"><?php echo $this->translate('Logoff') ?></span></a></li>
-                        <?php endif; ?>
+        <nav role="navigation">
+			<div id="header">
+				<div id="menu">
+					<ul>
+                        <li class="current_page_item"><a href="<?=$this->url('home') ?>">Quem Somos</a></li>
+						<li class="current_page_item"><a href="<?=$this->url('projeto')?>">Alugar</a></li>
+						<li class="current_page_item"><a href="<?=$this->url('tarefa')?>">Comprar</a></li>
+						<li class="current_page_item"><a href="<?=$this->url('equipe')?>">Anunciar</a></li>
+						<li class="current_page_item"><a href="<?=$this->url('usuario')?>">Contato</a></li>
                     </ul>
-                </div><!--/.nav-collapse -->
-            </div>
+				</div>
+				<div id="logo">
+					<h1><a href="#">imobiliari@ </a></h1>
+				</div>
+			</div>
         </nav>
-        <div class="container">
             <main>
-                <?php echo $this->content; ?>
+                <div id="page">
+					<div id="page-bgtop">
+						<div id="page-bgbtm">			
+				                <?=$this->content; ?>
+							<div style="clear: both;">&nbsp;</div>
+						</div>
+						<!-- end #page -->
+					</div>
+				</div>                
             </main>
             <aside>
             </aside>
             <footer>
-                <hr>
-                <p>&copy; - <?php echo date('Y') ?> GPA Engenharia. Todos os direitos reservados.</p>
+                <div id="footer-bgcontent">
+					<div id="footer">
+						<p>&copy; Todos os direitos reservados <a href="http://grupo-gpa.com" rel="nofollow">Grupo GPA</a>.</p>
+					</div>
+					<!-- end #footer -->
+				</div>
             </footer>
-        </div> <!-- /container -->
     </body>
 </html>

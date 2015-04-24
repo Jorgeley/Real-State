@@ -1,43 +1,49 @@
 <div class="jumbotron">
-    <h2><?php echo "Tarefas"; ?></h2>
-        
+    <h2 style="float:left; margin-right:10px">Tarefas</h2>
+    <a href="<?=$this->basePath()?>/tarefa/novo">
+        <img alt="nova tarefa" src="<?=$this->basePath()?>/img/add.png">
+    </a>
 </div>
+<?php
+//monta a string com os registros no formato array do jquery p/ adicionar ao grid
+$registros="[";
+foreach ($this->projetos as $projeto):
+	foreach ($projeto->getTarefas() as $tarefa):
+		$registros .= "{
+			id: '".$tarefa->getId()."', 
+			projeto: '[".strtoupper($projeto->getNome())."]', 
+			tarefa: '".$tarefa->getNome()."',
+			vencimento: '".$tarefa->getVencimento()->format("Y/m/d")."'
+		},";
+	endforeach;
+endforeach;
+if ($this->tarefasPessoais):
+    foreach ($this->tarefasPessoais as $tarefa):
+        $registros .= "{
+    		id: '".$tarefa->getId()."',
+    		projeto: '[Tarefas Correlatas]',
+    		tarefa: '".$tarefa->getNome()."',
+    		vencimento: '".$tarefa->getVencimento()->format("Y/m/d")."'
+    	},";
+    endforeach;
+endif;
+$registros .= "]";
+?>
+<!-- quebra de linha -->
+<style type="text/css">
+table.ui-jqgrid-btable tbody tr td b{
+        white-space: normal !important;
+    }
+</style>
+<!-- adiciona os registros ao grid -->
+<script type="text/javascript">
+window.onload=function(){
+	jQuery(document).ready(function(){
+		jQuery("#gridtarefa").jqGrid('setGridParam',{data:<?=$registros?>}).trigger('reloadGrid');
+	});
+}
+</script> 
 
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate(''), '<a href="http://framework.zend.com/wiki/display/ZFDEV2/Home">', '</a>', '<a href="http://framework.zend.com/zf2/blog">', '</a>', '<a href="https://github.com/zendframework/zf2/issues">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://framework.zend.com/zf2" target="_blank"><?php echo $this->translate('') ?> &raquo;</a></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate(''), '<a href="https://github.com/zendframework/modules.zendframework.com">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://modules.zendframework.com/" target="_blank"><?php echo $this->translate('') ?> &raquo;</a></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate(''), '<a href="irc://irc.freenode.net/zftalk">', '</a>', '<a href="http://framework.zend.com/wiki/display/ZFDEV/Mailing+Lists">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://webchat.freenode.net?channels=zftalk" target="_blank"><?php echo $this->translate('') ?> &raquo;</a></p>
-            </div>
-        </div>
-    </div>
-</div>
+<table id="gridtarefa" class="scroll"></table> 
+<div id="paginacao"></div>
+<div id="pesquisa"></div>

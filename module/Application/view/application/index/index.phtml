@@ -1,41 +1,76 @@
-<div class="jumbotron">
-<h2>INÍCIO</h2>
+<div class="pesquisa">
+<label>encontre seu imovel
+	<input type="search" placeholder="ex: casa 2 quartos, ap centro">
+	<input type="button" >
+</label>
 </div>
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate(''), '<a href="http://framework.zend.com/wiki/display/ZFDEV2/Home">', '</a>', '<a href="http://framework.zend.com/zf2/blog">', '</a>', '<a href="https://github.com/zendframework/zf2/issues">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://framework.zend.com/zf2" target="_blank"><?php echo $this->translate('') ?> &raquo;</a></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate(''), '<a href="https://github.com/zendframework/modules.zendframework.com">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://modules.zendframework.com/" target="_blank"><?php echo $this->translate('') ?> &raquo;</a></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate(''), '<a href="irc://irc.freenode.net/zftalk">', '</a>', '<a href="http://framework.zend.com/wiki/display/ZFDEV/Mailing+Lists">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://webchat.freenode.net?channels=zftalk" target="_blank"><?php echo $this->translate('') ?> &raquo;</a></p>
-            </div>
-        </div>
-    </div>
+<!-- <iframe id="mapa"
+  src="https://www.google.com/maps/embed/v1/place?
+key=AIzaSyB553Rmi0_KI5Lazgig92dDj11t0yVlreY
+  &q=St.+Industrial,+Rio+Verde+-+GO,+75905-020">
+</iframe> -->
+<div id="mapa"></div>
+<div id="content">
+	<div class="post">
+		<p class="meta"><span class="date">Sunday, January 26, 2011</span> 7:27 AM Posted by <a href="#">Someone</a></p>
+		<h2 class="title"><a href="#">Lorem ipsum sed aliquam</a></h2>
+		<div class="entry">
+			<p>Sed lacus. Donec lectus. Nullam pretium nibh ut turpis. Nam bibendum. In nulla tortor, elementum vel, tempor at, varius non, purus. Mauris vitae nisl nec   consectetuer. Donec ipsum. Proin imperdiet est. Phasellus <a href="#">dapibus semper urna</a>. Pellentesque ornare, orci in consectetuer hendrerit, urna elit eleifend nunc, ut consectetuer nisl felis ac diam. Etiam non felis. Donec ut ante. In id eros.</p>
+		</div>
+		<div><a href="#" class="links">View Full Story</a></div>
+	</div>
+	<div class="post">
+		<p class="meta"><span class="date">Sunday, January 26, 2011</span> 7:27 AM Posted by <a href="#">Someone</a></p>
+		<h2 class="title"><a href="#">Lorem ipsum sed aliquam</a></h2>
+		<div class="entry">
+			<p>Sed lacus. Donec lectus. Nullam pretium nibh ut turpis. Nam bibendum. In nulla tortor, elementum vel, tempor at, varius non, purus. Mauris vitae nisl nec   consectetuer. Donec ipsum. Proin imperdiet est. Phasellus <a href="#">dapibus semper urna</a>. Pellentesque ornare, orci in consectetuer hendrerit, urna elit eleifend nunc, ut consectetuer nisl felis ac diam. Etiam non felis. Donec ut ante. In id eros.</p>
+		</div>
+		<div><a href="#" class="links">View Full Story</a></div>
+	</div>
+	<div class="post">
+		<p class="meta"><span class="date">Sunday, January 26, 2011</span> 7:27 AM Posted by <a href="#">Someone</a></p>
+		<h2 class="title"><a href="#">Lorem ipsum sed aliquam</a></h2>
+		<div class="entry">
+			<p>Mauris vitae nisl nec metus placerat consectetuer. Donec ipsum. Proin imperdiet est. Sed lacus. Donec lectus. Nullam pretium nibh ut turpis. Nam bibendum. In nulla tortor, elementum vel, tempor at, varius non, purus. Mauris vitae nisl nec metus placerat consectetuer. Donec ipsum. Proin imperdiet est. Phasellus <a href="#">dapibus semper urna</a>. Pellentesque ornare, orci in consectetuer hendrerit, urna elit eleifend nunc, ut consectetuer nisl felis ac diam. </p>
+		</div>
+		<div><a href="#" class="links">View Full Story</a></div>
+	</div>
 </div>
+<!-- end #content -->
+<div id="sidebar">
+	<ul>
+		<li>
+			<h2>Aliquam tempus</h2>
+			<p>Mauris vitae nisl nec metus placerat perdiet est. Phasellus dapibus semper urna. Pellentesque ornare, orci in consectetuer hendrerit, volutpat.</p>
+		</li>
+		<li>
+			<h2>Pellenteque ornare </h2>
+			<ul>
+				<li><a href="#">Nec metus sed donec</a></li>
+				<li><a href="#">Magna lacus bibendum mauris</a></li>
+				<li><a href="#">Velit semper nisi molestie</a></li>
+				<li><a href="#">Eget tempor eget nonummy</a></li>
+				<li><a href="#">Nec metus sed donec</a></li>
+				<li><a href="#">Velit semper nisi molestie</a></li>
+				<li><a href="#">Eget tempor eget nonummy</a></li>
+				<li><a href="#">Nec metus sed donec</a></li>
+			</ul>
+		</li>
+		<li>
+			<h2>Turpis nulla</h2>
+			<ul>
+				<li><a href="#">Nec metus sed donec</a></li>
+				<li><a href="#">Magna lacus bibendum mauris</a></li>
+				<li><a href="#">Velit semper nisi molestie</a></li>
+				<li><a href="#">Eget tempor eget nonummy</a></li>
+				<li><a href="#">Nec metus sed donec</a></li>
+				<li><a href="#">Nec metus sed donec</a></li>
+				<li><a href="#">Magna lacus bibendum mauris</a></li>
+				<li><a href="#">Velit semper nisi molestie</a></li>
+				<li><a href="#">Eget tempor eget nonummy</a></li>
+				<li><a href="#">Nec metus sed donec</a></li>
+			</ul>
+		</li>
+	</ul>
+</div>
+<!-- end #sidebar -->

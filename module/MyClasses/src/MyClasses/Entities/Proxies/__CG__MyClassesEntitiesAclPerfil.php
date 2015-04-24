@@ -64,10 +64,10 @@ class AclPerfil extends \MyClasses\Entities\AclPerfil implements \Doctrine\ORM\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'id', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'perfil', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'recursos', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'usuarios');
+            return array('__isInitialized__', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'id', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'perfil', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'usuarios', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'projetos', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'recursos');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'id', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'perfil', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'recursos', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'usuarios');
+        return array('__isInitialized__', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'id', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'perfil', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'usuarios', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'projetos', '' . "\0" . 'MyClasses\\Entities\\AclPerfil' . "\0" . 'recursos');
     }
 
     /**
@@ -176,28 +176,6 @@ class AclPerfil extends \MyClasses\Entities\AclPerfil implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function addRecurso(\MyClasses\Entities\AclUsuariosRecursos $recurso)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addRecurso', array($recurso));
-
-        return parent::addRecurso($recurso);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getRecursos()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRecursos', array());
-
-        return parent::getRecursos();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function addUsuario(\MyClasses\Entities\AclUsuario $usuario)
     {
 
@@ -209,12 +187,78 @@ class AclPerfil extends \MyClasses\Entities\AclPerfil implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
+    public function delUsuario(\MyClasses\Entities\AclUsuario $usuario)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'delUsuario', array($usuario));
+
+        return parent::delUsuario($usuario);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getUsuarios()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsuarios', array());
 
         return parent::getUsuarios();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addProjeto(\MyClasses\Entities\Projeto $projeto)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addProjeto', array($projeto));
+
+        return parent::addProjeto($projeto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProjetos()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjetos', array());
+
+        return parent::getProjetos();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addRecurso(\MyClasses\Entities\AclRecurso $recurso)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addRecurso', array($recurso));
+
+        return parent::addRecurso($recurso);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delRecurso(\MyClasses\Entities\AclRecurso $recurso)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'delRecurso', array($recurso));
+
+        return parent::delRecurso($recurso);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRecursos()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRecursos', array());
+
+        return parent::getRecursos();
     }
 
     /**

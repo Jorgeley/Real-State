@@ -18,10 +18,10 @@ class Conn{
 		/* $conn = array(
 		 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
 				//'wrapperClass' => 'Doctrine\Tests\Mocks\ConnectionMock',
-				'host' => 'mysql.hippershopping.com.br',
-				'user' => 'hippershopping',
-				'password' => 'k2x7w8b6',
-				'dbname' => 'hippershopping',
+				'host' => 'mysql.grupo-gpa.com',
+				'user' => 'grupogpa',
+				'password' => 'j6k9r8p9',
+				'dbname' => 'grupogpa',
 		); */
 		$config = new \Doctrine\ORM\Configuration();
 		$config->setProxyDir(__DIR__ . '/../Entities/Proxies');

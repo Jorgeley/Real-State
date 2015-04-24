@@ -20,12 +20,32 @@ class DialogoUsuarioTarefa{
      * @JoinColumn(name="usuario_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $usuario;
+
+	/** @param AclUsuario $usuario */
+	public function setUsuario(AclUsuario $usuario) {
+		$this->usuario = $usuario;
+	}
+
+	/** @return AclUsuario */
+	public function getUsuario() {
+		return $this->usuario;
+	}
     
     /**
      * @ManyToOne(targetEntity="Tarefa", inversedBy="comentarios")
      * @JoinColumn(name="tarefa_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $tarefa;    
+    private $tarefa;
+
+	/** @param Tarefa $tarefa */
+	public function setTarefa(Tarefa $tarefa) {
+		$this->tarefa = $tarefa;
+	}
+
+	/** @return Tarefa */
+	public function getTarefa() {
+		return $this->tarefa;
+	}    
 
     public function getId() {
 		return $this->id;
@@ -36,17 +56,9 @@ class DialogoUsuarioTarefa{
 	}
 	
 	public function getData(){
-	    return $this->data;
-	}
-
-	/** @return AclUsuario */
-	public function getUsuario() {
-		return $this->usuario;
-	}
-
-	/** @return Tarefa */
-	public function getTarefa() {
-		return $this->tarefa;
+	    return (isset($this->data))
+	    ? $this->data->format('d/m/Y H:i:s')
+	    : null;
 	}
 
 	public function setId($id) {
@@ -57,18 +69,8 @@ class DialogoUsuarioTarefa{
 		$this->comentario = $comentario;
 	}
 	
-	public function setData($data){
-	    $this->data = $data;
-	}
-
-	/** @param AclUsuario $usuario */
-	public function setUsuario(AclUsuario $usuario) {
-		$this->usuario = $usuario;
-	}
-
-	/** @param Tarefa $tarefa */
-	public function setTarefa(Tarefa $tarefa) {
-		$this->tarefa = $tarefa;
+	public function setData(){
+	    $this->data = new \DateTime();
 	}
 
 	/**
