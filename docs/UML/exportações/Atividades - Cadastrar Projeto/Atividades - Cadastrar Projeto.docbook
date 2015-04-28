@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V4.1.2.5//EN" "http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd">
+<article role="specification">
+  <title>Modelo UML</title>
+  <title>Logical View</title>
+  <title>Use Case View</title>
+  <title>Component View</title>
+  <title>Deployment View</title>
+  <title>Entity Relationship Model</title>
+  <section id="actors">
+    <title>Actors</title>
+  </section>
+  <section id="usecases">
+    <title>Use Cases</title>
+  </section>
+  <section id="interfaces">
+    <title>Interfaces</title>
+  </section>
+  <section id="classes">
+    <title>Classes</title>
+  </section>
+  <section id="diagrams">
+    <title>Diagrams</title>
+    <!--diagrambegin1namebeginAtividades - Cadastrar Projetonameend-->
+    <!--diagram1documentationbegindocumentationend-->
+    <section>
+      <title>Atividades - Cadastrar Projeto</title>
+      <para/>
+      <mediaobject>
+        <imageobject>
+          <imagedata format="PNG" fileref="Atividades - Cadastrar Projeto.png"/>
+        </imageobject>
+      </mediaobject>
+    </section>
+    <!--diagramend1-->
+    <!--diagrambegin2namebeginAtividades - Concluir tarefanameend-->
+    <!--diagram2documentationbegindocumentationend-->
+    <section>
+      <title>Atividades - Concluir tarefa</title>
+      <para/>
+      <mediaobject>
+        <imageobject>
+          <imagedata format="PNG" fileref="Atividades - Concluir tarefa.png"/>
+        </imageobject>
+      </mediaobject>
+    </section>
+    <!--diagramend2-->
+  </section>
+</article>

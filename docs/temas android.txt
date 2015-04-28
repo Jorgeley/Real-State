@@ -1,0 +1,12 @@
+<!--
+                Theme.Black (cx de textos com bordas, estilo web, menu some)
+                Theme.Dialog (janelas reduzidas em cascata do tamanho dos UI's, menu some)
+                Theme.Holo (tela cheia fundo preto com menu)
+                Theme.InputMethod (tudo transparente, só aparece os UI's)
+                Theme.Leanback.FormWizard (tela cheia, design bonito, UI's mto grandes)
+                Theme.Light (tela cheia, design bonito, UI's com bordas estilo web, menu some)
+                Theme.Panel (idem Theme.InputMethod)
+                Theme.Translucent (idem Theme.InputMethod)
+                Theme.Wallpaper (idem Theme.InputMethod)
+                Theme.WithActionBar (tela cheia, design bonito com menu, UI's com bordas estilo web)
+        -->

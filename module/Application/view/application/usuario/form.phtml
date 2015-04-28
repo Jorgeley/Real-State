@@ -1,0 +1,66 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	$("form").submit(function(e) {
+		$('#equipe option').prop('selected', true);
+		return true;
+	});
+});
+</script>
+
+<form method='post'>
+    <h2 style="float:left; margin-right:10px">Usuários</h2>
+	<input type="submit" value="gravar" formaction="<?=$this->basePath()?>/usuario/grava" style="background-image: url('<?=$this->basePath()?>/img/check.png')" id="botao">
+	<?php if($this->Url()!= $this->basePath().'/usuario/novo'): ?>
+		<input type="button" value="novo" OnClick="location.href='<?=$this->basePath()?>/usuario/novo';" style="background-image: url('<?=$this->basePath()?>/img/add.png')" id="botao">
+		<input type="button" value="excluir" OnClick="location.href='<?=$this->basePath()?>/usuario/exclui/id/<?=$v ? $this->usuario->getId() : "" ?>';" style="background-image: url('<?=$this->basePath()?>/img/del.png')" id="botao">
+	<?php endif;?><br>
+    <label>Nome:
+        <input type="text" name="nome" placeholder="nome do colaborador" required value="<?=$v ? $this->usuario->getNome() : "" ?>">
+    </label><br>
+    <label>Cargo:
+        <input type="text" name="cargo" placeholder="cargo do colaborador" required value="<?=$v ? $this->usuario->getCargo() : "" ?>">
+    </label><br>
+    <label>Login:
+        <input type="text" name="login" placeholder="login de acesso" required value="<?=$v ? $this->usuario->getLogin() : "" ?>">
+    </label><br>
+    <label>Senha:
+        <input type="password" name="senha" placeholder="senha de acesso" required value="">
+    </label>
+    <label>
+        <input type="checkbox" name="trocasenha" value="1" checked>
+        trocar no próximo login
+    </label><br>
+    <label>Nível de acesso:</label><br>
+    <label>
+        <input type="radio" name="acesso" value="a">
+        Administrador (acesso total)
+    </label>
+    <label>
+        <input type="radio" name="acesso" value="c" checked=>
+        Colaborador (acesso restrito)
+    </label><br>
+    <label>Equipe:<br>
+        <select name="equipe[]" id="equipe" size="10" required multiple>
+            <?php foreach($this->perfis as $perfil): ?>
+                <option 
+                    <?=($v && $this->usuario->getEquipes()->contains($perfil)) ? "selected" : ""?> 
+                    value="<?=$perfil->getId()?>">
+                        <?=$perfil->getPerfil()?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </label><br><i style="font-size: 10px">*segure CTRL para selecionar varios</i>
+    <input type="hidden" name="usuario" value="<?=$v ? $this->usuario->getId() : ""?>">
+</form>
+<!-- <label>
+        <input type="checkbox" name="acessoprojeto">projeto
+    </label>
+    <label>
+        <input type="checkbox" name="acessotarefa">tarefa
+    </label>
+    <label>
+        <input type="checkbox" name="acessousuario">usuário
+    </label>
+    <label>
+        <input type="checkbox" name="acessoconf">configurações
+    </label><br> -->

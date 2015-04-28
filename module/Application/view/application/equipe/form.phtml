@@ -1,0 +1,57 @@
+<script type="text/javascript" src="<?=$this->basePath()?>/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("form").submit(function(e) {
+		$('#usuariosEquipe option').prop('selected', true);
+		return true;
+	});
+	$('#addUsuario').click(function(){
+		usuario = {};
+		usuario.id = $('#usuarios option:selected').val();
+		usuario.nome = $('#usuarios option:selected').text();
+		$('#usuariosEquipe').append('<option value="'
+			     +usuario.id+'">'
+			     +usuario.nome
+			     +'</option>');
+	});
+	$('#delUsuario').click(function(){
+		$('#usuariosEquipe option:selected').remove();
+	});
+});
+</script>
+
+<form method='post'>
+    <h2 style="float:left; margin-right:10px">Equipes</h2>
+	<input type="submit" value="gravar" formaction="<?=$this->basePath()?>/equipe/grava" style="background-image: url('<?=$this->basePath()?>/img/check.png')" id="botao">
+	<?php if($this->Url()!= $this->basePath().'/equipe/novo'): ?>
+		<input type="button" value="novo" OnClick="location.href='<?=$this->basePath()?>/equipe/novo';" style="background-image: url('<?=$this->basePath()?>/img/add.png')" id="botao">
+		<input type="button" value="excluir" OnClick="location.href='<?=$this->basePath()?>/equipe/exclui/id/<?=$v ? $this->equipe->getId() : "" ?>';" style="background-image: url('<?=$this->basePath()?>/img/del.png')" id="botao">
+	<?php endif;?><br>
+    <label>Nome:
+        <input type="text" name="nome" placeholder="nome da equipe" required value="<?=$v ? $this->equipe->getPerfil() : "" ?>">
+    </label><br>
+    <label>Membros da Equipe:<br>
+        <select name="usuarios" id="usuarios" size="10" style="float:left">
+            <?php foreach($this->usuarios as $usuario): ?>
+                <option value="<?=$usuario->getId()?>">
+                    <?=$usuario->getNome()?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </label>
+    <span style="float:left">
+        <input type="button" id="addUsuario" value=">" style="font-size: 40px"><br>
+        <input type="button" id="delUsuario" value="<" style="font-size: 40px">
+    </span>
+    <select name="usuariosequipe[]" id="usuariosEquipe" size="10" multiple>
+        <?php if ($v):
+            $usuariosEquipe = $this->equipe->getUsuarios();
+            foreach ($usuariosEquipe as $usuarioEquipe):?>
+                <option value="<?=$usuarioEquipe->getId()?>">
+                    <?=$usuarioEquipe->getNome()?>
+                </option>
+            <?php endforeach;?>
+        <?php endif;?>
+    </select>
+    <input type="hidden" name="equipe" value="<?=$v ? $this->equipe->getId() : ""?>">
+</form>

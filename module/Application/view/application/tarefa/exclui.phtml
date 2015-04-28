@@ -1,0 +1,6 @@
+<?php $msg = (!$this->id) ? "tarefa excluida" : "erro ao tentar excluir a tarefa" ?>
+
+<script type="text/javascript">
+    alert("<?=$msg?>");
+    location.href="<?=$this->url("tarefa")?>";
+</script>
