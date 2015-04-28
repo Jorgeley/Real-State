@@ -129,7 +129,7 @@
 			          //title: '3/4, 2 garagens'
 			        });
 					var infoCasa = new google.maps.InfoWindow({
-					      content: "<div><img src='./img/casa.jpg'></div>"
+					      content: "<div class='marcadorCasa'><a href='#'><img src='./img/casa.jpg' alt='+informaçoes'><br>2/4, suite, 360m²</a></div>"
 					  });
 			        google.maps.event.addListener(marcadorCasa, 'mouseover', function() {
 			        	infoPredio.close(mapa,this);
@@ -151,18 +151,13 @@
 			          //title: '3/4, 2 garagens'
 			        });
 					var infoPredio = new google.maps.InfoWindow({
-					      content: "<div><img src='./img/predio.jpg'></div>"
+					      content: "<div class='marcadorAp'><a href='#'><img src='./img/predio.jpg' alt='+informaçoes'><br>3/4, suite, varanda</a></div>"
 					  });
 			        google.maps.event.addListener(marcadorPredio, 'mouseover', function() {
 				        infoCasa.close(mapa,this);
 			        	infoPredio.close(mapa,this);
 			        	infoPredio.open(mapa,this);
 		          	});
-			        /* google.maps.event.addListener(marcadorPredio, 'mouseout', function() {
-			        	window.setTimeout(function() {
-			        		infoPredio.close(mapa,this);
-			        	},1000);
-		          	}); */
 				}
 		        google.maps.event.addListener(mapa, 'mouseout', function() {
 	        		infoPredio.close(mapa,this);
@@ -180,15 +175,18 @@
 			<div id="header">
 				<div id="menu">
 					<ul>
-                        <li class="current_page_item"><a href="<?=$this->url('home') ?>">Quem Somos</a></li>
-						<li class="current_page_item"><a href="<?=$this->url('projeto')?>">Alugar</a></li>
-						<li class="current_page_item"><a href="<?=$this->url('tarefa')?>">Comprar</a></li>
-						<li class="current_page_item"><a href="<?=$this->url('equipe')?>">Anunciar</a></li>
-						<li class="current_page_item"><a href="<?=$this->url('usuario')?>">Contato</a></li>
+                        <li class="current_page_item"><a href="#">Quem Somos</a></li>
+						<li class="current_page_item"><a href="#">Alugar</a></li>
+						<li class="current_page_item"><a href="#">Comprar</a></li>
+						<li class="current_page_item"><a href="#">Anunciar</a></li>
+						<li class="current_page_item"><a href="#" style="border-right: none">Contato</a></li>
                     </ul>
 				</div>
 				<div id="logo">
-					<h1><a href="#">imobiliari@ </a></h1>
+					<a href="#">
+						<img alt="" src="./img/ic_launcher-web.png" style="float:left;">
+						<h1>imobiliari@</h1>
+					</a>
 				</div>
 			</div>
         </nav>

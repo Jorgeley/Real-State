@@ -9,6 +9,9 @@ body {
 	margin: 0px;
 	padding: 0;
 	/* background: url(../img/img01.jpg) repeat-x left top; */
+	background: url(../img/casa2.jpg) no-repeat left top;
+	background-color:#B0C4DE; 
+	background-position: 50% 8%;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	color: #464646;
@@ -79,9 +82,8 @@ hr { display: none; }
 
 #header {
 	width: 1000px;
-	height: 180px;
+	height: 130px;
 	margin: 0 auto;
-	background: url(../img/img03.jpg) no-repeat left top;
 }
 
 nav{
@@ -129,6 +131,7 @@ nav{
 
 #menu .current_page_item a {
 	background: #2D5298;
+	border-right: 1px solid gray;
 }
 #menu .current_page_item a:hover {
 	background-color: #fff;
@@ -137,19 +140,21 @@ nav{
 
 #menu .first {
 }
+
 /* Search */
 
 div .pesquisa{
     width: 900px;
-    height: 50px;
+    height: 60px;
     font-size: 25px;
     border-radius: 10px;
-    padding: 10px;
+    padding: 5px;
 }
 div .pesquisa label{
     font-size: 25px;
     font-weight: normal;
-    color: #1E3F7F;
+    color: #fff;
+    text-shadow: 2px 2px #000;
     margin-left: 30px;
 }
 div .pesquisa input[type=search]{
@@ -158,17 +163,22 @@ div .pesquisa input[type=search]{
     font-size: 25px;
 }
 div .pesquisa input[type=button]{
-    width: 60px;
-    height: 60px;
-    background-image: url("../img/procura.jpg");
-    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    font-size: 35px;
 }
 
 #mapa{
     width: 940px;
     height: 350px;
     margin: 30px;
-    border: 0;
+    border: 3px solid #fff;
+}
+.marcadorCasa a{
+	text-decoration: none;
+}
+.marcadorAp a{
+	text-decoration: none;
 }
 
 #search {
@@ -216,7 +226,7 @@ div .pesquisa input[type=button]{
 	width: 1000px;
 	margin: 0px auto 20px auto;
 	padding: 0px;
-	background: #FFFFFF;
+	/* background: #FFFFFF; */
 }
 
 /** LOGO */
@@ -225,7 +235,7 @@ div .pesquisa input[type=button]{
 	width: 1000px;
 	height: 100px;
 	margin: 0 auto;
-	padding: 0px 0px 20px 0px;
+	padding: 60px 0px 20px 0px;
 	text-transform: lowercase;
 }
 
@@ -245,8 +255,8 @@ div .pesquisa input[type=button]{
 }
 
 #logo h1 {
-	padding-top: 80px;
-	font-size: 82px;
+	/* padding-top: 80px; */
+	font-size: 52px;
 	font-weight: normal;
 	font-style: italic;
 	color: #FFFFFF;
@@ -264,10 +274,13 @@ div .pesquisa input[type=button]{
 /* Content */
 
 #content {
+	background-color: #fff;
 	float: right;
 	width: 560px;
-	margin: 0px 0px 0px 0px;
+	margin-right: 16px;
 	padding: 40px 30px 0px 20px;
+	border-right: 2px solid gray;
+	border-top: 2px solid gray;
 }
 
 /* Post */
@@ -353,11 +366,15 @@ div .pesquisa input[type=button]{
 /* Sidebar */
 
 #sidebar {
+	background-color: #fff;
+	margin-left: 20px;
 	float: left;
 	width: 320px;
 	padding: 40px 0px 0px 30px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
+	border-left: 2px solid gray;
+	border-top: 2px solid gray;
 }
 
 #sidebar ul {
