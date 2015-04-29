@@ -6,169 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="shortcut icon" href='<?=$this->basePath()?>/img/favicon.ico' />
         <link rel="stylesheet" type="text/css" href='<?=$this->basePath()?>/css/style.css' />        
-        <script src="./js/jquery-1.11.2.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js"></script>
-	    <script>
-			var estilo = [
-			              {
-			            	    "featureType": "administrative.land_parcel",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "administrative.neighborhood",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "landscape.man_made",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "landscape.natural",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "poi.attraction",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "poi.business",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "poi.government",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "poi.medical",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "poi.park",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "poi.place_of_worship",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "poi.school",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "poi.sports_complex",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "road.highway",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "road.arterial",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "road.local",
-			            	    "elementType": "labels.text",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "transit",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "featureType": "water",
-			            	    "stylers": [
-			            	      { "visibility": "off" }
-			            	    ]
-			            	  },{
-			            	    "stylers": [
-			            	      { "hue": "#1900ff" },
-			            	      { "saturation": 97 }
-			            	    ]
-			            	  }
-			            	];
-	    	var mapa;
-			function criaMapa() {
-				var mapaEstilizado = new google.maps.StyledMapType(estilo,
-					    {name: "imoveis em Rio Verde"});
-				var mapaCanvas = document.getElementById('mapa');
-				var latLng = new google.maps.LatLng(-17.7913301,-50.9322535,14);
-				var opcoesMapa = {
-					center: latLng,
-					zoom: 14,
-					disableDefaultUI: true,
-					disableDoubleClickZoom: true,
-					keyboardShortcuts: false,
-					mapTypeControlOptions: {
-					      mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
-					    }
-				};
-				mapa = new google.maps.Map(mapaCanvas, opcoesMapa);
-				for (var i=0; i<=0.009; (i=i+0.001)){
-					var latLng = new google.maps.LatLng( -17.7993301+i, -50.9322535+i);
-			        var marcadorCasa = new google.maps.Marker({
-			          position: latLng,
-			          map: mapa,
-			          icon: './img/casa.png',
-			          //title: '3/4, 2 garagens'
-			        });
-					var infoCasa = new google.maps.InfoWindow({
-					      content: "<div class='marcadorCasa'><a href='#'><img src='./img/casa.jpg' alt='+informaçoes'><br>2/4, suite, 360m²</a></div>"
-					  });
-			        google.maps.event.addListener(marcadorCasa, 'mouseover', function() {
-			        	infoPredio.close(mapa,this);
-			        	infoCasa.close(mapa,this);
-			        	infoCasa.open(mapa,this);
-		          	});
-			        /* google.maps.event.addListener(marcadorCasa, 'mouseout', function() {
-			        	window.setTimeout(function() {
-			        		infoCasa.close(mapa,this);
-			        	},1000);
-		          	}); */
-				}
-				for (var i=0; i<=0.009; (i=i+0.001)){
-					var latLng = new google.maps.LatLng( -17.7993301+i, -50.9372535+i);
-			        var marcadorPredio = new google.maps.Marker({
-			          position: latLng,
-			          map: mapa,
-			          icon: './img/predio.png',
-			          //title: '3/4, 2 garagens'
-			        });
-					var infoPredio = new google.maps.InfoWindow({
-					      content: "<div class='marcadorAp'><a href='#'><img src='./img/predio.jpg' alt='+informaçoes'><br>3/4, suite, varanda</a></div>"
-					  });
-			        google.maps.event.addListener(marcadorPredio, 'mouseover', function() {
-				        infoCasa.close(mapa,this);
-			        	infoPredio.close(mapa,this);
-			        	infoPredio.open(mapa,this);
-		          	});
-				}
-		        google.maps.event.addListener(mapa, 'mouseout', function() {
-	        		infoPredio.close(mapa,this);
-	        		infoCasa.close(mapa, this);
-	          	});
-				mapa.mapTypes.set('map_style', mapaEstilizado);
-				mapa.setMapTypeId('map_style');
-				//mapa.data.loadGeoJson('mapa.json');
-			}
-			google.maps.event.addDomListener(window, 'load', criaMapa);
-	    </script>
+        <script src="<?=$this->basePath()?>/js/jquery-1.11.2.min.js"></script>
     </head>
     <body>
         <nav role="navigation">
@@ -183,10 +21,14 @@
                     </ul>
 				</div>
 				<div id="logo">
-					<a href="#">
-						<img alt="" src="./img/ic_launcher-web.png" style="float:left;">
+					<a href="<?=$this->basePath()?>">
+						<img alt="" src="./img/ic_launcher-web.png" style="float:left">
 						<h1>imobiliari@</h1>
 					</a>
+                    <div class="pesquisa">
+                        <input type="search" placeholder="ex: casa 2 quartos, ap centro">
+                        <input type="button" value=">">
+                    </div>
 				</div>
 			</div>
         </nav>
@@ -194,7 +36,7 @@
                 <div id="page">
 					<div id="page-bgtop">
 						<div id="page-bgbtm">			
-				                <?=$this->content; ?>
+				                <?=$this->content;?>
 							<div style="clear: both;">&nbsp;</div>
 						</div>
 						<!-- end #page -->

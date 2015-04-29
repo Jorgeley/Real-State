@@ -10,7 +10,7 @@ body {
 	padding: 0;
 	/* background: url(../img/img01.jpg) repeat-x left top; */
 	background: url(../img/casa2.jpg) no-repeat left top;
-	background-color:#B0C4DE; 
+	background-color:#B0C4DE;
 	background-position: 50% 8%;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -38,8 +38,6 @@ p, ul, ol {
 ul, ol { }
 
 blockquote { }
-
-a { color: #1E3F7F; }
 
 a:hover { text-decoration: none; }
 
@@ -88,6 +86,8 @@ hr { display: none; }
 
 nav{
 	background-color: #2D5298;
+    opacity: 0.9;
+    /*opacity: 0.8;*/
 }
 /* Menu */
 
@@ -141,14 +141,55 @@ nav{
 #menu .first {
 }
 
+/** LOGO */
+
+#logo {
+	width: 1000px;
+	height: 100px;
+	margin: 0 auto;
+	padding: 60px 0px 20px 0px;
+	text-transform: lowercase;
+}
+
+#logo h1, #logo h2 {
+	margin: 0px;
+	line-height: normal;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: #FFFFFF;
+}
+
+#logo h2 {
+	color: #FFFFFF;
+}
+
+#logo h1 a {
+	color: #FFFFFF;
+}
+
+#logo h1 {
+	/* padding-top: 80px; */
+	font-size: 52px;
+	font-weight: normal;
+	font-style: italic;
+	color: #FFFFFF;
+}
+
+#logo a {
+    width: 400px;
+	text-decoration: none;
+	color: #FFFFFF;
+    float: left;
+}
+
 /* Search */
 
 div .pesquisa{
-    width: 900px;
+    width: 1000px;
     height: 60px;
     font-size: 25px;
     border-radius: 10px;
     padding: 5px;
+    /*float: right;*/
 }
 div .pesquisa label{
     font-size: 25px;
@@ -158,7 +199,7 @@ div .pesquisa label{
     margin-left: 30px;
 }
 div .pesquisa input[type=search]{
-    width: 550px;
+    width: 350px;
     height: 50px;
     font-size: 25px;
 }
@@ -229,44 +270,6 @@ div .pesquisa input[type=button]{
 	/* background: #FFFFFF; */
 }
 
-/** LOGO */
-
-#logo {
-	width: 1000px;
-	height: 100px;
-	margin: 0 auto;
-	padding: 60px 0px 20px 0px;
-	text-transform: lowercase;
-}
-
-#logo h1, #logo h2 {
-	margin: 0px;
-	line-height: normal;
-	font-family: Georgia, "Times New Roman", Times, serif;
-	color: #FFFFFF;
-}
-
-#logo h2 {
-	color: #FFFFFF;
-}
-
-#logo h1 a {
-	color: #FFFFFF;
-}
-
-#logo h1 {
-	/* padding-top: 80px; */
-	font-size: 52px;
-	font-weight: normal;
-	font-style: italic;
-	color: #FFFFFF;
-}
-
-#logo a {
-	text-decoration: none;
-	color: #FFFFFF;
-}
-
 #banner {
 	padding-bottom: 20px;
 }
@@ -281,6 +284,76 @@ div .pesquisa input[type=button]{
 	padding: 40px 30px 0px 20px;
 	border-right: 2px solid gray;
 	border-top: 2px solid gray;
+}
+
+main{
+    min-height: 500px;
+}
+
+#etapas{
+    width: 825px;
+    height: 70px;
+    background-color: #2D5298;
+    margin-top: 10px;
+    font-size: 20px;
+}
+#etapas > .etapa {
+    float: left;
+    margin: 1px;
+    width: 200px;
+    min-height: 65px;
+    border: 2px solid #fff;
+    text-align: center;
+    position: relative;
+}
+#etapas > .etapa > a{
+    color: #fff;
+    text-decoration: none;
+    position: absolute;               /* 2 */
+   top: 50%;                         /* 3 */
+   transform: translate(-50%, -50%);   /* 4 */
+    margin-left: 5px;
+}
+#etapas > .etapa > a > label{
+    position: absolute;               /* 2 */
+   top: 50%;                         /* 3 */
+   transform: translate(-120%, -50%);   /* 4 */
+    font-size: 50px;
+    float: left;
+}
+
+#conteudo{
+    margin-top: 20px;
+}
+
+.zoom {
+  display:inline-block;
+  position: relative;
+}
+
+/* magnifying glass icon */
+.zoom:after {
+  content:'';
+  display:block; 
+  width:33px; 
+  height:33px; 
+  position:absolute; 
+  top:0;
+  right:0;
+  background:url(../img/zoom.png);
+}
+.zoom img {
+  display: block;
+}
+.zoom img::selection { background-color: transparent; }
+div #informacoes{
+    background-color: #fff;
+    border: 2px solid gray;
+    min-height: 296px;
+    width: 400px;
+    margin-left: 400px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 /* Post */
