@@ -1,0 +1,39 @@
+<script src="<?=$this->basePath()?>/js/jquery.zoom.min.js"></script>
+<script src="<?=$this->basePath()?>/js/jqModal.js"></script>
+<link rel="stylesheet" type="text/css" href='<?=$this->basePath()?>/css/jqModal.css' />
+<script>
+    $(document).ready(function(){
+        $('.zoom').zoom();
+        $('#jqModal').jqm();
+        /*$(".controle").click(function(){
+            $("#janela").slideToggle("fast", function(){
+                if($(this).css("display") == "none"){
+                    $("#controle").html("Abre");
+                } else {
+                    $("#controle").html("Fecha");
+                }
+            });
+        });*/
+    });
+</script>
+
+<div id="etapas">
+    <div class="etapa" style="border-bottom: 5px solid #fff"><a href="#"><label>1-</label> tour virtual</a></div>
+    <div class="etapa"><a href="#"><label>2-</label> agende uma visita</a></div>
+    <div class="etapa"><a href="#"><label>3-</label> ficha de visita</a></div>
+    <div class="etapa"><a href="#"><label>4-</label> contrato</a></div>
+</div>
+
+<div id="conteudo">
+    <span class="zoom" style="float:left"><img width="400" height="300" src="<?=$this->basePath()?>/img/casa3Grande.jpg"></span>
+    <div class="jqmWindow" id="jqModal">
+    <!--<div id="janela">
+        <p class="controle">X</p>-->
+        <?php include '../imobiliaria/module/Application/view/application/usuario/form.phtml'; ?>
+    </div>
+    <div id="informacoes">
+        <h2>Casa 2/4, suite, 360m²</h2><br>
+        <p>bairro nobre de Rio Verde, proximo ao centro...</p><br>
+        <input type="button" value="+informaçoes" class="jqModal"> <!--class="controle"-->
+    </div>
+</div>
