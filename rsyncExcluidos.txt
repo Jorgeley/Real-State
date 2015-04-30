@@ -1,0 +1,7 @@
+PadraoController.php
+Conn.php
+cache
+vendor
+.settings
+.metadata
+.git
