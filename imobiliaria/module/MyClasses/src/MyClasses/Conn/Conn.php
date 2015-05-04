@@ -13,7 +13,7 @@ class Conn{
 				'host'			=> 'localhost',
 				'user'			=> 'root',
 				'password'		=> '123',
-				'dbname'		=> 'GPA',
+				'dbname'		=> 'imobiliaria',
 		);
 		/* $conn = array(
 		 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',

@@ -48,23 +48,6 @@ class AclPerfil{
         return $this->usuarios;
     }
     
-    /**
-     * @OneToMany(targetEntity="Projeto", mappedBy="equipe")
-     */
-    private $projetos;
-    
-    /** adiciona projeto ao perfil 
-     *  @param Projeto $projeto */
-    public function addProjeto(Projeto $projeto){
-    	$this->projetos->add($projeto);
-    	$projeto->setEquipe($this);
-    }
-
-    /** @return Doctrine\Common\Collections\ArrayCollection */
-    public function getProjetos() {
-    	return $this->projetos;
-    }
-    
     /** @ManyToMany(targetEntity="AclRecurso", mappedBy="perfis") */
     private $recursos;
     

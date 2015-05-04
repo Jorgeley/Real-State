@@ -14,8 +14,6 @@ class AclUsuario{
     
     public function __construct(){
         $this->equipes = new ArrayCollection();
-        $this->projetos = new ArrayCollection();
-        $this->tarefas = new ArrayCollection();
     }
         
     /** @Id @Column(type="integer")
@@ -62,68 +60,7 @@ class AclUsuario{
     public function getEquipes(){
         return $this->equipes;
     }
-       
-    /** @OneToMany(targetEntity="Projeto", mappedBy="usuario") */
-    private $projetos;
     
-    /** adiciona Projeto para o AclUsuario
-     *  @param Projeto $projeto */
-    public function addProjeto(Projeto $projeto){
-        $this->projetos->add($projeto);
-        $projeto->setUsuario($this);
-    }
-    
-    /** @return Doctrine\Common\Collections\ArrayCollection */
-    public function getProjetos(){
-        return $this->projetos;
-    }
-    
-    /** @OneToMany(targetEntity="Tarefa", mappedBy="usuario", cascade="persist") */
-    private $tarefas;
-    
-    /** adiciona Tarefa para o AclUsuario
-     *  @param Tarefa $tarefa */
-    public function addTarefa(Tarefa $tarefa){
-        $this->tarefas->add($tarefa);
-        $tarefa->setUsuario($this);
-    }
-    
-    /** @return Doctrine\Common\Collections\ArrayCollection */
-    public function getTarefas(){
-        return $this->tarefas;
-    }
-    
-    /**
-     * @ManyToOne(targetEntity="Tarefa", inversedBy="usuariosExclusaoSincronizada")
-     * @JoinColumn(name="tarefa_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     */
-    private $tarefaExclusaoSincronizada;
-
-	/** @param Tarefa $tarefa */
-	public function setTarefaExclusaoSincronizada(Tarefa $tarefa) {
-		$this->tarefaExclusaoSincronizada = $tarefa;
-	}
-
-	/** @return Tarefa */
-	public function getTarefaExclusaoSincronizada() {
-		return $this->tarefaExclusaoSincronizada;
-	}
-    
-    /**
-     * @param array $idsProjetos
-     * @return Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getTarefasCorrelatas(array $idsProjetos){
-        $tarefas = Conn::getConn()->createQuery("
-                                        SELECT t FROM MyClasses\Entities\Tarefa t
-                                        WHERE
-                                            t.usuario = ".$this->getId()."
-                                            AND
-                                            t.projeto NOT IN (".implode(",", $idsProjetos).")"
-                                        )->getResult();
-        return $tarefas;
-    }
-
     public function getId() {
 		return $this->id;
 	}

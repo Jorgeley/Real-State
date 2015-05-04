@@ -26,8 +26,10 @@
 						<h1>imobiliari@</h1>
 					</a>
                     <div class="pesquisa">
-                        <input type="search" placeholder="ex: casa 2 quartos, ap centro">
-                        <input type="button" value=">">
+                        <form method="post" action="<?=$this->basePath()?>/imovel/pesquisa">
+                            <input type="search" name="pesquisa" placeholder="ex: casa 2 quartos, ap centro">
+                            <input type="submit" value=">">
+                        </form>
                     </div>
 				</div>
 			</div>

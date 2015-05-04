@@ -46,6 +46,16 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'pesquisa' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route'    => '/pesquisa',
+                            'defaults' => array(
+                                'controller' => 'Application\Controller\Imovel',
+                                'action'     => 'pesquisa',
+                            ),
+                        ),
+                    ),
                     'visualiza' => array(
                         'type'    => 'segment',
                         'options' => array(
