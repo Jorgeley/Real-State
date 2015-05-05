@@ -15,14 +15,14 @@ class Conn{
 				'password'		=> '123',
 				'dbname'		=> 'imobiliaria',
 		);
-		/* $conn = array(
-		 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-				//'wrapperClass' => 'Doctrine\Tests\Mocks\ConnectionMock',
-				'host' => 'mysql.grupo-gpa.com',
-				'user' => 'grupogpa',
-				'password' => 'j6k9r8p9',
-				'dbname' => 'grupogpa',
-		); */
+//		$conn = array(
+//		 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+//				//'wrapperClass' => 'Doctrine\Tests\Mocks\ConnectionMock',
+//				'host' => 'mysql.grupo-gpa.com',
+//				'user' => 'grupogpa01',
+//				'password' => 'j6k9r8p9',
+//				'dbname' => 'grupogpa01',
+//		);
 		$config = new \Doctrine\ORM\Configuration();
 		$config->setProxyDir(__DIR__ . '/../Entities/Proxies');
 		$config->setProxyNamespace('MyClasses\Entities\Proxies');

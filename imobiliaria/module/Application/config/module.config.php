@@ -59,10 +59,20 @@ return array(
                     'visualiza' => array(
                         'type'    => 'segment',
                         'options' => array(
-                            'route'    => '/visualiza/id[/:id]/mais[/:mais]',
+                            'route'    => '/visualiza/id[/:id][/:mais]',
                             'defaults' => array(
                                 'controller' => 'Application\Controller\Imovel',
                                 'action'     => 'visualiza',
+                            ),
+                        ),
+                    ),
+                    'visita' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/visita/id[/:id][/:agenda]',
+                            'defaults' => array(
+                                'controller' => 'Application\Controller\Imovel',
+                                'action'     => 'visita',
                             ),
                         ),
                     )

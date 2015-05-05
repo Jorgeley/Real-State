@@ -11,12 +11,8 @@ use Zend\View\Model\ViewModel,
 
 class ImovelController extends AbstractActionController{
 	
-	public function indexAction(){
-	}
-    
-	public function visualizaAction(){
-        return new ViewModel(array('id'=>$this->Params('id'), 'mais'=>$this->Params('mais')));
-	}
+    public function indexAction(){
+    }
     
     public function pesquisaAction(){
         if ($this->getRequest()->isPost()){
@@ -36,6 +32,14 @@ class ImovelController extends AbstractActionController{
             $imoveis = $query->getQuery()->getResult();
             return new ViewModel(array('imoveis' => $imoveis));
         }
+    }
+
+    public function visualizaAction(){
+        return new ViewModel(array('id'=>$this->Params('id'), 'mais'=>$this->Params('mais')));
+    }
+    
+    public function visitaAction(){
+        return new ViewModel(array('id'=>$this->Params('id'), 'agenda'=>$this->Params('agenda')));
     }
 
 }

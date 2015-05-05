@@ -33,7 +33,15 @@
     </div>
     <div id="informacoes">
         <h2>Casa 2/4, suite, 360m²</h2><br>
-        <p>bairro nobre de Rio Verde, proximo ao centro...</p><br>
-        <input type="button" value="+informaçoes" class="jqModal"> <!--class="controle"-->
+        <?php if (isset($this->mais)): ?>
+            <p>Bairro nobre de Rio Verde, proximo ao centro, imovel na planta.<br>
+                Financiamento pela Caixa Economica Federal ou otimo desconto a vista, <br>
+                2 garagens, quintal, murado, playground.<br>
+                <input type="button" value="quero visitar" onclick="location.href='<?=$this->basePath()?>/imovel/visita/id/1';">
+            </p>
+        <?php else: ?>
+            <p>bairro nobre de Rio Verde, proximo ao centro...</p><br>
+            <input type="button" value="+informaçoes" class="jqModal"> <!--class="controle"-->
+        <?php endif; ?>
     </div>
 </div>
