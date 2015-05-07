@@ -1,0 +1,6 @@
+<?php $msg = ($this->id) ? "tarefa gravada" : "erro ao tentar gravar a tarefa" ?>
+
+<script type="text/javascript">
+    alert("<?=$msg?>");
+    location.href="<?=$this->url("tarefa")?>";
+</script>

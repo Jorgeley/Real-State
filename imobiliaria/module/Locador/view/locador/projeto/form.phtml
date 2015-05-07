@@ -1,0 +1,46 @@
+<form method='post'>
+    <h2 style="float:left; margin-right:10px">Projetos</h2>
+	<input type="submit" value="gravar" formaction="<?=$this->basePath()?>/projeto/grava" style="background-image: url('<?=$this->basePath()?>/img/check.png')" id="botao">
+	<?php if($this->Url()!= $this->basePath().'/projeto/novo'): ?>
+		<input type="button" value="novo" OnClick="location.href='<?=$this->basePath()?>/projeto/novo';" style="background-image: url('<?=$this->basePath()?>/img/add.png')" id="botao">
+		<input type="button" value="excluir" OnClick="location.href='<?=$this->basePath()?>/projeto/exclui/id/<?=$v ? $this->projeto->getId() : "" ?>';" style="background-image: url('<?=$this->basePath()?>/img/del.png')" id="botao">
+	<?php endif;?><br>
+    <label>Nome:
+        <input type="text" name="nome" placeholder="nome do projeto" required value="<?=$v ? $this->projeto->getNome() : "" ?>">
+    </label><br>
+    <label>Descrição:
+        <textarea name="descricao" class="ckeditor" rows="2" cols="10" wrap="hard">
+             <?=$v ? $this->projeto->getDescricao() : "" ?>
+        </textarea>
+    </label><br>
+    <label style="float:left; padding:10px">Vencimento:<br>
+        <input type="date" name="vencimento" required 
+            value="<?=$v ? $this->projeto->getVencimento()
+                   : "" ?>">
+    </label>
+    <?php if ($this->identity()[1]=="adm"): ?>
+        <label>Equipe:<br>
+            <select name="equipe" size="10">
+                <?php foreach($this->equipes as $equipe): ?>
+                    <option 
+                        <?=($v && $equipe==$this->projeto->getEquipe()) ? "selected" : ""?> 
+                        value="<?=$equipe->getId()?>">
+                            <?=$equipe->getPerfil()?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+    <?php endif; ?>
+    <!-- <label>Responsável:<br>
+        <select name="responsavel" size="10" required>
+            <?php /*foreach($this->usuarios as $usuario): ?>
+                <option 
+                    <?=($v && $usuario==$this->projeto->getResponsavel()) ? "selected" : ""?> 
+                    value="<?=$usuario->getId()?>">
+                        <?=$usuario->getNome()?>
+                </option>
+            <?php endforeach; */?>
+        </select>
+    </label> -->
+    <input type="hidden" name="projeto" value="<?=$v ? $this->projeto->getId() : ""?>">
+</form>
