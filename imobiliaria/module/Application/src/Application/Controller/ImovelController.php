@@ -8,7 +8,6 @@ namespace Application\Controller;
 
 use Zend\View\Model\ViewModel,
     Zend\Mvc\Controller\AbstractActionController,
-    MyClasses\Controllers\PadraoController,
     Zend\Session\Container as Sessao,
     MyClasses\Conn\Conn;
 
@@ -34,12 +33,14 @@ class ImovelController extends AbstractActionController {
         if ($this->getRequest()->isPost()) {
             $pesquisa = $this->getRequest()->getPost("pesquisa");
             $query = Conn::getConn()->createQueryBuilder();
-            $query->select("i, b")
+            $query->select("i")
                     ->from("MyClasses\Entities\Imovel", "i")
-                    ->leftJoin("i.bairro", "b")
                     ->where(
                             $query->expr()->orX(
-                                    $query->expr()->like("i.descricao", "'%$pesquisa%'"), $query->expr()->like("i.endereco", "'%$pesquisa%'"), $query->expr()->like("b.nome", "'%$pesquisa%'"), $query->expr()->like("b.descricao", "'%$pesquisa%'")
+                                    $query->expr()->like("i.descricao", "'%$pesquisa%'"), 
+                                    $query->expr()->like("i.endereco", "'%$pesquisa%'"), 
+                                    $query->expr()->like("i.bairro", "'%$pesquisa%'"), 
+                                    $query->expr()->like("i.cidade", "'%$pesquisa%'")
                             )
             );
             $imoveis = $query->getQuery()->getResult();

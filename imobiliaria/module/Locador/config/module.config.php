@@ -20,10 +20,10 @@ return array(
                     ),
                 ),
             ),
-            'locador' => array(
+            'inicio' => array(
                 'type' => 'literal',
                 'options' => array(
-                    'route' => '/locador',
+                    'route' => '/inicio',
                     'defaults' => array(
                         'action' => 'index',
                         'controller' => 'Locador\Controller\Index',

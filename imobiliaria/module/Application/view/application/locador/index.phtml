@@ -1,0 +1,9 @@
+<form id="formulario" method="post" action="'<?=$this->basePath()?>/locador/login'" style="margin-top: 20px">
+    <h2>Faça login para cadastrar seu imovel ou clique <a href="<?=$this->basePath()?>/locador/novo">aqui</a> caso ainda nao seja cadastrado</h2>
+    <label for="login">Usuario:</label>
+    <input type="text" name="login" id="login" placeholder="seu login" required="">
+    <label for="senha">Senha</label>
+    <input type="password" name="senha" id="senha" placeholder="sua senha" required="">
+    <input type="submit" value="acessar">
+    <a href="<?=$this->basePath()?>/locador/novo">ainda nao sou cadastrado</a>
+</form>

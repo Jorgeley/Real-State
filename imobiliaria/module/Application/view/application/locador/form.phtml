@@ -1,0 +1,47 @@
+<script src="<?= $this->basePath() ?>/js/Cidades.class.js" type="text/javascript"></script>
+<form action="<?= $this->basePath() ?>/locador/grava" method="post" id="formulario">
+    <h2>Cadastre-se para anunciar seu imovel</h2>
+    <div style="width:480px;float:left">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" required="" placeholder="seu nome">
+    <label for="sexo">Sexo:</label>
+    <input type="radio" id="sexo" name="sexo" value="m" checked="" style="width:50px">M
+    <input type="radio" name="sexo" value="f" style="width:50px">F
+    <label for="nascimento" style="float:right;margin-right:10px">Data de Nascimento:</label>
+    <input type="date" id="nascimento" name="nascimento" style="width:200px;margin-left:250px;margin-top:-6px" placeholder="01/01/1990">
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" required="" placeholder="exemplo@email.com">
+    <label for="foneFixo">Telefone Fixo:</label>
+    <input type="text" id="foneFixo" name="foneFixo" placeholder="(64) 9999-9999">
+    <label for="foneCelular">Telefone Celular:</label>
+    <input type="text" id="foneCelular" name="foneCelular" required="" placeholder="(64) 9999-9999">
+    <label for="login">Usuario para Login:</label>
+    <input type="text" name="login" id="login" placeholder="seu login" required="">
+    </div>
+    <div>
+    <label for="cep">CEP:</label>
+    <input type="text" id="cep" name="cep" placeholder="75900-000">
+    <label for="endereco">Endereço:</label>
+    <input type="text" id="endereco" name="endereco" required="" placeholder="Av. Presidente Vargas, 14">
+    <label for="bairro">Bairro:</label>
+    <input type="text" id="bairro" name="bairro" required="">
+    <br><br><br>
+    <label for="uf">Estado:</label>
+    <select name="uf" id="uf" onchange="xml.carregaCidades(this.value);" style="width:110px" required="">
+        <option>Selecione</option>
+    </select>
+    <label for="cidade">Cidade:</label>
+    <select name="cidade" id="cidade" required="" style="width:270px"></select>
+    <br><br><br><br><br><br><br>
+    <label for="senha">Senha:</label>
+    <input type="password" name="senha" id="senha" placeholder="sua senha" required="">
+    </div>
+    <input type="submit" value="confirmar">
+</form>
+<script type="text/javascript">
+    var xml = new Cidades();
+    xml.setUrlXML("<?= $this->basePath() ?>/js/cidades.xml");
+    xml.setComboEstados("uf");
+    xml.setComboCidades("cidade");
+    xml.carregaXML();
+</script>

@@ -88,6 +88,29 @@ return array(
                     )
                 ),
             ),
+            'locador' => array(
+                'type' => 'literal',
+                'options' => array(
+                    'route' => '/locador',
+                    'defaults' => array(
+                        'action' => 'index',
+                        'controller' => 'Application\Controller\Locador',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'novo' => array(
+                        'type' => 'literal',
+                        'options' => array(
+                            'route' => '/novo',
+                            'defaults' => array(
+                                'controller' => 'Application\Controller\Locador',
+                                'action' => 'novo',
+                            ),
+                        ),
+                    )
+                )
+            ),
             'conf' => array(
                 'type' => 'literal',
                 'options' => array(
@@ -127,6 +150,7 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Imovel' => 'Application\Controller\ImovelController',
+            'Application\Controller\Locador' => 'Application\Controller\LocadorController',
         ),
     ),
     'view_manager' => array(
