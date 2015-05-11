@@ -10,10 +10,10 @@
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
+            'Locador' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route' => '/',
+                    'route' => '/Locador',
                     'defaults' => array(
                         'controller' => 'Locador\Controller\Index',
                         'action' => 'index',
@@ -36,7 +36,7 @@ return array(
                         'options' => array(
                             'route' => '/pesquisa',
                             'defaults' => array(
-                                'controller' => 'Application\Controller\Imovel',
+                                'controller' => 'Locador\Controller\Imovel',
                                 'action' => 'pesquisa',
                             ),
                         ),
@@ -46,7 +46,7 @@ return array(
                         'options' => array(
                             'route' => '/visualiza/id[/:id][/:mais]',
                             'defaults' => array(
-                                'controller' => 'Application\Controller\Imovel',
+                                'controller' => 'Locador\Controller\Imovel',
                                 'action' => 'visualiza',
                             ),
                         ),
@@ -56,7 +56,7 @@ return array(
                         'options' => array(
                             'route' => '/agendavisita/id[/:id][/:confirma]',
                             'defaults' => array(
-                                'controller' => 'Application\Controller\Imovel',
+                                'controller' => 'Locador\Controller\Imovel',
                                 'action' => 'agendavisita',
                             ),
                         ),
@@ -66,7 +66,7 @@ return array(
                         'options' => array(
                             'route' => '/fichavisita/id[/:id]',
                             'defaults' => array(
-                                'controller' => 'Application\Controller\Imovel',
+                                'controller' => 'Locador\Controller\Imovel',
                                 'action' => 'fichavisita',
                             ),
                         ),
@@ -79,7 +79,7 @@ return array(
                     'route' => '/conf',
                     'defaults' => array(
                         'action' => 'index',
-                        'controller' => 'Application\Controller\Conf',
+                        'controller' => 'Locador\Controller\Conf',
                     ),
                 ),
             ),
@@ -110,8 +110,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Imovel' => 'Application\Controller\ImovelController',
+            'Locador\Controller\Index' => 'Locador\Controller\IndexController',
+            'Locador\Controller\Imovel' => 'Locador\Controller\ImovelController',
         ),
     ),
     'view_manager' => array(

@@ -58,6 +58,9 @@ class Locador {
     /** @Column(type="string", nullable=false) */
     private $senha;
 
+    /** @Column(type="string", length=9, options={"default":"inativo"}) */
+    private $status;
+
     /** @OneToMany(targetEntity="Imovel", mappedBy="locador") */
     private $imoveis;
 
@@ -80,7 +83,9 @@ class Locador {
     }
 
     function getNascimento() {
-        return $this->nascimento;
+        return (isset($this->vencimento))
+    	    ? $this->nascimento//->format('d/m/Y H:i:s')
+    	    : null;
     }
 
     function getEmail() {
@@ -123,6 +128,10 @@ class Locador {
         return $this->senha;
     }
 
+    public function getStatus() {
+        return $this->status;
+    }
+
     public function setId($id) {
         $this->id = $id;
     }
@@ -136,7 +145,10 @@ class Locador {
     }
 
     function setNascimento($nascimento) {
-        $this->nascimento = $nascimento;
+        $nascimento =   substr($nascimento, 6, 4)
+                        .substr($nascimento, 2, 4)
+                        .substr($nascimento, 0, 2);
+        $this->nascimento = new \DateTime($nascimento);
     }
 
     function setEmail($email) {
@@ -177,6 +189,16 @@ class Locador {
 
     function setSenha($senha) {
         $this->senha = $senha;
+    }
+
+    /**
+     * valores possiveis:
+     * inativo (padrao, nao visivel)
+     * ativo (visivel)
+     * expirado (nao visivel)
+     */
+    public function setStatus($status) {
+        $this->status = $status;
     }
 
     /** adiciona Imovel para o Locatador

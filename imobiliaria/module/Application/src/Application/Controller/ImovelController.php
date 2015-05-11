@@ -12,7 +12,6 @@ use Zend\View\Model\ViewModel,
     MyClasses\Conn\Conn;
 
 class ImovelController extends AbstractActionController {
-
     /**
      * @var Container
      */

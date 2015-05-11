@@ -1,14 +1,46 @@
 <script src="<?= $this->basePath() ?>/js/Cidades.class.js" type="text/javascript"></script>
+<script src="<?= $this->basePath() ?>/js/jquery.validate.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function(){
+        jQuery.extend(jQuery.validator.messages, {
+            required: "Preencha este campo!",
+            date: "data invalida!"
+        });
+        $("#formulario").validate({
+            rules: {
+                senha2: {
+                    required: true,
+                    equalTo: "#senha"
+                },
+                captcha: {
+                    required: true,
+                    equalTo: "#captcha2"
+                }
+            },
+            messages: {
+                email: {
+                    email: "Endereço de e-mail invalido!"
+                },
+                senha2:{
+                    equalTo: "As senhas nao conferem!"
+                },
+                captcha:{
+                    equalTo: "Os caracteres nao conferem!"
+                }
+            }
+        });
+    });	
+</script>
 <form action="<?= $this->basePath() ?>/locador/grava" method="post" id="formulario">
     <h2>Cadastre-se para anunciar seu imovel</h2>
     <div style="width:480px;float:left">
     <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome" required="" placeholder="seu nome">
     <label for="sexo">Sexo:</label>
+    <label for="nascimento" style="margin-left:210px">Data de Nascimento:</label><br>
     <input type="radio" id="sexo" name="sexo" value="m" checked="" style="width:50px">M
     <input type="radio" name="sexo" value="f" style="width:50px">F
-    <label for="nascimento" style="float:right;margin-right:10px">Data de Nascimento:</label>
-    <input type="date" id="nascimento" name="nascimento" style="width:200px;margin-left:250px;margin-top:-6px" placeholder="01/01/1990">
+    <input type="date" id="nascimento" name="nascimento" style="width:200px;margin-left:110px" placeholder="01/01/1990">
     <label for="email">E-mail:</label>
     <input type="email" id="email" name="email" required="" placeholder="exemplo@email.com">
     <label for="foneFixo">Telefone Fixo:</label>
@@ -17,6 +49,10 @@
     <input type="text" id="foneCelular" name="foneCelular" required="" placeholder="(64) 9999-9999">
     <label for="login">Usuario para Login:</label>
     <input type="text" name="login" id="login" placeholder="seu login" required="">
+    <label for="senha">Senha:</label>
+    <input type="password" name="senha" id="senha" placeholder="sua senha" required="">
+    <label for="senha2">Digite novamente a senha:</label>
+    <input type="password" name="senha2" id="senha2" placeholder="sua senha" required="">
     </div>
     <div>
     <label for="cep">CEP:</label>
@@ -25,18 +61,19 @@
     <input type="text" id="endereco" name="endereco" required="" placeholder="Av. Presidente Vargas, 14">
     <label for="bairro">Bairro:</label>
     <input type="text" id="bairro" name="bairro" required="">
-    <br><br><br>
+    <br><br>
     <label for="uf">Estado:</label>
+    <label for="cidade" style="margin-left: 140px">Cidade:</label><br>
     <select name="uf" id="uf" onchange="xml.carregaCidades(this.value);" style="width:110px" required="">
         <option>Selecione</option>
     </select>
-    <label for="cidade">Cidade:</label>
-    <select name="cidade" id="cidade" required="" style="width:270px"></select>
-    <br><br><br><br><br><br><br>
-    <label for="senha">Senha:</label>
-    <input type="password" name="senha" id="senha" placeholder="sua senha" required="">
+    <select name="cidade" id="cidade" required="" style="width:270px;margin-left:75px"></select>
+    <label for="captcha">Digite os 3 caracteres abaixo:</label><br>
+    <img src="<?= $this->basePath().'/img/'.$this->captcha?>.png" style="float:left">
+    <input type="hidden" name="captcha2" id="captcha2" value="<?=$this->idCaptcha?>">
+    <input type="text" name="captcha" id="captcha" style="width:100px;margin-left: 20px" required="">
     </div>
-    <input type="submit" value="confirmar">
+    <input type="submit" value="confirmar" style="margin-top:130px">
 </form>
 <script type="text/javascript">
     var xml = new Cidades();

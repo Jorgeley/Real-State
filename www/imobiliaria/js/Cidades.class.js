@@ -25,22 +25,38 @@ var Cidades = function(){
     this.carregaEstados = function(dados){
         var self = this;    
         var estados = dados.childNodes.item(2).getElementsByTagName("estado");
-        var selectEstados = document.getElementById(this.comboEstados);
-        
+        var selectEstados = document.getElementById(this.comboEstados);        
         for(var i in estados){
             var nomeEstado = estados[i].getElementsByTagName("nome")[0];
             nomeEstado = nomeEstado.firstChild.nodeValue;
             var idEstado = estados[i].getElementsByTagName("idestado")[0];
             idEstado = idEstado.firstChild.nodeValue;
-            
+            var ufEstado = estados[i].getElementsByTagName("uf")[0];
+            ufEstado = ufEstado.firstChild.nodeValue;
             var novoOption = document.createElement("option");
             novoOption.text = nomeEstado;
-            novoOption.setAttribute("value", idEstado);
+            novoOption.setAttribute("value", ufEstado);
             selectEstados.appendChild(novoOption);
         }
     };
     
-    this.carregaCidades = function(id){
+    this.getIdEstado = function(uf){
+        var self = this;
+        var dados = this.dadosXML;
+        var estados = dados.childNodes.item(2).getElementsByTagName("estado");
+        var selectEstados = document.getElementById(this.comboEstados);        
+        for(var i in estados){
+            var idEstado = estados[i].getElementsByTagName("idestado")[0];
+            idEstado = idEstado.firstChild.nodeValue;
+            var ufEstado = estados[i].getElementsByTagName("uf")[0];
+            ufEstado = ufEstado.firstChild.nodeValue;
+            if (ufEstado == uf)
+                return idEstado;
+        }
+    };
+    
+    this.carregaCidades = function(uf){
+        var id = this.getIdEstado(uf);
         document.getElementById(this.comboCidades).innerHTML = "";
         var cidades = this.dadosXML;
         cidades = cidades.childNodes.item(2).getElementsByTagName("cidade");
@@ -54,7 +70,7 @@ var Cidades = function(){
                 idCidade = idCidade.firstChild.nodeValue;
                 var novoOption = document.createElement("option");
                 novoOption.text = nomeCidade;
-                novoOption.setAttribute("value", idCidade);
+                novoOption.setAttribute("value", nomeCidade);
                 var optionCidades = document.getElementById(this.comboCidades);
                 optionCidades.appendChild(novoOption);
             }

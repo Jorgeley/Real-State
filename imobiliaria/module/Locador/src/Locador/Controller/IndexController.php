@@ -2,7 +2,7 @@
 /**
  * Controlador Login
  */
-namespace Application\Controller;
+namespace Locador\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController,
 	Zend\View\Model\ViewModel;

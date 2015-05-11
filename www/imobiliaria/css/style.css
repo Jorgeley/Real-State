@@ -40,7 +40,6 @@ div.pesquisa input[type=submit]{
     height: 50px;
 }
 
-
 form#formulario{
     padding: 20px;
     background: #B0C4DE;
@@ -52,7 +51,7 @@ form#formulario input[type=text],
                 input[type=radio],
                 input[type=email],
                 select{
-    padding: 10px;
+    padding: 2px;
     font-size: 16px;
     line-height: 40px;
     border: 1px solid;
@@ -60,11 +59,16 @@ form#formulario input[type=text],
     width: 450px;
 }
 
+form#formulario label.error{
+    color: red;
+    display: block;
+}
+
 form#formulario > label, #formulario > input[type=submit]{
     display: block;
 }
 
-form#formulario >label{
+form#formulario label{
     font-size: 14px;
     color: #333;
     margin-top: 20px;
@@ -331,7 +335,7 @@ div#mapa{
     width: 1000px;
     margin: 0px auto 20px auto;
     padding: 0px;
-    /* background: #FFFFFF; */
+    margin-top: 100px;
 }
 
 #banner {

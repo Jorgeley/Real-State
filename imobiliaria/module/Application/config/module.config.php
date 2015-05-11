@@ -20,18 +20,11 @@ return array(
                     ),
                 ),
             ),
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
-            'inicio' => array(
+            'www' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route' => '/inicio',
+                    'route' => '',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller',
-                        'controller' => 'Index',
-                        'action' => 'index',
                     ),
                 ),
             ),
@@ -108,7 +101,27 @@ return array(
                                 'action' => 'novo',
                             ),
                         ),
-                    )
+                    ),
+                    'grava' => array(
+                        'type' => 'literal',
+                        'options' => array(
+                            'route' => '/grava',
+                            'defaults' => array(
+                                'controller' => 'Application\Controller\Locador',
+                                'action' => 'grava',
+                            ),
+                        ),
+                    ),
+                    'confirma' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/confirma[:/url]',
+                            'defaults' => array(
+                                'controller' => 'Application\Controller\Locador',
+                                'action' => 'confirma',
+                            ),
+                        ),
+                    ),
                 )
             ),
             'conf' => array(
