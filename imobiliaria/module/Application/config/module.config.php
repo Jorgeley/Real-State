@@ -115,7 +115,7 @@ return array(
                     'confirma' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/confirma[:/url]',
+                            'route' => '/confirma[/:url]',
                             'defaults' => array(
                                 'controller' => 'Application\Controller\Locador',
                                 'action' => 'confirma',

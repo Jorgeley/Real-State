@@ -58,7 +58,7 @@ class Locador {
     /** @Column(type="string", nullable=false) */
     private $senha;
 
-    /** @Column(type="string", length=9, options={"default":"inativo"}) */
+    /** @Column(type="string", nullable=true, length=9, options={"default":"inativo"}) */
     private $status;
 
     /** @OneToMany(targetEntity="Imovel", mappedBy="locador") */

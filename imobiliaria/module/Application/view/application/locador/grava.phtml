@@ -1,0 +1,10 @@
+<h2>
+<?php if (isset($this->id)): ?>
+    Obrigado por se cadastrar Sr(ª) <b><?=$this->nome?></b>.<br>
+    Acesse seu e-mail para ativar sua conta.<?php
+else: ?>
+    Desculpe, nao conseguimos concluir seu cadastro. Tente novamente mais tarde,<br>
+    ou contate nossa <a href="#">equipe de suporte</a> 
+<?php endif; ?>
+</h2>
+<a href="<?=$this->basePath()?>/locador">voltar a pagina de login</a>

@@ -1,0 +1,10 @@
+<?php
+if (isset($this->locador)): ?>
+<h2>Seu cadastro foi confirmado</h2>
+<p>redirecionando para seu painel administrativo...</p>
+<script>
+    setTimeout(function() { 
+        location.href="<?=$this->url("locador")?>";
+    }, 2000);
+</script>
+<?php endif; ?>

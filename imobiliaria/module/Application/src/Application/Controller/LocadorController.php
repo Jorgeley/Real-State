@@ -59,14 +59,16 @@ class LocadorController extends AbstractActionController {
             $this->getEm()->persist($locador);
             $this->getEm()->flush();
             $msg = "<h2>Confirme seu cadastro</h2>"
-                    . "<p>Sr(ª). " . $locador->getNome() . "acesse o link abaixo para confirmar seu cadastro:</p>"
-                    . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('locador/confirma', array('controller' => 'locador',
-                        'action' => 'confirma',
-                        'url' => 
-                    ))
-                    . "'>ficha de visita</a><br>"
+                    . "<p>Sr(ª). " . $locador->getNome() . ", acesse o link abaixo para confirmar seu cadastro:</p>"
+                    . "<a href='http://imobiliaria.grupo-gpa.com" . 
+                            $this->url()->fromRoute('locador/confirma', array(
+                                                                        'controller' => 'locador',
+                                                                        'action' => 'confirma',
+                                                                        'url' => base64_encode($locador->getId())
+                                                    ))
+                    . "'>confirmar cadastro</a><br>"
                     . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
-            mail($this->sessao->email, "Visita Confirmada", $msg, 'MIME-Version: 1.0' . "\r\n"
+            mail($locador->getEmail(), "Confirme seu cadastro", $msg, 'MIME-Version: 1.0' . "\r\n"
                     . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
                     . 'From: Suporte Imobiliaria <suporte.imobiliaria@grupo-gpa.com>' . "\r\n");
             return new ViewModel(array( "id"=>$locador->getId(),
@@ -75,7 +77,20 @@ class LocadorController extends AbstractActionController {
         }
     }
     
-    private $em;
+    public function confirmaAction(){
+        if ($this->getRequest()->isGet()){
+            $locador = $this->getEm()->getRepository('MyClasses\Entities\Locador')
+                                    ->find(base64_decode($this->Params('url')));
+            if (isset($locador)){
+                $locador->setStatus("ativo");
+                $this->getEm()->persist($locador);
+                $this->getEm()->flush();
+            }
+            return new ViewModel(array("locador"=>$locador));
+        }
+    }
+
+        private $em;
     /** @return Doctrine\ORM\EntityManager */
     public function getEm(){
         if (null === $this->em){
