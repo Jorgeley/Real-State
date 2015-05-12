@@ -7,79 +7,50 @@
  * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
+namespace Locador;
 return array(
     'router' => array(
         'routes' => array(
             'Locador' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route' => '/Locador',
-                    'defaults' => array(
-                        'controller' => 'Locador\Controller\Index',
-                        'action' => 'index',
-                    ),
-                ),
-            ),
-            'inicio' => array(
                 'type' => 'literal',
                 'options' => array(
-                    'route' => '/inicio',
+                    'route'    => '/Locador',
                     'defaults' => array(
-                        'action' => 'index',
                         'controller' => 'Locador\Controller\Index',
+                        'action' => 'index'
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'pesquisa' => array(
+                    'login' => array(
                         'type' => 'literal',
                         'options' => array(
-                            'route' => '/pesquisa',
+                            'route' => '/login',
                             'defaults' => array(
-                                'controller' => 'Locador\Controller\Imovel',
-                                'action' => 'pesquisa',
+                                'controller' => 'Locador\Controller\Index',
+                                'action' => 'login',
                             ),
                         ),
                     ),
-                    'visualiza' => array(
-                        'type' => 'segment',
+                    'logoff' => array(
+                        'type' => 'literal',
                         'options' => array(
-                            'route' => '/visualiza/id[/:id][/:mais]',
+                            'route' => '/logoff',
                             'defaults' => array(
-                                'controller' => 'Locador\Controller\Imovel',
-                                'action' => 'visualiza',
+                                'controller' => 'Locador\Controller\Index',
+                                'action' => 'logoff',
                             ),
                         ),
                     ),
-                    'agendavisita' => array(
-                        'type' => 'segment',
+                    'imovel' => array(
+                        'type' => 'literal',
                         'options' => array(
-                            'route' => '/agendavisita/id[/:id][/:confirma]',
+                            'route' => '/imovel',
                             'defaults' => array(
                                 'controller' => 'Locador\Controller\Imovel',
-                                'action' => 'agendavisita',
+                                'action' => 'index',
                             ),
                         ),
-                    ),
-                    'fichavisita' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/fichavisita/id[/:id]',
-                            'defaults' => array(
-                                'controller' => 'Locador\Controller\Imovel',
-                                'action' => 'fichavisita',
-                            ),
-                        ),
-                    )
-                ),
-            ),
-            'conf' => array(
-                'type' => 'literal',
-                'options' => array(
-                    'route' => '/conf',
-                    'defaults' => array(
-                        'action' => 'index',
-                        'controller' => 'Locador\Controller\Conf',
                     ),
                 ),
             ),
@@ -115,20 +86,15 @@ return array(
         ),
     ),
     'view_manager' => array(
-        'display_not_found_reason' => true,
-        'display_exceptions' => true,
-        'doctype' => 'HTML5',
-        'not_found_template' => 'error/404',
-        'exception_template' => 'error/index',
-        'template_map' => array(
-            'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
-            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404' => __DIR__ . '/../view/error/404.phtml',
-            'error/index' => __DIR__ . '/../view/error/index.phtml',
-        ),
-        'template_path_stack' => array(
-            __DIR__ . '/../view',
-        ),
+		'display_not_found_reason' => true,
+		'display_exceptions' => true,
+		'doctype' => 'HTML5',
+		'template_map' => array(
+                    'Locador/layout' => __DIR__ . '/../view/layout/locador.phtml',
+                    'Locador/index/index' => __DIR__ . '/../view/locador/index/index.phtml',
+                    'formLogin' => __DIR__ . '/../../Application/view/application/locador/index.phtml',
+		),
+		'template_path_stack' => array('testdrive'=>__DIR__ . '/../view'),
     ),
     // Placeholder for console routes
     'console' => array(

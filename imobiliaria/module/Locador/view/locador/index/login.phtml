@@ -1,13 +1,14 @@
-<div class="jumbotron">
-    <h2><?php echo sprintf($this->translate('Gerenciador de %sProjetos%s'), '<span class="zf-green">', '</span>') ?></h2>
-    <p><?php echo sprintf($this->translate(''), '<a href="https://github.com/zendframework/ZendSkeletonApplication" target="_blank">', '</a>', \Zend\Version\Version::VERSION) ?></p>
-    <form method="post" action="<?php echo $this->url('autentica');?>">
-    <label>Usuário
-        <input type="text" name="login" placeholder="usuário">
-    </label><br>
-    <label>Senha
-        <input type="password" name="senha" placeholder="senha">
-    </label>
-    <p><input type="submit" class="btn btn-success btn-lg" value="<?php echo $this->translate('entrar') ?> &raquo;"></p>
-    </form>    
-</div>
+<h2>
+<?php if ($this->nome): ?>
+            Seja bem vindo <b><?=$this->nome?></b>
+            <p>redirecionando para seu painel administrativo...</p>
+<script>
+    setTimeout(function() { 
+        location.href="<?=$this->url('Locador/imovel')?>";
+    }, 2000);
+</script>
+<?php else: ?>
+            <?=$this->partial("formLogin")?>
+            <i style="color: gray"><?=$this->erro?></i>
+<?php endif ?>
+</h2>

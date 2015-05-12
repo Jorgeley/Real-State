@@ -64,10 +64,10 @@ class Locador extends \MyClasses\Entities\Locador implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'id', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'nome', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'sexo', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'nascimento', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'email', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'foneFixo', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'foneCelular', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'cep', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'endereco', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'bairro', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'cidade', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'uf', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'login', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'senha', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'imoveis', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'visitas', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'contratos');
+            return array('__isInitialized__', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'id', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'nome', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'sexo', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'nascimento', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'email', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'foneFixo', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'foneCelular', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'cep', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'endereco', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'bairro', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'cidade', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'uf', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'login', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'senha', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'status', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'imoveis', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'visitas', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'contratos');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'id', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'nome', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'sexo', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'nascimento', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'email', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'foneFixo', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'foneCelular', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'cep', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'endereco', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'bairro', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'cidade', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'uf', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'login', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'senha', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'imoveis', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'visitas', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'contratos');
+        return array('__isInitialized__', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'id', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'nome', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'sexo', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'nascimento', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'email', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'foneFixo', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'foneCelular', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'cep', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'endereco', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'bairro', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'cidade', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'uf', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'login', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'senha', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'status', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'imoveis', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'visitas', '' . "\0" . 'MyClasses\\Entities\\Locador' . "\0" . 'contratos');
     }
 
     /**
@@ -334,6 +334,17 @@ class Locador extends \MyClasses\Entities\Locador implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getStatus()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', array());
+
+        return parent::getStatus();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setId($id)
     {
 
@@ -483,6 +494,17 @@ class Locador extends \MyClasses\Entities\Locador implements \Doctrine\ORM\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSenha', array($senha));
 
         return parent::setSenha($senha);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setStatus($status)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatus', array($status));
+
+        return parent::setStatus($status);
     }
 
     /**

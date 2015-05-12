@@ -4,30 +4,15 @@
  * Controlador de Imoveis
  */
 
-namespace Application\Controller;
+namespace Locador\Controller;
 
 use Zend\View\Model\ViewModel,
-    Zend\Mvc\Controller\AbstractActionController,
     MyClasses\Controllers\PadraoController,
-    Zend\Session\Container as Sessao,
     MyClasses\Conn\Conn;
 
-class ImovelController extends AbstractActionController {
+class ImovelController extends PadraoController{
 
-    /**
-     * @var Container
-     */
-    private $sessao;
-
-    public function __construct() {
-        if (!isset($this->sessao)) {
-            $this->sessao = new Sessao('ip' . str_replace('.', '_', $_SERVER['REMOTE_ADDR']));
-            $this->sessao->setExpirationSeconds(86400); //expira em 24h
-        }
-    }
-
-    public function indexAction() {
-        
+    public function indexAction() {        
     }
 
     public function pesquisaAction() {

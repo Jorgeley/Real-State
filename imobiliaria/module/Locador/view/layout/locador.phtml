@@ -12,13 +12,11 @@
     <nav role="navigation">
         <div id="header">
             <div id="menu">
+                <?php if (isset($this->id)): ?>
                 <ul>
-                    <li class="current_page_item"><a href="#">Quem Somos</a></li>
-                    <li class="current_page_item"><a href="#">Alugar</a></li>
-                    <li class="current_page_item"><a href="#">Comprar</a></li>
-                    <li class="current_page_item"><a href="<?= $this->basePath() ?>/locador">Anunciar</a></li>
-                    <li class="current_page_item"><a href="#" style="border-right: none">Contato</a></li>
+                    <li class="current_page_item"><a href="<?= $this->basePath() ?>/locador">+imovel</a></li>
                 </ul>
+                <?php endif; ?>
             </div>
             <div id="logo">
                 <a href="<?= $this->basePath() ?>/">
