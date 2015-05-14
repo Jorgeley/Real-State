@@ -5,32 +5,31 @@
 
 namespace MyClasses\Controllers;
 use MyClasses\Conn\Conn,
+    MyClasses\Entities\Locador,
     Zend\Authentication\AuthenticationService,
-    Zend\Mvc\MvcEvent,
     Zend\EventManager\EventManagerInterface,
-    Zend\Mvc\Router\SimpleRouteStack,
-    Zend\Http\Response,
-    Zend\Mvc\Router\Http\Literal,
     Zend\Mvc\Controller\AbstractActionController;
 
 abstract class PadraoController extends AbstractActionController{
-    /** @var MyClasses\Conn\Conn */
-    protected $conn;
     /** @var Doctrine\ORM\EntityManager */
     private $em;
     /** @var Zend\Authentication\AuthenticationService */
     protected $auth;
     protected $identity;
-    //protected $usuario;
+    /**
+     *
+     * @var Locador
+     */
+    protected $locador;
 	
     public function __construct(){
-        $this->conn = Conn::getConn();
         $this->auth = new AuthenticationService();
-        $this->identity = $this->auth->getIdentity()[0];//getStorage()->read();
-        //$this->usuario = $this->conn->find('MyClasses\Entities\AclUsuario',$this->identity->getId());
     }
     
-    /** @return Doctrine\ORM\EntityManager */
+    /**
+     * 
+     * @return Doctrine\ORM\EntityManager
+     */
     public function getEm(){
         if (null === $this->em){
             $this->em = Conn::getConn();
@@ -57,12 +56,13 @@ abstract class PadraoController extends AbstractActionController{
 	 * verifica autenticação
 	 */
     public function verificaAuth(){
-        $identity = $this->auth->getStorage()->read();
+        $this->identity = $this->auth->getStorage()->read();
         if (!$this->auth->hasIdentity()){//nao existe identidade?
             $this->redirect()->toRoute('Locador/logoff');
         }else{
-            $this->layout()->id = $identity[0]->getId();
-            $this->layout()->nome = $identity[0]->getNome();
+            $this->locador = $this->identity[0];
+            $this->layout()->id = $this->locador->getId();
+            $this->layout()->nome = $this->locador->getNome();
         }
     }
     

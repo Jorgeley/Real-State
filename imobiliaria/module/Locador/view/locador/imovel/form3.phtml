@@ -1,0 +1,39 @@
+<link rel="stylesheet" type="text/css" href="<?=$this->basePath()?>/css/jquery.Jcrop.css" />
+<script type="text/javascript" src="<?=$this->basePath()?>/js/jquery.Jcrop.js"></script>
+<script>
+    window.onload=function(){
+        function coordenadas(c){
+            $('#x').val(Math.round(c.x));
+            $('#y').val(Math.round(c.y));
+            $('#w').val(Math.round(c.w));
+            $('#h').val(Math.round(c.h));
+            $('#coordenadas').html(Math.round(c.w)+' X '+Math.round(c.h));
+        };
+        $('#fotoFachada').Jcrop({
+            onChange: coordenadas,
+            minSize: [200,150],
+            aspectRatio: 200/150,
+            setSelect: [50,50,100,100],
+            bgColor: 'transparent'
+        });
+    }
+</script>
+
+<div id="etapas">
+    <div class="etapa"><a href="#"><label>1-</label>Estrutura Fisica</a></div>
+    <div class="etapa"><a href="#"><label>2-</label>Localizaçao</a></div>
+    <div class="etapa" style="border-bottom: 5px solid #fff"><a href="#"><label>3-</label>Fotos</a></div>
+    <div class="etapa"><a href="#"><label>4-</label>Valores</a></div>
+    <div class="etapa"><a href="#"><label>5-</label>Resumo</a></div>
+</div>
+
+<form action="<?= $this->basePath() ?>/Locador/imovel/novo/4" enctype="multipart/form-data" method="post" id="formulario">
+    <h2>Mostre seu imovel</h2><br>
+    <div style="float:left;margin-right:30px">
+        <label for="cep">Foto de fachada:</label>
+        <input type="file" id="fachada" name="fachada" value="fachada">
+        <div id="coordenadas" style="width:100px;font-size:18px;font-weight:bolder;margin-left:30%;border:1px solid yellow;"></div>
+        <img src="<?=$this->basePath()?>/img/casa3.jpg?<?=rand(1,1000)?>" id="fotoFachada">
+    </div><br>
+    <input type="submit" value="confirmar">
+</form>

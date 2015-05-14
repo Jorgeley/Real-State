@@ -173,8 +173,13 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
-        ),
+        )
     ),
+        'view_helpers' => array(
+            'invokables'=> array(
+                'Paginador' => 'Application\Helper\Paginador'
+            )
+        ),
     // Placeholder for console routes
     'console' => array(
         'router' => array(

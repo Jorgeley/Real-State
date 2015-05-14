@@ -2,7 +2,10 @@
 
 namespace MyClasses\Entities;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection,
+    DoctrineModule\Paginator\Adapter\Collection,
+    Zend\Paginator\Paginator;
+    //Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @Entity
@@ -249,6 +252,18 @@ class Locador {
                     break;
             }
         }
+    }
+    
+    /**
+     * retorna todos os imoveis do locador paginados de 10 em 10
+     * @param int $inicio
+     * @param int $limite
+     * @return Paginator
+     */
+    public function getImoveisPaginados($inicio = 0, $limite = 10){
+        $adapterImoveis = new Collection($this->getImoveis());
+        $paginador = new Paginator($adapterImoveis);
+        return $paginador;
     }
 
 }

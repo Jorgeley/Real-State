@@ -584,4 +584,15 @@ class Locador extends \MyClasses\Entities\Locador implements \Doctrine\ORM\Proxy
         return parent::sets($atributos);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getImoveisPaginados($inicio = 0, $limite = 10)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getImoveisPaginados', array($inicio, $limite));
+
+        return parent::getImoveisPaginados($inicio, $limite);
+    }
+
 }

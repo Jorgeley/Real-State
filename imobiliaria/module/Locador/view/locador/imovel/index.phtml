@@ -1,0 +1,22 @@
+<h1>Imoveis</h1>
+<table id="paginacao">
+    <thead>    
+        <tr>
+            <th>Fachada</th>
+            <th>Publicaçao</th>
+            <th>Descriçao</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach($this->imoveisPaginados as $imovel): ?>
+        <tr>
+            <td><img src="<?=$this->basePath()."/img/".$imovel->getId()?>.jpg"</td>
+            <td><?=$imovel->getPublicacao()?></td>
+            <td><?=$imovel->getDescricao()?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<div class="paging">
+    <?=$this->Paginador($this->imoveisPaginados, $this->pagina, $this->url(), 10)?>
+</div>

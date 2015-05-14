@@ -1,0 +1,71 @@
+<script src="<?= $this->basePath() ?>/js/jquery.validate.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function(){
+        jQuery.extend(jQuery.validator.messages, {
+            required: "Preencha este campo!",
+            date: "data invalida!"
+        });
+    });	
+</script>
+
+<div id="etapas">
+    <div class="etapa"><a href="#"><label>1-</label>Estrutura Fisica</a></div>
+    <div class="etapa"><a href="#"><label>2-</label>Localizaçao</a></div>
+    <div class="etapa"><a href="#"><label>3-</label>Fotos</a></div>
+    <div class="etapa" style="border-bottom: 5px solid #fff"><a href="#"><label>4-</label>Valores</a></div>
+    <div class="etapa"><a href="#"><label>5-</label>Resumo</a></div>
+</div>
+
+<form action="<?= $this->basePath() ?>/Locador/imovel/novo/5" method="post" id="formulario">
+    <h2>Qual o preço do seu imovel?</h2><br>
+    <div style="float:left;margin-right:30px">
+        <label for="valor">Valor de venda:</label>
+        <input type="number" id="valor" name="valor" required="" min="50000" max="1000000000" step="1000" style='width:120px'>
+    </div>
+    <div style="float:left;margin-right:30px">
+        <label for="valorm2">Valor aproximado m²:</label>
+        <input type="number" id="valorm2" name="valorm2" required="" min="500" max="1000000" step="50" style='width:120px'>
+    </div>
+    <div style="margin-right:30px">
+        <label for="iptu">Valor do IPTU:</label>
+        <input type="number" id="iptu" name="iptu" required="" min="50" max="10000000" step="50" style='width:120px'>
+    </div>
+    <div class="radio">
+        <input type="radio" id="hipoteca" name="tipo" value="1" checked="" style="width:40px"><label>Hipotecado</label>
+    </div>
+    <div class="radio">
+        <input type="radio" id="hipoteca" name="tipo" value="0" style="width:40px"><label>Quitado</label>
+    </div>
+    <label for="hipotecaBanco">Selecione o banco</label>
+    <select name="hipotecaBanco" style="width:250px">
+        <option value="caixa" selected="">Caixa Economica Federal</option>
+        <option value="bb">Banco de Brasil</option>
+        <option value="itau">Itau</option>
+        <option value="santander">Santander</option>
+        <option value="hsbc">HSBC</option>
+        <option value="outro">Outro</option>
+    </select><br>
+    <div style="float:left;margin-right:30px">
+        <label for="hipotecaValorFinanciado">Valor Financiado:</label>
+        <input type="number" id="hipotecaValorFinanciado" name="hipotecaValorFinanciado" required="" min="50000" max="1000000000" step="1000" style='width:120px'>
+    </div>
+    <div style="float:left;margin-right:30px">
+        <label for="hipotecaQtdParcelas">Qtde. parcelas:</label>
+        <input type="number" id="hipotecaQtdParcelas" name="hipotecaQtdParcelas" required="" min="12" max="240" step="1" style='width:120px'>
+    </div>
+    <div style="margin-right:30px">
+        <label for="hipotecaValorParcela">Valor parcela:</label>
+        <input type="number" id="hipotecaValorParcela" name="hipotecaValorParcela" required="" min="50" max="10000" step="50" style='width:120px'>
+    </div><br>    
+    <div class="radio">
+        <input type="radio" name="condominio" value="1" checked="" style="width:30px"><label>Condominio</label>
+    </div>
+    <div class="radio">
+        <input type="radio" name="condominio" value="0" style="width:30px"><label>S/ condominio</label>
+    </div>
+    <div style="margin-right:30px">
+        <label for="condominioValor">Valor condominio:</label>
+        <input type="number" id="condominioValor" name="condominioValor" min="50" max="10000" step="50" style='width:120px'>
+    </div><br>
+    <input type="submit" value="proximo">
+</form>

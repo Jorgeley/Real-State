@@ -2,7 +2,9 @@
 
 namespace MyClasses\Entities;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection,
+    Doctrine\ORM\Tools\Pagination\Paginator,
+    MyClasses\Conn\Conn;
 
 /**
  * @Entity
@@ -121,8 +123,8 @@ class Imovel {
     private $status;
 
     /**
-     * @ManyToOne(targetEntity="Locador", inversedBy="imoveis")
-     * @JoinColumn(name="locador_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ManyToOne(targetEntity="Locador", inversedBy="imoveis", cascade="persist")
+     * @JoinColumn(name="locador_id", referencedColumnName="id")
      */
     private $locador;
 
@@ -395,11 +397,14 @@ class Imovel {
     }
 
     public function getPublicacao() {
-        return $this->publicacao;
+        return $this->publicacao->format('d/m/Y H:i:s');
     }
 
-    public function setPublicacao($publicacao) {
-        $this->publicacao = $publicacao;
+    public function setPublicacao($publicacao) {        
+        $publicacao =   substr($publicacao, 6, 4)
+                        .substr($publicacao, 2, 4)
+                        .substr($publicacao, 0, 2);
+        $this->publicacao = new \DateTime($publicacao);
     }
 
     function getVisualizacoes() {
@@ -479,6 +484,23 @@ class Imovel {
                     break;
             }
         }
+    }
+    
+    /**
+     * retorna todos os imoveis paginados de 10 em 10
+     * @param int $inicio
+     * @param int $limite
+     * @return Paginator
+     */
+    public static function getImoveisPaginados($inicio = 0, $limite = 10){
+        $qb = Conn::getConn()->createQueryBuilder();
+        $qb->select('i')
+            ->from('MyClasses\Entities\Imovel', 'i')
+            ->orderBy('i.publicacao')
+            ->setMaxResults($limite)
+            ->setFirstResult($inicio);
+        $paginador = new Paginator($qb->getQuery());
+        return $paginador;
     }
 
 }

@@ -1,0 +1,69 @@
+<script src="<?= $this->basePath() ?>/js/Cidades.class.js" type="text/javascript"></script>
+<script src="<?= $this->basePath() ?>/js/jquery.validate.js" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script>
+    var map;
+    function criaMapa() {
+        var mapOptions = {
+            zoom: 8,
+            disableDefaultUI: true,
+            center: new google.maps.LatLng(-34.397, 150.644)
+        };
+        map = new google.maps.Map(document.getElementById('mapa'),mapOptions);
+    }
+    google.maps.event.addDomListener(window, 'load', criaMapa);
+    $(document).ready(function(){
+        jQuery.extend(jQuery.validator.messages, {
+            required: "Preencha este campo!",
+            date: "data invalida!"
+        });
+    });	
+</script>
+
+<div id="etapas">
+    <div class="etapa"><a href="#"><label>1-</label>Estrutura Fisica</a></div>
+    <div class="etapa" style="border-bottom: 5px solid #fff"><a href="#"><label>2-</label>Localizaçao</a></div>
+    <div class="etapa"><a href="#"><label>3-</label>Fotos</a></div>
+    <div class="etapa"><a href="#"><label>4-</label>Valores</a></div>
+    <div class="etapa"><a href="#"><label>5-</label>Resumo</a></div>
+</div>
+
+<form action="<?= $this->basePath() ?>/Locador/imovel/novo/3" method="post" id="formulario">
+    <h2>Onde fica seu imovel?</h2><br>
+    <div style="float:left;margin-right:30px">
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" name="cep" placeholder="75900-000" style="width:80px">
+    </div>
+    <div style="float:left;margin-right:30px">
+        <label for="uf">Estado:</label>
+        <select name="uf" id="uf" onchange="xml.carregaCidades(this.value);" style="width:110px" required="">
+            <option>Selecione</option>
+        </select>
+    </div>
+    <div style="float:left;margin-right:30px">
+        <label for="cidade">Cidade:</label>
+        <select name="cidade" id="cidade" required="" style="width:270px"></select>
+    </div>
+    <div>
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" name="bairro" required="" style="width:395px">
+    </div>
+    <div style="float:left;margin-right:30px">
+        <label for="endereco">Endereço:</label>
+        <input type="text" id="endereco" name="endereco" required="" placeholder="Av. Presidente Vargas, 14">
+    </div>
+    <div>
+        <label for="referencia">Ponto de referencia:</label>
+        <input type="text" id="referencia" name="referencia" required="" style="width:463px">
+    </div>
+    <label>Marque no mapa a localizaçao do seu imovel:</label>
+<div id="mapa"></div>
+    <input type="submit" value="confirmar">
+</form>
+<script type="text/javascript">
+    var xml = new Cidades();
+    xml.setUrlXML("<?= $this->basePath() ?>/js/cidades.xml");
+    xml.setComboEstados("uf");
+    xml.setComboCidades("cidade");
+    xml.carregaXML();
+</script>

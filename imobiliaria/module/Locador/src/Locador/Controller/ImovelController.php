@@ -8,11 +8,27 @@ namespace Locador\Controller;
 
 use Zend\View\Model\ViewModel,
     MyClasses\Controllers\PadraoController,
-    MyClasses\Conn\Conn;
+    MyClasses\Conn\Conn,
+    MyClasses\Entities\Imovel;
 
 class ImovelController extends PadraoController{
 
-    public function indexAction() {        
+    public function indexAction() {
+        $pagina = $this->Params('pagina');
+        $inicio = ($pagina == 0) ? 0 : ($pagina - 1) * 10;
+        $imoveisPaginados = $this->locador->getImoveisPaginados();
+        return new ViewModel(array(
+                                'imoveisPaginados' => $imoveisPaginados,
+                                'pagina' => $pagina
+                            ));
+    }
+    
+    public function novoAction(){
+        return new ViewModel(array("etapa" => $this->Params("etapa")));
+    }
+    
+    public function gravaAction(){
+        return new ViewModel();
     }
 
     public function pesquisaAction() {

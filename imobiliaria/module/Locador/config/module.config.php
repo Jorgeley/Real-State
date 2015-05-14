@@ -51,6 +51,42 @@ return array(
                                 'action' => 'index',
                             ),
                         ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'paginacao' => array(
+                                'type' => 'segment',
+                                'options' => array(
+                                    'route' => '[/:pagina]',
+                                    'constraints' => array(
+                                        'pagina' => '[0-9]*',
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Locador\Controller\Imovel',
+                                        'action' => 'index',
+                                    ),
+                                ),
+                            ),
+                            'novo' => array(
+                                'type' => 'segment',
+                                'options' => array(
+                                    'route' => '/novo[/:etapa]',
+                                    'defaults' => array(
+                                        'controller' => 'Locador\Controller\Imovel',
+                                        'action' => 'novo',
+                                    ),
+                                ),
+                            ),
+                            'grava' => array(
+                                'type' => 'literal',
+                                'options' => array(
+                                    'route' => '/grava',
+                                    'defaults' => array(
+                                        'controller' => 'Locador\Controller\Imovel',
+                                        'action' => 'grava',
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
