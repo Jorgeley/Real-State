@@ -86,6 +86,16 @@ return array(
                                     ),
                                 ),
                             ),
+                            'upload' => array(
+                                'type' => 'literal',
+                                'options' => array(
+                                    'route' => '/upload',
+                                    'defaults' => array(
+                                        'controller' => 'Locador\Controller\Imovel',
+                                        'action' => 'upload',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),

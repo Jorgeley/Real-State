@@ -13,13 +13,8 @@ use Zend\View\Model\ViewModel,
     MyClasses\Conn\Conn;
 
 class LocadorController extends AbstractActionController {
-    /**
-     * @var Container
-     */
-    private $sessao;
     
     /**
-     *
      * @var Captcha
      */
     private $captcha;
@@ -90,7 +85,7 @@ class LocadorController extends AbstractActionController {
         }
     }
 
-        private $em;
+    private $em;
     /** @return Doctrine\ORM\EntityManager */
     public function getEm(){
         if (null === $this->em){

@@ -64,7 +64,7 @@ class Locador {
     /** @Column(type="string", nullable=true, length=9, options={"default":"inativo"}) */
     private $status;
 
-    /** @OneToMany(targetEntity="Imovel", mappedBy="locador") */
+    /** @OneToMany(targetEntity="Imovel", mappedBy="locador", cascade="persist") */
     private $imoveis;
 
     /** @OneToMany(targetEntity="Visita", mappedBy="imovel") */

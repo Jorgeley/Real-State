@@ -1,1 +1,9 @@
-ainda nao esta gravando
+<?php if ($this->id): ?>
+<h2>Imovel gravado</h2>
+<p>redirecionando...</p>
+<script>
+    setTimeout(function() { 
+        location.href="<?=$this->url('Locador/imovel')?>";
+    }, 2000);
+</script>
+<?php endif;

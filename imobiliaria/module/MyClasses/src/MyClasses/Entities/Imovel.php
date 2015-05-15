@@ -68,6 +68,9 @@ class Imovel {
     /** @Column(type="string", columnDefinition="CHAR(2)") */
     private $uf;
 
+    /** @Column(type="string", nullable=true) */
+    private $referencia;
+
     /** @Column(type="decimal", nullable=true) */
     private $latitude;
 
@@ -123,8 +126,8 @@ class Imovel {
     private $status;
 
     /**
-     * @ManyToOne(targetEntity="Locador", inversedBy="imoveis", cascade="persist")
-     * @JoinColumn(name="locador_id", referencedColumnName="id")
+     * @ManyToOne(targetEntity="Locador", inversedBy="imoveis")
+     * @JoinColumn(name="locador_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $locador;
 
@@ -274,6 +277,14 @@ class Imovel {
 
     public function setUf($uf) {
         $this->uf = $uf;
+    }
+
+    public function getReferencia() {
+        return $this->referencia;
+    }
+
+    public function setReferencia($referencia) {
+        $this->referencia = $referencia;
     }
 
     public function getLatitude() {
