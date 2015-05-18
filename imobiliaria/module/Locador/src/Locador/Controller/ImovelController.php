@@ -1,9 +1,7 @@
 <?php
-
 /**
  * Controlador de Imoveis
  */
-
 namespace Locador\Controller;
 
 use Zend\View\Model\ViewModel,
@@ -33,6 +31,10 @@ class ImovelController extends PadraoController{
         }
     }
 
+    /**
+     * lista os imoveis paginados
+     * @return ViewModel
+     */
     public function indexAction() {
         $locador = $this->getEm()->getRepository("MyClasses\Entities\Locador")->find($this->locador->getId());
         $pagina = $this->Params('pagina');
@@ -44,9 +46,13 @@ class ImovelController extends PadraoController{
                             ));
     }
     
+    /**
+     * formulario etapas cadastro Imovel
+     * @return ViewModel
+     */
     public function novoAction(){
         switch ($this->Params("etapa")){
-            case 2:
+            case 2: //estrutura do Imovel
                 if ($this->getRequest()->isPost()) {
                     $this->sessao->tipo =                           $this->getRequest()->getPost("tipo");
                     $this->sessao->areaLote =                       $this->getRequest()->getPost("areaLote");
@@ -63,7 +69,7 @@ class ImovelController extends PadraoController{
                     $this->sessao->idade =                          $this->getRequest()->getPost("idade");
                 }
                 break;
-            case 3:
+            case 3: //localizaçao do Imovel
                 if ($this->getRequest()->isPost()) {
                     $this->sessao->cep =        $this->getRequest()->getPost("cep");
                     $this->sessao->uf =         $this->getRequest()->getPost("uf");
@@ -71,9 +77,11 @@ class ImovelController extends PadraoController{
                     $this->sessao->bairro =     $this->getRequest()->getPost("bairro");
                     $this->sessao->endereco =   $this->getRequest()->getPost("endereco");
                     $this->sessao->referencia = $this->getRequest()->getPost("referencia");
+                    $this->sessao->latitude =   $this->getRequest()->getPost("latitude");
+                    $this->sessao->longitude =  $this->getRequest()->getPost("longitude");
                 }
                 break;
-            case 4:
+            case 4: //imagem de fachada do Imovel
                 if ($this->getRequest()->isPost()) {
                     $img = new Img(1, //qtd imgs
                         $this->getRequest()->getPost(), //post dos hiddens com as coordenadas do recorte
@@ -86,7 +94,7 @@ class ImovelController extends PadraoController{
                     $img->recorta();
                 }
                 break;
-            case 5:
+            case 5: //valores do Imovel
                 if ($this->getRequest()->isPost()) {
                     $this->sessao->valor = $this->getRequest()->getPost("valor");
                     $this->sessao->valorm2 = $this->getRequest()->getPost("valorm2");
@@ -117,7 +125,7 @@ class ImovelController extends PadraoController{
             $fileTransfer = new FileTransfer();
             $arquivo = $fileTransfer->getFileInfo('fachada');
             $fileTransfer->setDestination($this->path);
-            echo $this->sessao->foto = $this->path.$this->locador->getId().'.' . strtolower(substr($arquivo['fachada']['name'], -3, 3));
+            $this->sessao->foto = $this->path.$this->locador->getId().'.' . strtolower(substr($arquivo['fachada']['name'], -3, 3));
             $fileTransfer->addFilter('Rename', array(
                 'target' => $this->locador->getId().'.' . strtolower(substr($arquivo['fachada']['name'], -3, 3)),
                 'overwrite' => true)
@@ -127,6 +135,10 @@ class ImovelController extends PadraoController{
         }
     }
     
+    /**
+     * grava o Imovel
+     * @return ViewModel
+     */
     public function gravaAction(){
         if ($this->getRequest()->isPost()){
             //print_r($this->sessao->getArrayCopy());
@@ -151,6 +163,8 @@ class ImovelController extends PadraoController{
             $imovel->setBairro($this->sessao->bairro);
             $imovel->setEndereco($this->sessao->endereco);
             $imovel->setReferencia($this->sessao->referencia);
+            $imovel->setLatitude($this->sessao->latitude);
+            $imovel->setLongitude($this->sessao->longitude);
             $imovel->setValor($this->sessao->valor);
             $imovel->setValorm2($this->sessao->valorm2);
             $imovel->setIptu($this->sessao->iptu);
@@ -161,7 +175,7 @@ class ImovelController extends PadraoController{
             $imovel->setHipotecaValorParcela($this->sessao->hipotecaValorParcela);
             $imovel->setDescricao($this->getRequest()->getPost("descricao"));
             $imovel->setHorariosVisita($this->getRequest()->getPost("horariosVisita"));
-            $imovel->setPublicacao(date("d/m/Y"));
+            $imovel->setPublicacao(date("d/m/Y H:i:s"));
             $imovel->setStatus("ativo");
             $this->getEm()->persist($imovel);
             $this->getEm()->flush();
@@ -218,10 +232,6 @@ class ImovelController extends PadraoController{
             return new ViewModel(array('id' => $this->Params('id'), 'confirma' => true));
         } else
             return new ViewModel(array('id' => $this->Params('id')));
-    }
-
-    public function fichavisitaAction() {
-        return new ViewModel();
     }
 
 }

@@ -1,13 +1,5 @@
 <script src="<?= $this->basePath() ?>/js/jquery.validate.js" type="text/javascript"></script>
 <script async defer type="text/javascript" src="<?=$this->basePath()?>/js/ckeditor/ckeditor.js"></script>
-<script>
-    $(document).ready(function(){
-        jQuery.extend(jQuery.validator.messages, {
-            required: "Preencha este campo!",
-            date: "data invalida!"
-        });
-    });	
-</script>
 
 <div id="etapas">
     <div class="etapa"><a href="#"><label>1-</label>Estrutura</a></div>
@@ -19,7 +11,7 @@
 
 <form action="<?= $this->basePath() ?>/Locador/imovel/grava" method="post" id="formulario">
     <h2>Redija um resumo do seu imovel:</h2><br>
-    <textarea name="descricao" rows="2" cols="10" placeholder="resumo" class="ckeditor" wrap="hard" required=""></textarea><br>
+    <textarea name="descricao" rows="2" cols="10" placeholder="resumo" class="ckeditor" wrap="hard"></textarea><br>
     <label for="horariosVisita">Qual horario disponivel para visitaçao?</label>
     <input type="time" name="horariosVisita" style="width:100px">
     <input type="submit" value="finalizar">

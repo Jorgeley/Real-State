@@ -71,10 +71,10 @@ class Imovel {
     /** @Column(type="string", nullable=true) */
     private $referencia;
 
-    /** @Column(type="decimal", nullable=true) */
+    /** @Column(type="float", nullable=true) */
     private $latitude;
 
-    /** @Column(type="decimal", nullable=true) */
+    /** @Column(type="float", nullable=true) */
     private $longitude;
 
     /** @Column(type="string", nullable=false) */
@@ -414,7 +414,8 @@ class Imovel {
     public function setPublicacao($publicacao) {        
         $publicacao =   substr($publicacao, 6, 4)
                         .substr($publicacao, 2, 4)
-                        .substr($publicacao, 0, 2);
+                        .substr($publicacao, 0, 2)
+                        .substr($publicacao, 11, 8);
         $this->publicacao = new \DateTime($publicacao);
     }
 
@@ -507,7 +508,7 @@ class Imovel {
         $qb = Conn::getConn()->createQueryBuilder();
         $qb->select('i')
             ->from('MyClasses\Entities\Imovel', 'i')
-            ->orderBy('i.publicacao')
+            ->orderBy('i.publicacao DESC')
             ->setMaxResults($limite)
             ->setFirstResult($inicio);
         $paginador = new Paginator($qb->getQuery());
