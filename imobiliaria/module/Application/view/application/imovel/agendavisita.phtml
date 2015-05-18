@@ -36,7 +36,7 @@
                 <tr><td>21:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                 <tr><td>22:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                 <tr><td>23:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>0:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>00:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             </tbody>
             <tfoot></tfoot>
         </table>
@@ -46,7 +46,7 @@
     <label>Alguma observaçao?<br>
         <textarea rows="7" cols="35"></textarea>
     </label><br>
-    <input type='button' value="agendar" onclick="location.href = '<?= $this->basePath() ?>/imovel/agendavisita/id/1/confirma';">
+    <input type='button' value="agendar" onclick="location.href = '<?= $this->basePath() ?>/imovel/agendavisita/id/<?=$this->id?>/confirma';">
     <?php if (isset($this->confirma)): ?>
         <script>
             alert('Sua visita foi agenda!\nAssim que o locador confirmar entraremos em contato.')

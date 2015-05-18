@@ -53,7 +53,10 @@ class ImovelController extends AbstractActionController {
             $this->sessao->email = $this->getRequest()->getPost('email');
             $this->sessao->telefone = $this->getRequest()->getPost('telefone');
         }
-        return new ViewModel(array('id' => $this->Params('id'), 'mais' => $this->Params('mais')));
+        if ($this->Params('id')){
+            $imovel = Conn::getConn()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
+            return new ViewModel(array('imovel' => $imovel, 'mais' => $this->Params('mais')));
+        }
     }
 
     public function agendavisitaAction() {

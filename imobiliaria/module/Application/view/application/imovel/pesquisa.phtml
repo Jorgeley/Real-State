@@ -3,8 +3,8 @@
     </thead>
     <tbody>
         <?php foreach ($this->imoveis as $imovel): ?>
-        <tr onClick="location.href='<?=$this->url('imovel/visualiza',array('id'=>1))?>';">
-            <td><img src="<?=$this->basePath()?>/img/<?=$imovel->getId()?>.jpg"></td>
+        <tr onClick="location.href='<?=$this->url('imovel/visualiza',array('id'=>$imovel->getId()))?>';">
+            <td><img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$imovel->getId()?>.jpg"></td>
             <td><?=$imovel->getDescricao()?></td>
         </tr>
         <?php endforeach; ?>
