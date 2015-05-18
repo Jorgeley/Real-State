@@ -27,8 +27,15 @@
     <div class="etapa"><a href="#"><label>5-</label>Resumo</a></div>
 </div>
 
+
+<form action="<?= $this->basePath() ?>/Locador/imovel/upload" enctype="multipart/form-data" method="post" id="formulario">
+        <label for="cep">Foto de fachada:</label>
+        <input type="file" id="fachada" name="fachada" value="fachada">
+        <input type="submit" value="enviar imagem">
+</form>
+
 <div id="coordenadas" style="width:100px;font-size:18px;font-weight:bolder;margin-left:30%;border:1px solid yellow;"></div>
-<form method="post" action="<?= $this->basePath() ?>/Locador/imovel/novo/4">
+<form id="formulario" method="post" action="<?= $this->basePath() ?>/Locador/imovel/novo/4">
     <input type="hidden" id="x" name="x0" />
     <input type="hidden" id="y" name="y0" />
     <input type="hidden" id="w" name="w0" />
@@ -38,10 +45,4 @@
         <img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$this->locador->getId()?>.jpg?<?=rand(1,1000)?>" id="fotoFachada">
     </div><br>
     <input type="submit" value="finalizar recorte">
-</form>
-
-<form action="<?= $this->basePath() ?>/Locador/imovel/upload" enctype="multipart/form-data" method="post" id="formulario">
-        <label for="cep">Foto de fachada:</label>
-        <input type="file" id="fachada" name="fachada" value="fachada">
-        <input type="submit" value="enviar imagem">
 </form>
