@@ -64,9 +64,10 @@ class ImovelController extends AbstractActionController {
             $msg = "<h2>Visita Confirmada</h2>"
                     . "<p>Sr(ª). " . $this->sessao->nome . ", sua visita foi confirmada pelo Locador do imovel,<br>"
                     . "acesse o link abaixo para visualizar sua ficha de visita:</p>"
-                    . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/fichavisita', array('controller' => 'imovel',
+                    . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/fichavisita', array(
+                        'controller' => 'imovel',
                         'action' => 'fichavisita',
-                        'id' => 1
+                        'id' => $this->Params('id')
                     ))
                     . "'>ficha de visita</a><br>"
                     . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
@@ -79,7 +80,10 @@ class ImovelController extends AbstractActionController {
     }
 
     public function fichavisitaAction() {
-        return new ViewModel();
+        if ($this->Params('id')){
+            $imovel = Conn::getConn()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
+            return new ViewModel(array("imovel"=>$imovel));
+        }
     }
 
 }

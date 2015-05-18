@@ -1,3 +1,26 @@
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script>
+    var mapa;
+    function criaMapa() {
+        var posicao = new google.maps.LatLng(<?=$this->imovel->getLatitude()?>, <?=$this->imovel->getLongitude()?>);
+        var opcoesMapa = {
+            zoom: 15,
+            disableDefaultUI: true,
+            center: posicao
+        };
+        mapa = new google.maps.Map(document.getElementById('mapa'),opcoesMapa);        
+        marcaLocalizacao(posicao, mapa);
+    }
+    google.maps.event.addDomListener(window, 'load', criaMapa);
+    function marcaLocalizacao(posicao, mapa) {
+        marcador = new google.maps.Marker({
+            position: posicao,
+            map: mapa
+        });
+        mapa.panTo(posicao);
+    }
+</script>
+
 <div id="etapas">
     <div class="etapa"><a href="#"><label>1-</label> tour virtual</a></div>
     <div class="etapa"><a href="#"><label>2-</label> agende uma visita</a></div>
@@ -7,11 +30,20 @@
 
 <div id="conteudo">
     <h2>Ficha de Visita</h2>
-    <img src="<?= $this->basePath() ?>/img/mapa.gif" style="float:left">
+    <div id="mapa" style="width:500px;float:left"></div>
     <p>
-        Imovel: Casa 2/4, garagem<br>
-        Locador: Picashu Choque do Trovao<br>
-        Endereço: R. 10, nº 100, Bairro Centro<br>
+        <?php
+            switch ($this->imovel->getTipo()):
+                case "c": echo "Casa "; break;
+                case "a": echo "Ap "; break;
+                case "m": echo "Comercio "; break;
+                case "t": echo "Terreno "; break;
+                case "f": echo "Fazenda "; break;
+            endswitch;
+            echo $this->imovel->getQtdQuartos()."/4";
+            ?><br>
+            Locador: <?php
+            echo $this->imovel->getLocador()->getNome(); ?>
         <input type="button" value="imprimir">
     </p>
 </div>
