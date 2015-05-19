@@ -1,19 +1,18 @@
-<script src="<?= $this->basePath() ?>/js/jquery.zoom.min.js"></script>
-<script src="<?= $this->basePath() ?>/js/jqModal.js"></script>
+<script src="<?=$this->basePath()?>/js/jquery.zoom.min.js"></script>
+<script src="<?=$this->basePath()?>/js/jquery.jcarousellite.min.js"></script>
+<script src="<?=$this->basePath()?>/js/jqModal.js"></script>
 <link rel="stylesheet" type="text/css" href='<?= $this->basePath() ?>/css/jqModal.css' />
 <script>
     $(document).ready(function () {
         $('.zoom').zoom();
         $('#jqModal').jqm();
-        /*$(".controle").click(function(){
-         $("#janela").slideToggle("fast", function(){
-         if($(this).css("display") == "none"){
-         $("#controle").html("Abre");
-         } else {
-         $("#controle").html("Fecha");
-         }
-         });
-         });*/
+        $(".fotos").jCarouselLite({
+            btnNext: ".proximo",
+            btnPrev: ".anterior",
+            auto: 5000,
+            speed: 2000,
+            visible: 1
+        });
     });
 </script>
 
@@ -25,7 +24,27 @@
 </div>
 
 <div id="conteudo">
-    <span class="zoom" style="float:left"><img width="400" height="300" src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>.jpg"></span>
+    <div class="fotos" style="float:left">
+        <ul>
+            <li class="zoom">
+                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/1.jpg" width="400" height="300">
+            </li>
+            <li class="zoom">
+                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/2.jpg" width="400" height="300">
+            </li>
+            <li class="zoom">
+                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/3.jpg" width="400" height="300">
+            </li>
+            <li class="zoom">
+                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/4.jpg" width="400" height="300">
+            </li>
+            <li class="zoom">
+                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/5.jpg" width="400" height="300">
+            </li>
+        </ul>
+    <button class="anterior"><</button>
+    <button class="proximo">></button>
+    </div>
     <div class="jqmWindow" id="jqModal">
         <!--<div id="janela">
             <p class="controle">X</p>-->

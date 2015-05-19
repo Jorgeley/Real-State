@@ -34,7 +34,10 @@ class Img {
         $this->id = $id;
     }
 
-    public function recorta() {
+    public function recorta($larg=0, $alt=0, $id="") {
+        $this->larg = ($larg!=0) ? $larg : $this->larg;
+        $this->alt = ($alt!=0) ? $alt : $this->alt;
+        $this->id = ($id!="") ? $id : $this->id;
         for ($i = 0; $i < $this->qtdMax; $i++) {
             //print_r($this->post);
             $x = $this->post['x' . $i];
@@ -68,7 +71,7 @@ class Img {
             //echo $x."-".$y."-".$this->larg."-".$this->alt."-".$w."-".$h;
             imagecopyresampled($imgDest, $img, 0, 0, $x, $y, $this->larg, $this->alt, $w, $h);
             switch ($ext) {
-                case 'jpg' : imagejpeg($imgDest, $src, 90);
+                case 'jpg' : imagejpeg($imgDest, $this->fullPath.$this->id.'.'.$ext, 90);
                     break;
                 case 'png' : imagepng($imgDest, $src, 90);
                     break;

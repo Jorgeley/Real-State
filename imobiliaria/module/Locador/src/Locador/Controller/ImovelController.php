@@ -92,11 +92,12 @@ class ImovelController extends PadraoController{
                             array('/arquivos/imoveis/img/'.$this->locador->getId().'/'.(count($arquivos)-2).'.jpg'), //endereço img origem
                             '/arquivos/imoveis/img/'.$this->locador->getId().'/', //caminho relativo da imagem
                             $this->path.$this->locador->getId().'/', //caminho absoluto da imagem
-                            200, //largura do recorte
-                            150, //altura do recorte
+                            600, //largura do recorte
+                            450, //altura do recorte
                             (count($arquivos)-2) //identificador da img, Ex: $id.jpg (img única) OU $id/1.jpg, $id/2.jpg (várias imgs)
                         );
                         $img->recorta();
+                        $img->recorta(200, 150, (count($arquivos)-2)."P");
                     }
                 }
                 break;

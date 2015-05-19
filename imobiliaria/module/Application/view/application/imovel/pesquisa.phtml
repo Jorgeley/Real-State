@@ -4,7 +4,7 @@
     <tbody>
         <?php foreach ($this->imoveis as $imovel): ?>
         <tr onClick="location.href='<?=$this->url('imovel/visualiza',array('id'=>$imovel->getId()))?>';">
-            <td><img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$imovel->getId()?>.jpg"></td>
+            <td><img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$imovel->getId()?>/1P.jpg"></td>
             <td><?=$imovel->getDescricao()?></td>
         </tr>
         <?php endforeach; ?>
