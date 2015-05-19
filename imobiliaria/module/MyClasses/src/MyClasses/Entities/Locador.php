@@ -148,9 +148,10 @@ class Locador {
     }
 
     function setNascimento($nascimento) {
-        $nascimento =   substr($nascimento, 6, 4)
-                        .substr($nascimento, 2, 4)
-                        .substr($nascimento, 0, 2);
+        if (substr($nascimento, 2, 1)=="/")
+            $nascimento =   substr($nascimento, 6, 4)
+                            .substr($nascimento, 2, 4)
+                            .substr($nascimento, 0, 2);
         $this->nascimento = new \DateTime($nascimento);
     }
 

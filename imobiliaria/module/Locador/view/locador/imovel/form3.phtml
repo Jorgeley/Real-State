@@ -27,22 +27,28 @@
     <div class="etapa"><a href="#"><label>5-</label>Resumo</a></div>
 </div>
 
-
 <form action="<?= $this->basePath() ?>/Locador/imovel/upload" enctype="multipart/form-data" method="post" id="formulario">
-        <label for="cep">Foto de fachada:</label>
-        <input type="file" id="fachada" name="fachada" value="fachada">
-        <input type="submit" value="enviar imagem">
+    <h2>Mostre seu imovel</h2>
+    <a href="#" onClick="$('#fachada').click();" id="addFoto">+adicionar foto</a>
+    <input type="file" id="fachada" name="fachada" onchange="$('#formulario').submit();" style="visibility:hidden">
 </form>
 
 <div id="coordenadas" style="width:100px;font-size:18px;font-weight:bolder;margin-left:30%;border:1px solid yellow;"></div>
-<form id="formulario" method="post" action="<?= $this->basePath() ?>/Locador/imovel/novo/4">
+<form id="formulario" method="post" action="<?=$this->basePath()?>/Locador/imovel/novo/3">
+    <input type="submit" value="finalizar recorte">
     <input type="hidden" id="x" name="x0" />
     <input type="hidden" id="y" name="y0" />
     <input type="hidden" id="w" name="w0" />
     <input type="hidden" id="h" name="h0" />
-    <h2>Mostre seu imovel</h2><br>
     <div style="float:left;margin-right:30px">
-        <img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$this->locador->getId()?>.jpg?<?=rand(1,1000)?>" id="fotoFachada">
-    </div><br>
-    <input type="submit" value="finalizar recorte">
+        <img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$this->locador->getId()?>/<?=count($this->arquivos)==0?1:(count($this->arquivos)-2)?>.jpg?<?=rand(1,1000)?>" id="fotoFachada">
+    </div>
 </form>
+
+<?php if (isset($this->arquivos)):
+     foreach ($this->arquivos as $arquivo): ?>
+        <img src="<?=$this->basePath().'/arquivos/imoveis/img/'.$this->locador->getId().'/'.$arquivo?>">
+     <?php endforeach; ?>
+<?php endif; ?>
+
+<input type="button" value="proximo" onclick="location.href='<?=$this->basePath()?>/Locador/imovel/novo/4';">

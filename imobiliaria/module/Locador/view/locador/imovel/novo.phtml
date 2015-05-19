@@ -1,5 +1,5 @@
 <?php
-switch ($this->etapa){
+switch ($this->etapa):
     case 1:
         include "form1.phtml"; break;
     case 2:
@@ -12,4 +12,4 @@ switch ($this->etapa){
         include "form5.phtml"; break;
     default: 
         include "form1.phtml"; break;
-}
+endswitch;

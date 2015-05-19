@@ -43,7 +43,9 @@
             echo $this->imovel->getQtdQuartos()."/4";
             ?><br>
             Locador: <?php
-            echo $this->imovel->getLocador()->getNome(); ?>
+            if ($this->imovel->getLocador()!=null):
+                echo $this->imovel->getLocador()->getNome(); 
+            endif; ?>
         <input type="button" value="imprimir">
     </p>
 </div>

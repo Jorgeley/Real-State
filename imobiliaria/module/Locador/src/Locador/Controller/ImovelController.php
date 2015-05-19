@@ -51,6 +51,10 @@ class ImovelController extends PadraoController{
      * @return ViewModel
      */
     public function novoAction(){
+        if (is_dir($this->path.$this->locador->getId()))
+            $arquivos = scandir($this->path.$this->locador->getId());
+        else            
+            $arquivos = null;
         switch ($this->Params("etapa")){
             case 2: //estrutura do Imovel
                 if ($this->getRequest()->isPost()) {
@@ -71,27 +75,42 @@ class ImovelController extends PadraoController{
                 break;
             case 3: //localizaçao do Imovel
                 if ($this->getRequest()->isPost()) {
-                    $this->sessao->cep =        $this->getRequest()->getPost("cep");
-                    $this->sessao->uf =         $this->getRequest()->getPost("uf");
-                    $this->sessao->cidade =     $this->getRequest()->getPost("cidade");
-                    $this->sessao->bairro =     $this->getRequest()->getPost("bairro");
-                    $this->sessao->endereco =   $this->getRequest()->getPost("endereco");
-                    $this->sessao->referencia = $this->getRequest()->getPost("referencia");
-                    $this->sessao->latitude =   $this->getRequest()->getPost("latitude");
-                    $this->sessao->longitude =  $this->getRequest()->getPost("longitude");
+                    if ($this->getRequest()->getPost("cidade")){
+                        $this->sessao->cep =        $this->getRequest()->getPost("cep");
+                        $this->sessao->uf =         $this->getRequest()->getPost("uf");
+                        $this->sessao->cidade =     $this->getRequest()->getPost("cidade");
+                        $this->sessao->bairro =     $this->getRequest()->getPost("bairro");
+                        $this->sessao->endereco =   $this->getRequest()->getPost("endereco");
+                        $this->sessao->referencia = $this->getRequest()->getPost("referencia");
+                        $this->sessao->latitude =   $this->getRequest()->getPost("latitude");
+                        $this->sessao->longitude =  $this->getRequest()->getPost("longitude");
+                    }
+                    if ($this->getRequest()->getPost("x0")){
+                        $img = new Img(
+                            1, //qtd imgs
+                            $this->getRequest()->getPost(), //post dos hiddens com as coordenadas do recorte
+                            array('/arquivos/imoveis/img/'.$this->locador->getId().'/'.(count($arquivos)-2).'.jpg'), //endereço img origem
+                            '/arquivos/imoveis/img/'.$this->locador->getId().'/', //caminho relativo da imagem
+                            $this->path.$this->locador->getId().'/', //caminho absoluto da imagem
+                            200, //largura do recorte
+                            150, //altura do recorte
+                            (count($arquivos)-2) //identificador da img, Ex: $id.jpg (img única) OU $id/1.jpg, $id/2.jpg (várias imgs)
+                        );
+                        $img->recorta();
+                    }
                 }
                 break;
             case 4: //imagem de fachada do Imovel
                 if ($this->getRequest()->isPost()) {
-                    $img = new Img(1, //qtd imgs
-                        $this->getRequest()->getPost(), //post dos hiddens com as coordenadas do recorte
-                        array('/arquivos/imoveis/img/'.$this->locador->getId().'.jpg'), //endereço img origem
-                        '/arquivos/imoveis/img/', //caminho relativo da imagem
-                        $this->path, //caminho absoluto da imagem
-                        200, //largura do recorte
-                        150, //altura do recorte
-                        $this->locador->getId()); //identificador da img, Ex: $id.jpg (img única) OU $id/1.jpg, $id/2.jpg (várias imgs)
-                    $img->recorta();
+//                    $img = new Img(1, //qtd imgs
+//                        $this->getRequest()->getPost(), //post dos hiddens com as coordenadas do recorte
+//                        array('/arquivos/imoveis/img/'.$this->locador->getId().'.jpg'), //endereço img origem
+//                        '/arquivos/imoveis/img/', //caminho relativo da imagem
+//                        $this->path, //caminho absoluto da imagem
+//                        200, //largura do recorte
+//                        150, //altura do recorte
+//                        $this->locador->getId()); //identificador da img, Ex: $id.jpg (img única) OU $id/1.jpg, $id/2.jpg (várias imgs)
+//                    $img->recorta();
                 }
                 break;
             case 5: //valores do Imovel
@@ -113,7 +132,8 @@ class ImovelController extends PadraoController{
         }
         return new ViewModel(array(
                                 "etapa" => $this->Params("etapa"), 
-                                "locador" => $this->locador
+                                "locador" => $this->locador,
+                                "arquivos" => $arquivos
                             ));
     }
 
@@ -122,12 +142,15 @@ class ImovelController extends PadraoController{
      */
     public function uploadAction() {
         if ($this->getRequest()->isPost()) {
+            if (!is_dir($this->path.$this->locador->getId()))
+                mkdir($this->path.$this->locador->getId());
+            $arquivos = scandir($this->path.$this->locador->getId());
             $fileTransfer = new FileTransfer();
             $arquivo = $fileTransfer->getFileInfo('fachada');
-            $fileTransfer->setDestination($this->path);
-            $this->sessao->foto = $this->path.$this->locador->getId().'.' . strtolower(substr($arquivo['fachada']['name'], -3, 3));
+            $fileTransfer->setDestination($this->path.$this->locador->getId());
+            $this->sessao->foto = $this->path.$this->locador->getId();
             $fileTransfer->addFilter('Rename', array(
-                'target' => $this->locador->getId().'.' . strtolower(substr($arquivo['fachada']['name'], -3, 3)),
+                'target' => (count($arquivos)-1).'.' . strtolower(substr($arquivo['fachada']['name'], -3, 3)),
                 'overwrite' => true)
             );
             $fileTransfer->receive();
@@ -180,7 +203,7 @@ class ImovelController extends PadraoController{
             $this->getEm()->persist($imovel);
             $this->getEm()->flush();
             rename( $this->sessao->foto, 
-                    $this->path.$imovel->getId().".".strtolower(substr($this->sessao->foto,-3,3)));
+                    $this->path.$imovel->getId());
             return new ViewModel(array(
                 "id" => $imovel->getId()
             ));
