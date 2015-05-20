@@ -33,22 +33,25 @@
     <input type="file" id="fachada" name="fachada" onchange="$('#formulario').submit();" style="visibility:hidden">
 </form>
 
-<div id="coordenadas" style="width:100px;font-size:18px;font-weight:bolder;margin-left:30%;border:1px solid yellow;"></div>
-<form id="formulario" method="post" action="<?=$this->basePath()?>/Locador/imovel/novo/3">
-    <input type="submit" value="finalizar recorte">
-    <input type="hidden" id="x" name="x0" />
-    <input type="hidden" id="y" name="y0" />
-    <input type="hidden" id="w" name="w0" />
-    <input type="hidden" id="h" name="h0" />
-    <div style="float:left;margin-right:30px">
-        <img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$this->locador->getId()?>/<?=count($this->arquivos)==0?1:(count($this->arquivos)-2)?>.jpg?<?=rand(1,1000)?>" id="fotoFachada">
-    </div>
-</form>
-
-<?php if (isset($this->arquivos)):
-     foreach ($this->arquivos as $arquivo): ?>
-        <img src="<?=$this->basePath().'/arquivos/imoveis/img/'.$this->locador->getId().'/'.$arquivo?>">
-     <?php endforeach; ?>
+<?php
+if (file_exists($this->path.$this->locador->getId()."/original.jpg")): ?>
+    <div id="coordenadas" style="width:100px;font-size:18px;font-weight:bolder;margin-left:30%;border:1px solid yellow;"></div>
+    <form id="formulario" method="post" action="<?=$this->basePath()?>/Locador/imovel/novo/3">
+        <input type="submit" value="finalizar recorte">
+        <input type="hidden" id="x" name="x0" />
+        <input type="hidden" id="y" name="y0" />
+        <input type="hidden" id="w" name="w0" />
+        <input type="hidden" id="h" name="h0" />
+        <div style="float:left;margin-right:30px">
+            <img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$this->locador->getId()?>/original.jpg?<?=rand(1,1000)?>" id="fotoFachada">
+        </div>
+    </form>
 <?php endif; ?>
+
+<?php if (isset($this->fotos)):
+        foreach ($this->fotos as $foto): ?>
+            <img src="<?=$this->basePath().'/arquivos/imoveis/img/'.$this->locador->getId().'/'.$foto?>P.jpg"><?php
+        endforeach;
+endif; ?>
 
 <input type="button" value="proximo" onclick="location.href='<?=$this->basePath()?>/Locador/imovel/novo/4';">

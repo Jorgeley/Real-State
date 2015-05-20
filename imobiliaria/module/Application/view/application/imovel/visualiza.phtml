@@ -26,21 +26,16 @@
 <div id="conteudo">
     <div class="fotos" style="float:left">
         <ul>
-            <li class="zoom">
-                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/1.jpg" width="400" height="300">
-            </li>
-            <li class="zoom">
-                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/2.jpg" width="400" height="300">
-            </li>
-            <li class="zoom">
-                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/3.jpg" width="400" height="300">
-            </li>
-            <li class="zoom">
-                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/4.jpg" width="400" height="300">
-            </li>
-            <li class="zoom">
-                <img src="<?= $this->basePath() ?>/arquivos/imoveis/img/<?=$this->imovel->getId()?>/5.jpg" width="400" height="300">
-            </li>
+            <?php 
+            $path = __DIR__ . '/../../../../../../www/imobiliaria/arquivos/imoveis/img/';
+            for ($c=1; $c<=5; $c++):
+                $img = $path.$this->imovel->getId()."/".$c.".jpg";
+                if (file_exists($img)): ?>
+                    <li class="zoom">
+                        <img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$this->imovel->getId()."/".$c?>.jpg" width="400" height="300">
+                    </li><?php
+                endif;
+            endfor; ?>
         </ul>
     <button class="anterior"><</button>
     <button class="proximo">></button>

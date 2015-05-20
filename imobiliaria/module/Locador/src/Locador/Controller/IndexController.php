@@ -25,6 +25,7 @@ class IndexController extends AbstractActionController{
     }
     
     public function indexAction() {
+        return new ViewModel();
     }
 
     /**
@@ -57,7 +58,8 @@ class IndexController extends AbstractActionController{
                 $view = new ViewModel(array('erro' => "usuario ou senha invalidos"));
             $view->setTerminal(true);
             return $view;
-        }
+        }else
+            return new ViewModel();
     }
 
     /**

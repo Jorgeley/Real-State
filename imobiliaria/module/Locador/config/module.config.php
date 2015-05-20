@@ -140,7 +140,7 @@ return array(
                     'Locador/index/index' => __DIR__ . '/../view/locador/index/index.phtml',
                     'formLogin' => __DIR__ . '/../../Application/view/application/locador/index.phtml',
 		),
-		'template_path_stack' => array('testdrive'=>__DIR__ . '/../view'),
+		'template_path_stack' => array(__DIR__ . '/../view'),
     ),
     // Placeholder for console routes
     'console' => array(

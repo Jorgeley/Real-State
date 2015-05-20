@@ -51,10 +51,11 @@ class ImovelController extends PadraoController{
      * @return ViewModel
      */
     public function novoAction(){
-        if (is_dir($this->path.$this->locador->getId()))
-            $arquivos = scandir($this->path.$this->locador->getId());
-        else            
-            $arquivos = null;
+//        if (is_dir($this->path.$this->locador->getId()))
+//            $arquivos = glob($this->path.$this->locador->getId()."/*P*");
+//        else            
+//            $arquivos = null;
+//        echo count($arquivos);
         switch ($this->Params("etapa")){
             case 2: //estrutura do Imovel
                 if ($this->getRequest()->isPost()) {
@@ -86,18 +87,21 @@ class ImovelController extends PadraoController{
                         $this->sessao->longitude =  $this->getRequest()->getPost("longitude");
                     }
                     if ($this->getRequest()->getPost("x0")){
+                        $fotos = $this->sessao->fotos;
+                        $fotos[] = count($fotos)+1;
                         $img = new Img(
                             1, //qtd imgs
                             $this->getRequest()->getPost(), //post dos hiddens com as coordenadas do recorte
-                            array('/arquivos/imoveis/img/'.$this->locador->getId().'/'.(count($arquivos)-2).'.jpg'), //endereço img origem
+                            array('/arquivos/imoveis/img/'.$this->locador->getId().'/original.jpg'), //endereço img origem
                             '/arquivos/imoveis/img/'.$this->locador->getId().'/', //caminho relativo da imagem
                             $this->path.$this->locador->getId().'/', //caminho absoluto da imagem
                             600, //largura do recorte
                             450, //altura do recorte
-                            (count($arquivos)-2) //identificador da img, Ex: $id.jpg (img única) OU $id/1.jpg, $id/2.jpg (várias imgs)
+                            count($fotos) //identificador da img, Ex: $id.jpg (img única) OU $id/1.jpg, $id/2.jpg (várias imgs)
                         );
                         $img->recorta();
-                        $img->recorta(200, 150, (count($arquivos)-2)."P");
+                        $img->recorta(200, 150, count($fotos)."P");
+                        $this->sessao->fotos = $fotos;
                     }
                 }
                 break;
@@ -134,7 +138,8 @@ class ImovelController extends PadraoController{
         return new ViewModel(array(
                                 "etapa" => $this->Params("etapa"), 
                                 "locador" => $this->locador,
-                                "arquivos" => $arquivos
+                                "fotos" => $this->sessao->fotos,
+                                "path" => $this->path
                             ));
     }
 
@@ -145,13 +150,12 @@ class ImovelController extends PadraoController{
         if ($this->getRequest()->isPost()) {
             if (!is_dir($this->path.$this->locador->getId()))
                 mkdir($this->path.$this->locador->getId());
-            $arquivos = scandir($this->path.$this->locador->getId());
             $fileTransfer = new FileTransfer();
             $arquivo = $fileTransfer->getFileInfo('fachada');
+            //unlink($this->path.$this->locador->getId().'/original.' . strtolower(substr($arquivo['fachada']['name'], -3, 3)));
             $fileTransfer->setDestination($this->path.$this->locador->getId());
-            $this->sessao->foto = $this->path.$this->locador->getId();
             $fileTransfer->addFilter('Rename', array(
-                'target' => (count($arquivos)-1).'.' . strtolower(substr($arquivo['fachada']['name'], -3, 3)),
+                'target' => 'original.' . strtolower(substr($arquivo['fachada']['name'], -3, 3)),
                 'overwrite' => true)
             );
             $fileTransfer->receive();
@@ -203,8 +207,10 @@ class ImovelController extends PadraoController{
             $imovel->setStatus("ativo");
             $this->getEm()->persist($imovel);
             $this->getEm()->flush();
-            rename( $this->sessao->foto, 
+            rename( $this->path.$this->locador->getId(), 
                     $this->path.$imovel->getId());
+            $this->sessao->fotos = null;
+            //$this->sessao->getManager()->destroy(); destroi tb o $this->locador
             return new ViewModel(array(
                 "id" => $imovel->getId()
             ));
