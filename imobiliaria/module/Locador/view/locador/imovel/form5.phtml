@@ -1,5 +1,26 @@
 <script src="<?= $this->basePath() ?>/js/jquery.validate.js" type="text/javascript"></script>
 <script async defer type="text/javascript" src="<?=$this->basePath()?>/js/ckeditor/ckeditor.js"></script>
+<script>
+    $(document).ready(function () {
+        $('td').click(function (e) {
+            if ($(this).html()=="X"){
+                $(this).css('background-color', '#fff');
+                $(this).html("");
+                //if ($("#horariosVisita:contains('"+$(this).attr('id')+", ')"))
+                $("#horariosVisita").val(
+                        $("#horariosVisita").val().replace(
+                                                        $(this).attr('id')+", ", 
+                                                        ""
+                                                    )
+                            );
+            }else{
+                $(this).css('background-color', '#ddd');
+                $(this).html('X');
+                $("#horariosVisita").val($("#horariosVisita").val()+$(this).attr('id')+', ');
+            }
+        });
+    });
+</script>
 
 <div id="etapas">
     <div class="etapa"><a href="#"><label>1-</label>Estrutura</a></div>
@@ -13,6 +34,35 @@
     <h2>Redija um resumo do seu imovel:</h2><br>
     <textarea name="descricao" rows="2" cols="10" placeholder="resumo" class="ckeditor" wrap="hard"></textarea><br>
     <label for="horariosVisita">Qual horario disponivel para visitaçao?</label>
-    <input type="time" name="horariosVisita" style="width:100px">
+    <table id="visita">
+        <thead>
+            <tr id="cabecalho">
+                <td></td><td>seg</td><td>ter</td><td>qua</td><td>qui</td><td>sex</td><td>sab</td><td>dom</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>6:00</td><td id="seg-6:00"></td><td id="ter-6:00"></td><td id="qua-6:00"></td><td id="qui-6:00"></td><td id="sex-6:00"></td><td id="sab-6:00"></td><td id="dom-6:00"></td></tr>
+            <tr><td>7:00</td><td id="seg-7:00"></td><td id="ter-7:00"></td><td id="qua-7:00"></td><td id="qui-7:00"></td><td id="sex-7:00"></td><td id="sab-7:00"></td><td id="dom-7:00"></td></tr>
+            <tr><td>8:00</td><td id="seg-8:00"></td><td id="ter-8:00"></td><td id="qua-8:00"></td><td id="qui-8:00"></td><td id="sex-8:00"></td><td id="sab-8:00"></td><td id="dom-8:00"></td></tr>
+            <tr><td>9:00</td><td id="seg-9:00"></td><td id="ter-9:00"></td><td id="qua-9:00"></td><td id="qui-9:00"></td><td id="sex-9:00"></td><td id="sab-9:00"></td><td id="dom-9:00"></td></tr>
+            <tr><td>10:00</td><td id="seg-10:00"></td><td id="ter-10:00"></td><td id="qua-10:00"></td><td id="qui-10:00"></td><td id="sex-10:00"></td><td id="sab-10:00"></td><td id="dom-10:00"></td></tr>
+            <tr><td>11:00</td><td id="seg-11:00"></td><td id="ter-11:00"></td><td id="qua-11:00"></td><td id="qui-11:00"></td><td id="sex-11:00"></td><td id="sab-11:00"></td><td id="dom-11:00"></td></tr>
+            <tr><td>12:00</td><td id="seg-12:00"></td><td id="ter-12:00"></td><td id="qua-12:00"></td><td id="qui-12:00"></td><td id="sex-12:00"></td><td id="sab-12:00"></td><td id="dom-12:00"></td></tr>
+            <tr><td>13:00</td><td id="seg-13:00"></td><td id="ter-13:00"></td><td id="qua-13:00"></td><td id="qui-13:00"></td><td id="sex-13:00"></td><td id="sab-13:00"></td><td id="dom-13:00"></td></tr>
+            <tr><td>14:00</td><td id="seg-14:00"></td><td id="ter-14:00"></td><td id="qua-14:00"></td><td id="qui-14:00"></td><td id="sex-14:00"></td><td id="sab-14:00"></td><td id="dom-14:00"></td></tr>
+            <tr><td>15:00</td><td id="seg-15:00"></td><td id="ter-15:00"></td><td id="qua-15:00"></td><td id="qui-15:00"></td><td id="sex-15:00"></td><td id="sab-15:00"></td><td id="dom-15:00"></td></tr>
+            <tr><td>16:00</td><td id="seg-16:00"></td><td id="ter-16:00"></td><td id="qua-16:00"></td><td id="qui-16:00"></td><td id="sex-16:00"></td><td id="sab-16:00"></td><td id="dom-16:00"></td></tr>
+            <tr><td>17:00</td><td id="seg-17:00"></td><td id="ter-17:00"></td><td id="qua-17:00"></td><td id="qui-17:00"></td><td id="sex-17:00"></td><td id="sab-17:00"></td><td id="dom-17:00"></td></tr>
+            <tr><td>18:00</td><td id="seg-18:00"></td><td id="ter-18:00"></td><td id="qua-18:00"></td><td id="qui-18:00"></td><td id="sex-18:00"></td><td id="sab-18:00"></td><td id="dom-18:00"></td></tr>
+            <tr><td>19:00</td><td id="seg-19:00"></td><td id="ter-19:00"></td><td id="qua-19:00"></td><td id="qui-19:00"></td><td id="sex-19:00"></td><td id="sab-19:00"></td><td id="dom-19:00"></td></tr>
+            <tr><td>20:00</td><td id="seg-20:00"></td><td id="ter-20:00"></td><td id="qua-20:00"></td><td id="qui-20:00"></td><td id="sex-20:00"></td><td id="sab-20:00"></td><td id="dom-20:00"></td></tr>
+            <tr><td>21:00</td><td id="seg-21:00"></td><td id="ter-21:00"></td><td id="qua-21:00"></td><td id="qui-21:00"></td><td id="sex-21:00"></td><td id="sab-21:00"></td><td id="dom-21:00"></td></tr>
+            <tr><td>22:00</td><td id="seg-22:00"></td><td id="ter-22:00"></td><td id="qua-22:00"></td><td id="qui-22:00"></td><td id="sex-22:00"></td><td id="sab-22:00"></td><td id="dom-22:00"></td></tr>
+            <tr><td>23:00</td><td id="seg-23:00"></td><td id="ter-23:00"></td><td id="qua-23:00"></td><td id="qui-23:00"></td><td id="sex-23:00"></td><td id="sab-23:00"></td><td id="dom-23:00"></td></tr>
+            <tr><td>00:00</td><td id="seg-00:00"></td><td id="ter-00:00"></td><td id="qua-00:00"></td><td id="qui-00:00"></td><td id="sex-00:00"></td><td id="sab-00:00"></td><td id="dom-00:00"></td></tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+    <input type="hidden" name="horariosVisita" id="horariosVisita">
     <input type="submit" value="finalizar">
 </form>

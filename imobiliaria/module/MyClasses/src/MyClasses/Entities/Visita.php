@@ -58,8 +58,12 @@ class Visita {
         $this->id = $id;
     }
 
-    public function setData() {
-        $this->data = new \DateTime();
+    public function setData($data) {
+        $data =   substr($data, 6, 4)
+                        .substr($data, 2, 4)
+                        .substr($data, 0, 2)
+                        .substr($data, 11, 8);
+        $this->data = new \DateTime($data);
     }
 
     function setFechamento($fechamento) {

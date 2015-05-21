@@ -7,11 +7,12 @@
 namespace Application\Controller;
 
 use Zend\View\Model\ViewModel,
-    Zend\Mvc\Controller\AbstractActionController,
+    MyClasses\Controllers\PadraoControllerSite,
     Zend\Session\Container as Sessao,
-    MyClasses\Conn\Conn;
+    MyClasses\Entities\Locatario,
+    MyClasses\Entities\Visita;
 
-class ImovelController extends AbstractActionController {
+class ImovelController extends PadraoControllerSite{
     /**
      * @var Container
      */
@@ -31,7 +32,7 @@ class ImovelController extends AbstractActionController {
     public function pesquisaAction() {
         if ($this->getRequest()->isPost()) {
             $pesquisa = $this->getRequest()->getPost("pesquisa");
-            $query = Conn::getConn()->createQueryBuilder();
+            $query = $this->getEm()->createQueryBuilder();
             $query->select("i")
                     ->from("MyClasses\Entities\Imovel", "i")
                     ->where(
@@ -49,20 +50,34 @@ class ImovelController extends AbstractActionController {
 
     public function visualizaAction() {
         if ($this->getRequest()->isPost()) {
-            $this->sessao->nome = $this->getRequest()->getPost('nome');
-            $this->sessao->email = $this->getRequest()->getPost('email');
-            $this->sessao->telefone = $this->getRequest()->getPost('telefone');
+            $locatario = new Locatario();
+            $locatario->setNome($this->getRequest()->getPost('nome'));
+            $locatario->setEmail($this->getRequest()->getPost('email'));
+            $locatario->setFoneCelular($this->getRequest()->getPost('telefone'));
+            $this->getEm()->persist($locatario);
+            $this->getEm()->flush();
+            $this->sessao->locatario = $locatario;
         }
         if ($this->Params('id')){
-            $imovel = Conn::getConn()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
+            $imovel = $this->getEm()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
             return new ViewModel(array('imovel' => $imovel, 'mais' => $this->Params('mais')));
         }
     }
 
     public function agendavisitaAction() {
+        $imovel = $this->getEm()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
         if ($this->Params('confirma') !== null) {
+            $visita = new Visita();
+            $locatario = $this->getEm()->getRepository("MyClasses\Entities\Locatario")->find($this->sessao->locatario->getId());
+            $visita->setLocatario($locatario);
+            $visita->setLocador($imovel->getLocador());
+            $visita->setImovel($imovel);
+            $visita->setData($this->getRequest()->getPost('horarioVisita'));
+            $visita->setStatus("agendada");
+            $this->getEm()->persist($visita);
+            $this->getEm()->flush();
             $msg = "<h2>Visita Confirmada</h2>"
-                    . "<p>Sr(ª). " . $this->sessao->nome . ", sua visita foi confirmada pelo Locador do imovel,<br>"
+                    . "<p>Sr(ª). " . $this->sessao->locatario->getNome() . ", sua visita foi confirmada pelo Locador do imovel,<br>"
                     . "acesse o link abaixo para visualizar sua ficha de visita:</p>"
                     . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/fichavisita', array(
                         'controller' => 'imovel',
@@ -71,17 +86,40 @@ class ImovelController extends AbstractActionController {
                     ))
                     . "'>ficha de visita</a><br>"
                     . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
-            mail($this->sessao->email, "Visita Confirmada", $msg, 'MIME-Version: 1.0' . "\r\n"
+            mail($this->sessao->locatario->getEmail(), "Visita Confirmada", $msg, 'MIME-Version: 1.0' . "\r\n"
                     . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
                     . 'From: Suporte Imobiliaria <suporte.imobiliaria@grupo-gpa.com>' . "\r\n");
             return new ViewModel(array('id' => $this->Params('id'), 'confirma' => true));
-        } else
-            return new ViewModel(array('id' => $this->Params('id')));
+        } else{
+//            $nSemanaHoje = date("w");
+//            $inicioSemana = new \DateTime("-".$nSemanaHoje." days");
+//            $fimSemana = new \DateTime("+".(6-$nSemanaHoje)." days");
+            $hoje = new \DateTime("-1 day");
+            for ($s=0; $s<=6; $s++){
+                $hoje->add(new \DateInterval("P1D"));
+                switch ($hoje->format('w')){
+                    case 0: $semanas[] = 'dom'; break;
+                    case 1: $semanas[] = 'seg'; break;
+                    case 2: $semanas[] = 'ter'; break;
+                    case 3: $semanas[] = 'qua'; break;
+                    case 4: $semanas[] = 'qui'; break;
+                    case 5: $semanas[] = 'sex'; break;
+                    case 6: $semanas[] = 'sab'; break;
+                }
+            }
+            return new ViewModel(array(
+                                    'imovel' => $imovel,
+                                    'hoje' => new \DateTime("-1 day"),
+                                    'semanas' => $semanas
+//                                    'inicioSemana' => $inicioSemana,
+//                                    'fimSemana' => $fimSemana
+                                ));
+        }
     }
 
     public function fichavisitaAction() {
         if ($this->Params('id')){
-            $imovel = Conn::getConn()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
+            $imovel = $this->getEm()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
             return new ViewModel(array("imovel"=>$imovel));
         }
     }

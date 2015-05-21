@@ -1,7 +1,18 @@
 <script>
     $(document).ready(function () {
         $('td').click(function (e) {
-            $(this).css('background-color', '#ddd');
+//            if ($(this).css('background-color')=='rgb(221, 221, 221)'){
+//                $(this).css('background-color', '#fff');
+//                $("#horariosVisita").val(
+//                        $("#horariosVisita").val().replace(
+//                                                        $(this).attr('id')+", ", 
+//                                                        ""
+//                                                    )
+//                            );
+//            }else{
+                $('td[style*="background-color: rgb(221, 221, 221)"]').css('background-color', '#fff');
+                $(this).css('background-color', '#ddd');
+                $("#horarioVisita").val($(this).attr('id'));            
         });
     });
 </script>
@@ -14,42 +25,47 @@
 </div>
 
 <div id="conteudo">
-    <div style="margin-right:30px;float:left;width:263px;height:300px;overflow:auto">
-        <table id="visita">
-            <thead><tr id="cabecalho"><td></td><td>seg<br>4/5</td><td>ter<br>5/5</td><td>qua<br>6/5</td><td>qui<br>7/5</td><td>sex<br>8/5</td><td>sab<br>9/5</td><td>dom<br>10/5</td></tr></thead>
-            <tbody>
-                <tr><td>6:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>7:00</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>8:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>9:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>10:00</td><td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>11:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>12:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>13:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>14:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>15:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>16:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>17:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>18:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>19:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>20:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>21:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>22:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>23:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>00:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            </tbody>
-            <tfoot></tfoot>
-        </table>
-    </div>
-    <h2>Qual horario podemos agendar sua visita?</h2>
-    <p>X = horario disponivel do locador</p>
-    <label>Alguma observaçao?<br>
-        <textarea rows="7" cols="35"></textarea>
-    </label><br>
-    <input type='button' value="agendar" onclick="location.href = '<?= $this->basePath() ?>/imovel/agendavisita/id/<?=$this->id?>/confirma';">
     <?php if (isset($this->confirma)): ?>
-        <script>
-            alert('Sua visita foi agenda!\nAssim que o locador confirmar entraremos em contato.')
-        </script>
+        <label>Sua visita foi agenda!<br>Assim que o locador confirmar entraremos em contato.</label><?php
+    else: ?>
+        <div style="margin-right:30px;float:left;width:263px;height:300px;overflow:auto">
+            <table id="visita">
+                <thead>
+                    <tr id="cabecalho"><td></td>
+                        <?php foreach ($this->semanas as $semana): ?>
+                            <td>
+                                <?=$semana?><br>
+                                <?=$this->hoje->modify('+1 day')->format('d/m')?>
+                            </td>
+                        <?php endforeach; ?>
+                    </tr>
+                </thead>
+                <tbody><?php
+                    for ($hora=6; $hora<=23; $hora++): 
+                        $this->hoje->modify('-7 days');
+                        $this->hoje->setTime($hora, 0, 0);?>
+                        <tr><td><?=$hora?>:00</td><?php
+                        foreach ($this->semanas as $semana): ?>
+                            <td id="<?=$this->hoje->modify('+1 day')->format('d/m/Y H:i:s')?>"><?php
+                                if ( strstr($this->imovel->getHorariosVisita(), $semana.'-'.$hora.':00')): ?>
+                                    X<?php
+                                endif; ?>
+                            </td><?php
+                        endforeach; ?>
+                        </tr><?php
+                    endfor; ?>
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+        <form method="post" action="<?= $this->basePath() ?>/imovel/agendavisita/id/<?=$this->imovel->getId()?>/confirma">
+            <h2>Qual horario podemos agendar sua visita?</h2>
+            <p>X = horario disponivel do locador</p>
+            <label>Alguma observaçao?<br>
+                <textarea rows="7" cols="35"></textarea>
+            </label><br>
+            <input type='submit' value="agendar">
+            <input type="hidden" name="horarioVisita" id="horarioVisita">
+        </form>
     <?php endif; ?>
 </div>

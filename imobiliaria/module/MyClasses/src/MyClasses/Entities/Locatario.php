@@ -20,7 +20,7 @@ class Locatario {
      * @GeneratedValue(strategy="AUTO") */
     private $id;
 
-    /** @Column(type="string", length=100) */
+    /** @Column(type="string", length=100, nullable=false) */
     private $nome;
 
     /** @Column(type="string", columnDefinition="CHAR(1)") */
@@ -29,7 +29,7 @@ class Locatario {
     /** @Column(type="date", nullable=true) */
     private $nascimento;
 
-    /** @Column(type="string", nullable=true) */
+    /** @Column(type="string", nullable=false) */
     private $email;
 
     /** @Column(type="string", nullable=true) */
@@ -41,28 +41,28 @@ class Locatario {
     /** @Column(type="integer", nullable=true) */
     private $cep;
 
-    /** @Column(type="string", nullable=false) */
+    /** @Column(type="string", nullable=true) */
     private $endereco;
 
-    /** @Column(type="string", nullable=false) */
+    /** @Column(type="string", nullable=true) */
     private $bairro;
 
-    /** @Column(type="string", nullable=false) */
+    /** @Column(type="string", nullable=true) */
     private $cidade;
 
     /** @Column(type="string", columnDefinition="CHAR(2)") */
     private $uf;
 
-    /** @Column(type="string", nullable=false) */
+    /** @Column(type="string", nullable=true) */
     private $login;
 
-    /** @Column(type="string", nullable=false) */
+    /** @Column(type="string", nullable=true) */
     private $senha;
 
     /** @OneToMany(targetEntity="Imovel", mappedBy="locatario") */
     private $imoveis;
 
-    /** @OneToMany(targetEntity="Visita", mappedBy="imovel") */
+    /** @OneToMany(targetEntity="Visita", mappedBy="imovel", cascade="persist") */
     private $visitas;
 
     /** @OneToMany(targetEntity="Contrato", mappedBy="locatario") */
