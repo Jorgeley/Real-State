@@ -1,4 +1,5 @@
 <script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="<?=$this->basePath()?>/js/jquery.printElement.min.js"></script>
 <script>
     var mapa;
     function criaMapa() {
@@ -32,20 +33,31 @@
     <h2>Ficha de Visita</h2>
     <div id="mapa" style="width:500px;float:left"></div>
     <p>
-        <?php
+        <h3><?php
             switch ($this->imovel->getTipo()):
                 case "c": echo "Casa "; break;
                 case "a": echo "Ap "; break;
                 case "m": echo "Comercio "; break;
                 case "t": echo "Terreno "; break;
                 case "f": echo "Fazenda "; break;
-            endswitch;
-            echo $this->imovel->getQtdQuartos()."/4";
-            ?><br>
-            Locador: <?php
-            if ($this->imovel->getLocador()!=null):
-                echo $this->imovel->getLocador()->getNome(); 
-            endif; ?>
-        <input type="button" value="imprimir">
-    </p>
+            endswitch;?>
+            <?=$this->imovel->getQtdQuartos()?>/4
+        </h3><br>
+        Endereço: <?=$this->imovel->getEndereco().', '.$this->imovel->getBairro()?><br>
+        <?=$this->imovel->getCidade().'-'.$this->imovel->getUf()?><br><br>
+        <b>Locador:</b><br> <?php 
+                    if ($this->imovel->getLocador()!=null):
+                        echo $this->imovel->getLocador()->getNome()."<br>";
+                        echo $this->imovel->getLocador()->getEmail()."<br>";
+                        echo $this->imovel->getLocador()->getFoneCelular()."<br>";
+                        echo $this->imovel->getLocador()->getFoneFixo()."<br>";
+                    endif;
+                ?><br><br>
+        <b>Data/Horario:</b><br><?=$this->imovel->getVisitas()
+                                                    ->filter(function($visita){
+                                                                return $visita->getStatus()=="agendada";
+                                                            })
+                                                    ->first()
+                                                    ->getData()?>
 </div>
+<input type="button" value="imprimir" onclick="$('#conteudo').printElement();">
