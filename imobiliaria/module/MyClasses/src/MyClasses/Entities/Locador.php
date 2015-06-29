@@ -67,7 +67,7 @@ class Locador {
     /** @OneToMany(targetEntity="Imovel", mappedBy="locador", cascade="persist") */
     private $imoveis;
 
-    /** @OneToMany(targetEntity="Visita", mappedBy="imovel") */
+    /** @OneToMany(targetEntity="Visita", mappedBy="locador") */
     private $visitas;
 
     /** @OneToMany(targetEntity="Contrato", mappedBy="locatario") */
@@ -256,14 +256,26 @@ class Locador {
     }
     
     /**
-     * retorna todos os imoveis do locador paginados de 10 em 10
+     * retorna todos os imoveis do locador paginados de 5 em 5
      * @param int $inicio
      * @param int $limite
      * @return Paginator
      */
-    public function getImoveisPaginados($inicio = 0, $limite = 10){
+    public function getImoveisPaginados($inicio = 0, $limite = 5){
         $adapterImoveis = new Collection($this->getImoveis());
         $paginador = new Paginator($adapterImoveis);
+        return $paginador;
+    }
+    
+    /**
+     * retorna todas as visitas do locador paginadas de 5 em 5
+     * @param int $inicio
+     * @param int $limite
+     * @return Paginator
+     */
+    public function getVisitasPaginadas($inicio = 0, $limite = 5){
+        $adapterVisitas = new Collection($this->getVisitas());
+        $paginador = new Paginator($adapterVisitas);
         return $paginador;
     }
 

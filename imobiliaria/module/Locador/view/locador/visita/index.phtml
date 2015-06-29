@@ -1,0 +1,24 @@
+<h1>Visitas</h1>
+<table id="paginacao">
+    <thead>    
+        <tr>
+            <th>Fachada</th>
+            <th>Descriçao</th>
+            <th>Data</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach($this->visitasPaginadas as $visita): ?>
+        <tr>
+            <td><img src="<?=$this->basePath()."/arquivos/imoveis/img/".$visita->getImovel()->getId()?>/1P.jpg"></td>
+            <td><?=$visita->getImovel()->getDescricao()?></td>
+            <td><?=$visita->getData()?></td>
+            <td><?=$visita->getStatus()?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<div class="paging">
+    <?=$this->Paginador($this->visitasPaginadas, $this->pagina, $this->url(), 5)?>
+</div>

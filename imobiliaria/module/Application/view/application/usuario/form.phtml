@@ -1,10 +1,10 @@
 <form action="<?= $this->basePath() ?>/imovel/visualiza/id/<?=$this->imovel->getId()?>/mais" method="post" id="formulario">
     <h2>Cadastre-se para ter acesso a mais informaçoes</h2>
     <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome">
+    <input type="text" id="nome" name="nome" value="<?=isset($this->locatario) ?$this->locatario->getNome() :null?>">
     <label for="email">E-mail:</label>
-    <input type="text" id="email" name="email">
+    <input type="text" id="email" name="email" value="<?=isset($this->locatario) ?$this->locatario->getEmail() :null?>">
     <label for="telefone">Telefone:</label>
-    <input type="text" id="telefone" name="telefone">	
+    <input type="text" id="telefone" name="telefone" value="<?=isset($this->locatario) ?$this->locatario->getFoneCelular() :null?>">
     <input type="submit" value="confirmar">	
 </form>

@@ -98,6 +98,52 @@ return array(
                             ),
                         ),
                     ),
+                    'visita' => array(
+                        'type' => 'literal',
+                        'options' => array(
+                            'route' => '/visita',
+                            'defaults' => array(
+                                'controller' => 'Locador\Controller\Visita',
+                                'action' => 'index',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'paginacao' => array(
+                                'type' => 'segment',
+                                'options' => array(
+                                    'route' => '[/:pagina]',
+                                    'constraints' => array(
+                                        'pagina' => '[0-9]*',
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Locador\Controller\Imovel',
+                                        'action' => 'index',
+                                    ),
+                                ),
+                            ),
+                            'novo' => array(
+                                'type' => 'segment',
+                                'options' => array(
+                                    'route' => '/novo[/:etapa]',
+                                    'defaults' => array(
+                                        'controller' => 'Locador\Controller\Imovel',
+                                        'action' => 'novo',
+                                    ),
+                                ),
+                            ),
+                            'grava' => array(
+                                'type' => 'literal',
+                                'options' => array(
+                                    'route' => '/grava',
+                                    'defaults' => array(
+                                        'controller' => 'Locador\Controller\Imovel',
+                                        'action' => 'grava',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -129,6 +175,7 @@ return array(
         'invokables' => array(
             'Locador\Controller\Index' => 'Locador\Controller\IndexController',
             'Locador\Controller\Imovel' => 'Locador\Controller\ImovelController',
+            'Locador\Controller\Visita' => 'Locador\Controller\VisitaController',
         ),
     ),
     'view_manager' => array(

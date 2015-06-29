@@ -9,6 +9,7 @@ namespace Application\Controller;
 use Zend\View\Model\ViewModel,
     MyClasses\Controllers\PadraoControllerSite,
     Zend\Session\Container as Sessao,
+    Doctrine\Common\Collections\Criteria,
     MyClasses\Entities\Locatario,
     MyClasses\Entities\Visita;
 
@@ -50,17 +51,27 @@ class ImovelController extends PadraoControllerSite{
 
     public function visualizaAction() {
         if ($this->getRequest()->isPost()) {
-            $locatario = new Locatario();
-            $locatario->setNome($this->getRequest()->getPost('nome'));
-            $locatario->setEmail($this->getRequest()->getPost('email'));
-            $locatario->setFoneCelular($this->getRequest()->getPost('telefone'));
-            $this->getEm()->persist($locatario);
-            $this->getEm()->flush();
-            $this->sessao->locatario = $locatario;
+            $criterio = new Criteria();
+            $criterio->where($criterio->expr()->eq('nome', $this->getRequest()->getPost('nome')))
+                    ->andWhere($criterio->expr()->eq('email', $this->getRequest()->getPost('email')))
+                    ->andWhere($criterio->expr()->eq('foneCelular', $this->getRequest()->getPost('telefone')));
+            $locatario = $this->getEm()->getRepository('MyClasses\Entities\Locatario')->matching($criterio);
+            if (!$locatario->count()){
+                $locatario = new Locatario();
+                $locatario->setNome($this->getRequest()->getPost('nome'));
+                $locatario->setEmail($this->getRequest()->getPost('email'));
+                $locatario->setFoneCelular($this->getRequest()->getPost('telefone'));
+                $this->getEm()->persist($locatario);
+                $this->getEm()->flush();
+                $this->sessao->locatario = $locatario;
+            }
         }
         if ($this->Params('id')){
             $imovel = $this->getEm()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
-            return new ViewModel(array('imovel' => $imovel, 'mais' => $this->Params('mais')));
+            return new ViewModel(array(
+                                    'imovel' => $imovel, 
+                                    'mais' => $this->Params('mais'),
+                                    'locatario' => $this->sessao->locatario));
         }
     }
 

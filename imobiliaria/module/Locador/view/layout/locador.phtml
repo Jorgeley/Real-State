@@ -12,7 +12,7 @@
     <nav role="navigation">
         <div id="header">
             <div id="menu">
-                <?php if (isset($this->id)): ?>
+                <?php if (isset($this->locador)): ?>
                 <ul>
                     <li class="current_page_item"><a href="<?= $this->basePath() ?>/Locador/imovel/novo/1">+imovel</a></li>
                 </ul>
@@ -29,10 +29,15 @@
             </div>
         </div>
     </nav>
+    <aside>
+        <ul><h2>AVISOS</h2>
+            <li><a href="<?=$this->basePath()?>/Locador/visita">Visitas(<?=$this->visitas?>)</a></li>
+        </ul>
+    </aside>
     <main>
         <div id="page">
             <div id="page-bgtop">
-                <div id="page-bgbtm">			
+                <div id="page-bgbtm">
                     <?= $this->content; ?>
                     <div style="clear: both;">&nbsp;</div>
                 </div>
@@ -40,8 +45,6 @@
             </div>
         </div>                
     </main>
-    <aside>
-    </aside>
     <footer>
         <div id="footer-bgcontent">
             <div id="footer">

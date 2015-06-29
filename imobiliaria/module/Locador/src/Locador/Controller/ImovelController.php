@@ -5,14 +5,14 @@
 namespace Locador\Controller;
 
 use Zend\View\Model\ViewModel,
-    MyClasses\Controllers\PadraoController,
+    MyClasses\Controllers\PadraoControllerLocador,
     Zend\Session\Container as Sessao,
     MyClasses\Img\Img,
     Zend\File\Transfer\Adapter\Http as FileTransfer,
     MyClasses\Conn\Conn,
     MyClasses\Entities\Imovel;
 
-class ImovelController extends PadraoController{
+class ImovelController extends PadraoControllerLocador{
     /**
      * @var Container
      */

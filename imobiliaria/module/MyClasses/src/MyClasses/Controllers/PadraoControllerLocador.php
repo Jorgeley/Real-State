@@ -10,7 +10,7 @@ use MyClasses\Conn\Conn,
     Zend\EventManager\EventManagerInterface,
     Zend\Mvc\Controller\AbstractActionController;
 
-abstract class PadraoController extends AbstractActionController{
+abstract class PadraoControllerLocador extends AbstractActionController{
     /** @var Doctrine\ORM\EntityManager */
     private $em;
     /** @var Zend\Authentication\AuthenticationService */
@@ -61,8 +61,14 @@ abstract class PadraoController extends AbstractActionController{
             $this->redirect()->toRoute('Locador/logoff');
         }else{
             $this->locador = $this->identity[0];
-            $this->layout()->id = $this->locador->getId();
-            $this->layout()->nome = $this->locador->getNome();
+            $this->layout()->locador = $this->locador;
+            $visitas = $this->getEm()->getRepository("MyClasses\Entities\Locador")->find($this->locador->getId())
+                        ->getVisitas()
+                            ->filter(function($visita){
+                                        return $visita->getStatus()=="agendada";
+                                    })
+                            ->count();
+            $this->layout()->visitas = $visitas;
         }
     }
     
