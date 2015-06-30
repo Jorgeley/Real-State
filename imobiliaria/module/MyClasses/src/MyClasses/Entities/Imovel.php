@@ -3,7 +3,7 @@
 namespace MyClasses\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection,
-    Doctrine\ORM\Tools\Pagination\Paginator,
+//    Doctrine\ORM\Tools\Pagination\Paginator,
     MyClasses\Conn\Conn;
 
 /**
@@ -504,15 +504,15 @@ class Imovel {
      * @param int $limite
      * @return Paginator
      */
-    public static function getImoveisPaginados($inicio = 0, $limite = 10){
-        $qb = Conn::getConn()->createQueryBuilder();
-        $qb->select('i')
-            ->from('MyClasses\Entities\Imovel', 'i')
-            ->orderBy('i.publicacao DESC')
-            ->setMaxResults($limite)
-            ->setFirstResult($inicio);
-        $paginador = new Paginator($qb->getQuery());
-        return $paginador;
-    }
+//    public static function getImoveisPaginados($inicio = 0, $limite = 10){
+//        $qb = Conn::getConn()->createQueryBuilder();
+//        $qb->select('i')
+//            ->from('MyClasses\Entities\Imovel', 'i')
+//            ->orderBy('i.publicacao DESC')
+//            ->setMaxResults($limite)
+//            ->setFirstResult($inicio);
+//        $paginador = new Paginator($qb->getQuery());
+//        return $paginador;
+//    }
 
 }

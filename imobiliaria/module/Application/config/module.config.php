@@ -55,7 +55,7 @@ return array(
                     'agendavisita' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/agendavisita/id[/:id][/:confirma]',
+                            'route' => '/agendavisita/id[/:id][/:confirma][/:visita]',
                             'defaults' => array(
                                 'controller' => 'Application\Controller\Imovel',
                                 'action' => 'agendavisita',

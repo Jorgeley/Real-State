@@ -587,12 +587,23 @@ class Locador extends \MyClasses\Entities\Locador implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getImoveisPaginados($inicio = 0, $limite = 10)
+    public function getImoveisPaginados($inicio = 0, $limite = 5)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getImoveisPaginados', array($inicio, $limite));
 
         return parent::getImoveisPaginados($inicio, $limite);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getVisitasPaginadas($inicio = 0, $limite = 5)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVisitasPaginadas', array($inicio, $limite));
+
+        return parent::getVisitasPaginadas($inicio, $limite);
     }
 
 }

@@ -39,7 +39,7 @@ class ImovelController extends PadraoControllerLocador{
         $locador = $this->getEm()->getRepository("MyClasses\Entities\Locador")->find($this->locador->getId());
         $pagina = $this->Params('pagina');
         $inicio = ($pagina == 0) ? 0 : ($pagina - 1) * 5;
-        $imoveisPaginados = $locador->getImoveisPaginados(null, 5);
+        $imoveisPaginados = $locador->getImoveisPaginados($inicio, 5);
         return new ViewModel(array(
                                 'imoveisPaginados' => $imoveisPaginados,
                                 'pagina' => $pagina

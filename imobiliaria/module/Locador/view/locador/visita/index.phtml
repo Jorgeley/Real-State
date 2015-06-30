@@ -10,9 +10,9 @@
     </thead>
     <tbody>
     <?php foreach($this->visitasPaginadas as $visita): ?>
-        <tr>
+        <tr ondblclick="location.href='<?=$this->basePath()?>/Locador/visita/altera/<?=$visita->getId()?>';">
             <td><img src="<?=$this->basePath()."/arquivos/imoveis/img/".$visita->getImovel()->getId()?>/1P.jpg"></td>
-            <td><?=$visita->getImovel()->getDescricao()?></td>
+            <td><?=substr($visita->getImovel()->getDescricao(), 0, 10)?></td>
             <td><?=$visita->getData()?></td>
             <td><?=$visita->getStatus()?></td>
         </tr>

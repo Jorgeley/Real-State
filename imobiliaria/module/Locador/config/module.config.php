@@ -117,7 +117,7 @@ return array(
                                         'pagina' => '[0-9]*',
                                     ),
                                     'defaults' => array(
-                                        'controller' => 'Locador\Controller\Imovel',
+                                        'controller' => 'Locador\Controller\Visita',
                                         'action' => 'index',
                                     ),
                                 ),
@@ -127,17 +127,27 @@ return array(
                                 'options' => array(
                                     'route' => '/novo[/:etapa]',
                                     'defaults' => array(
-                                        'controller' => 'Locador\Controller\Imovel',
+                                        'controller' => 'Locador\Controller\Visita',
                                         'action' => 'novo',
                                     ),
                                 ),
                             ),
-                            'grava' => array(
-                                'type' => 'literal',
+                            'altera' => array(
+                                'type' => 'segment',
                                 'options' => array(
-                                    'route' => '/grava',
+                                    'route' => '/altera[/:id]',
                                     'defaults' => array(
-                                        'controller' => 'Locador\Controller\Imovel',
+                                        'controller' => 'Locador\Controller\Visita',
+                                        'action' => 'altera',
+                                    ),
+                                ),
+                            ),
+                            'grava' => array(
+                                'type' => 'segment',
+                                'options' => array(
+                                    'route' => '/grava[/:id]',
+                                    'defaults' => array(
+                                        'controller' => 'Locador\Controller\Visita',
                                         'action' => 'grava',
                                     ),
                                 ),

@@ -76,32 +76,71 @@ class ImovelController extends PadraoControllerSite{
     }
 
     public function agendavisitaAction() {
-        $imovel = $this->getEm()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
+        if ($this->Params('id'))
+            $imovel = $this->getEm()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
+        else
+            $imovel = $this->getEm()->getRepository("MyClasses\Entities\Visita")->find($this->Params('visita')->getImovel());
         if ($this->Params('confirma') !== null) {
-            $visita = new Visita();
-            $locatario = $this->getEm()->getRepository("MyClasses\Entities\Locatario")->find($this->sessao->locatario->getId());
-            $visita->setLocatario($locatario);
-            $visita->setLocador($imovel->getLocador());
-            $visita->setImovel($imovel);
-            $visita->setData($this->getRequest()->getPost('horarioVisita'));
-            $visita->setStatus("agendada");
+            $header = 'MIME-Version: 1.0' . "\r\n"
+                    . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
+                    . 'From: Suporte Imobiliaria <suporte.imobiliaria@grupo-gpa.com>' . "\r\n";
+            if ($this->Params('visita')){
+                $visita = $imovel->getVisita();
+                //confirmação da visita pelo Locatário
+                if ($visita->getData() == $this->getRequest()->getPost('horarioVisita')){
+                    $visita->setStatus("confirmada");
+                    $msg = ", sua visita foi confirmada,<br>"
+                            . "acesse o link abaixo para visualizar sua ficha de visita:</p>"
+                            . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/fichavisita', array(
+                                'controller' => 'imovel',
+                                'action' => 'fichavisita',
+                                'id' => $this->Params('id')
+                            ))
+                            . "'>ficha de visita</a><br>"
+                            . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
+                    $msgLocatario = "<h2>Visita Confirmada</h2><p>Sr(ª). " . $visita->getLocatario()->getNome() . $msg;
+                    $msgLocador = "<h2>Visita Confirmada</h2><p>Sr(ª). " . $visita->getLocador()->getNome() . $msg;
+                    mail($visita->getLocatario()->getEmail(), "Visita Confirmada", $msgLocatario, $header);
+                    mail($visita->getLocador()->getEmail(), "Visita Confirmada", $msgLocador, $header);
+                }
+                //reagendamento da visita pelo Locatário
+                else{
+                    $visita->setStatus("agendada");
+                    $msg = "<p>Sr(ª) " . $visita->getLocador()->getNome() . ", o locatário reagendou a visita,<br>"
+                            . "acesse o link abaixo para confirmar ou reagendar a visita:</p>"
+                            . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('Locador/visita', array(
+                                'controller' => 'visita',
+                                'action' => 'altera',
+                                'id' => $visita->getId()
+                            ))
+                            . "'>confirmar/reagendar visita</a><br>"
+                            . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
+                    mail($visita->getLocador()->getEmail(), "Reagendamento de Visita", $msg, $header);
+                }
+            //agendamento de nova visita pelo Locatário
+            }else{
+                $visita = new Visita();
+                $locatario = $this->getEm()->getRepository("MyClasses\Entities\Locatario")->find($this->sessao->locatario->getId());
+                $visita->setLocatario($locatario);
+                $visita->setLocador($imovel->getLocador());
+                $visita->setImovel($imovel);
+                $visita->setData($this->getRequest()->getPost('horarioVisita'));
+                $visita->setStatus("agendada");
+                $msg = "<p>Sr(ª) " . $visita->getLocador()->getNome() . ", um locatário solicitou o agendamento de uma visita,<br>"
+                        . "acesse o link abaixo para confirmar ou reagendar a visita:</p>"
+                        . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('Locador/visita', array(
+                            'controller' => 'visita',
+                            'action' => 'altera',
+                            'id' => $visita->getId()
+                        ))
+                        . "'>confirmar/reagendar visita</a><br>"
+                        . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
+                mail($visita->getLocador()->getEmail(), "Agendamento de Visita", $msg, $header);
+            }
             $this->getEm()->persist($visita);
             $this->getEm()->flush();
-            $msg = "<h2>Visita Confirmada</h2>"
-                    . "<p>Sr(ª). " . $this->sessao->locatario->getNome() . ", sua visita foi confirmada pelo Locador do imovel,<br>"
-                    . "acesse o link abaixo para visualizar sua ficha de visita:</p>"
-                    . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/fichavisita', array(
-                        'controller' => 'imovel',
-                        'action' => 'fichavisita',
-                        'id' => $this->Params('id')
-                    ))
-                    . "'>ficha de visita</a><br>"
-                    . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
-            mail($this->sessao->locatario->getEmail(), "Visita Confirmada", $msg, 'MIME-Version: 1.0' . "\r\n"
-                    . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
-                    . 'From: Suporte Imobiliaria <suporte.imobiliaria@grupo-gpa.com>' . "\r\n");
             return new ViewModel(array('id' => $this->Params('id'), 'confirma' => true));
-        } else{
+        }else{
 //            $nSemanaHoje = date("w");
 //            $inicioSemana = new \DateTime("-".$nSemanaHoje." days");
 //            $fimSemana = new \DateTime("+".(6-$nSemanaHoje)." days");
@@ -118,10 +157,16 @@ class ImovelController extends PadraoControllerSite{
                     case 6: $semanas[] = 'sab'; break;
                 }
             }
+            if ($this->Params('visita')){
+                $horarioVisita = $this->imovel->getVisitas()->filter(function($visita){
+                                        return $visita->getId() == $this->Params('visita');
+                                    })->get(0)->getData();
+            }else $horarioVisita = 0;
             return new ViewModel(array(
                                     'imovel' => $imovel,
                                     'hoje' => new \DateTime("-1 day"),
-                                    'semanas' => $semanas
+                                    'semanas' => $semanas,
+                                    'horarioVisita' => $horarioVisita
 //                                    'inicioSemana' => $inicioSemana,
 //                                    'fimSemana' => $fimSemana
                                 ));

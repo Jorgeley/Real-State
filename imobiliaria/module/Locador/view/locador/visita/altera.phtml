@@ -1,0 +1,61 @@
+<script>
+    $(document).ready(function(){
+        $('td').click(function(e){
+            $('td[style*="background-color: rgb(221, 221, 221)"]').css('background-color', '#fff');
+            $(this).css('background-color', '#ddd');
+            $("#horarioVisita").val($(this).attr('id'));
+        });
+    });
+</script>
+
+<h1>Visita nº <?=$this->visita->getId()?></h1>
+
+<div id="conteudo">
+    <?php if (isset($this->confirma)): ?>
+        <label>Sua visita foi reagendada!<br>Assim que o locatário confirmar entraremos em contato.</label><?php
+    else: ?>
+        <div style="margin-right:30px;float:left;width:263px;height:300px;overflow:auto">
+            <table id="visita">
+                <thead>
+                    <tr id="cabecalho"><td></td>
+                        <?php foreach ($this->semanas as $semana): ?>
+                            <td>
+                                <?=$semana?><br>
+                                <?=$this->hoje->modify('+1 day')->format('d/m')?>
+                            </td>
+                        <?php endforeach; ?>
+                    </tr>
+                </thead>
+                <tbody><?php
+                    for ($hora=6; $hora<=23; $hora++): 
+                        $this->hoje->modify('-7 days');
+                        $this->hoje->setTime($hora, 0, 0);?>
+                        <tr><td><?=$hora?>:00</td><?php
+                        foreach ($this->semanas as $semana): ?>
+                            <td id="<?=$this->hoje->modify('+1 day')->format('d/m/Y H:i:s')?>"><?php
+                                if ( strstr($this->visita->getImovel()->getHorariosVisita(), $semana.'-'.$hora.':00')): ?>
+                                    X<?php
+                                endif; ?>
+                            </td><?php
+                        endforeach; ?>
+                        </tr><?php
+                    endfor; ?>
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+        <form method="post" action="<?=$this->basePath()?>/Locador/visita/grava/<?=$this->visita->getId()?>">
+            <label><?=$this->visita->getImovel()->getDescricao()?></label><br>
+            <label>Status: <?=$this->visita->getStatus()?></label><br>
+            <label><?=$this->visita->getImovel()->getEndereco()?></label><br>
+            <label>Podemos agendar sua visita para <b><?=$this->visita->getData()?></b>?</label><br>
+            <input type='submit' value="confirmar visita">
+            <input type='submit' value="reagendar visita">
+            <input type="hidden" name="horarioVisita" id="horarioVisita">
+        </form>
+    <?php endif; ?>
+</div>
+
+<div style="float:left;margin-right:30px">
+    <img src="<?=$this->basePath()?>/arquivos/imoveis/img/<?=$this->visita->getImovel()->getId()?>/1P.jpg?'<?=rand(1,1000)?>" id="fotoFachada">
+</div>

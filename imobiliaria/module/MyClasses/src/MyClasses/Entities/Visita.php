@@ -17,7 +17,7 @@ class Visita {
     /** @Column(type="text", nullable=true) */
     private $fechamento;
 
-    /** @Column(type="string", length=9, options={"default":"agendada"}) */
+    /** @Column(type="string", length=10, options={"default":"agendada"}) */
     private $status;
 
     /**

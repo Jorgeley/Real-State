@@ -12,7 +12,7 @@
 //            }else{
                 $('td[style*="background-color: rgb(221, 221, 221)"]').css('background-color', '#fff');
                 $(this).css('background-color', '#ddd');
-                $("#horarioVisita").val($(this).attr('id'));            
+                $("#horarioVisita").val($(this).attr('id'));
         });
     });
 </script>
@@ -59,13 +59,20 @@
             </table>
         </div>
         <form method="post" action="<?= $this->basePath() ?>/imovel/agendavisita/id/<?=$this->imovel->getId()?>/confirma">
-            <h2>Qual horario podemos agendar sua visita?</h2>
+            <?php if ($this->horarioVisita): 
+                $textoBotao = "reagendar";?>
+                <h2>Podemos confirmar sua visita para o dia <b><?=$this->horarioVisita?></b>?</h2>
+                <input type='submit' value="confirmar">
+            <?php else: 
+                $textoBotao = "agendar"; ?>
+                <h2>Qual horario podemos agendar sua visita?</h2>
+            <?php endif; ?>
             <p>X = horario disponivel do locador</p>
-            <label>Alguma observaçao?<br>
+<!--            <label>Alguma observaçao?<br>
                 <textarea rows="7" cols="35"></textarea>
-            </label><br>
-            <input type='submit' value="agendar">
-            <input type="hidden" name="horarioVisita" id="horarioVisita">
+            </label><br>-->
+            <input type='submit' value="<?=$textoBotao?>">
+            <input type="hidden" name="horarioVisita" id="horarioVisita" value="<?=$this->horarioVisita?>">
         </form>
     <?php endif; ?>
 </div>

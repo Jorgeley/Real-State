@@ -4,7 +4,8 @@ namespace MyClasses\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection,
     DoctrineModule\Paginator\Adapter\Collection,
-    Zend\Paginator\Paginator;
+    Doctrine\ORM\Tools\Pagination\Paginator,
+    MyClasses\Conn\Conn;
     //Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
@@ -262,8 +263,13 @@ class Locador {
      * @return Paginator
      */
     public function getImoveisPaginados($inicio = 0, $limite = 5){
-        $adapterImoveis = new Collection($this->getImoveis());
-        $paginador = new Paginator($adapterImoveis);
+        $qb = Conn::getConn()->createQueryBuilder();
+        $qb->select('i')
+            ->from('MyClasses\Entities\Imovel', 'i')
+            ->orderBy('i.publicacao')
+            ->setMaxResults($limite)
+            ->setFirstResult($inicio);
+        $paginador = new Paginator($qb->getQuery());
         return $paginador;
     }
     
@@ -274,8 +280,13 @@ class Locador {
      * @return Paginator
      */
     public function getVisitasPaginadas($inicio = 0, $limite = 5){
-        $adapterVisitas = new Collection($this->getVisitas());
-        $paginador = new Paginator($adapterVisitas);
+        $qb = Conn::getConn()->createQueryBuilder();
+        $qb->select('v')
+            ->from('MyClasses\Entities\Visita', 'v')
+            ->orderBy('v.data')
+            ->setMaxResults($limite)
+            ->setFirstResult($inicio);
+        $paginador = new Paginator($qb->getQuery());
         return $paginador;
     }
 
