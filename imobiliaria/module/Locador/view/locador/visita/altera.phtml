@@ -49,8 +49,8 @@
             <label>Status: <?=$this->visita->getStatus()?></label><br>
             <label><?=$this->visita->getImovel()->getEndereco()?></label><br>
             <label>Podemos agendar sua visita para <b><?=$this->visita->getData()?></b>?</label><br>
-            <input type='submit' value="confirmar visita">
-            <input type='submit' value="reagendar visita">
+            <input type='submit' name="opcao" value="confirmar visita">
+            <input type='submit' name="opcao" value="reagendar visita">
             <input type="hidden" name="horarioVisita" id="horarioVisita">
         </form>
     <?php endif; ?>

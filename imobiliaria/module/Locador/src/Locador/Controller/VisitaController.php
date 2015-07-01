@@ -30,7 +30,7 @@ class VisitaController extends PadraoControllerLocador{
     }
     
     /**
-     * visualiza a visita e dá opção de alterar/reagendar
+     * visualiza a visita e dá opção de confirmar/reagendar
      * @return ViewModel
      */
     public function alteraAction(){
@@ -52,46 +52,57 @@ class VisitaController extends PadraoControllerLocador{
                                     'semanas'=>$semanas, 
                                     'hoje'=>new \DateTime("-1 day")));
     }
-    
+    /**
+     * grava a visita confirmada/reagendada e notifica por e-mail Locatário e Locador
+     * @return ViewModel
+     */
     public function gravaAction(){
         $visita = $this->getEm()->getRepository("MyClasses\Entities\Visita")->find($this->Params('id'));
         //reagendamento de visita pelo Locador
-        if ($this->getRequest()->getPost('horarioVisita')){
-            $visita->setData($this->getRequest()->getPost('horarioVisita'));
-            $visita->setStatus("reagendada");
-            $msg = "<h2>Visita Reagendada</h2>"
-                    . "<p>Sr(ª). " . $visita->getLocatario()->getNome() . ", sua visita foi reagendada pelo Locador do imovel,<br>"
-                    . "acesse o link abaixo para confirmar ou reagendar novamente a visita:</p>"
-                    . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/agendavisita', array(
-                        'controller' => 'imovel',
-                        'action' => 'agendavisita',
-                        'visita' => $visita->getId()
-                    ))
-                    . "'>confirmar/reagendar visita</a><br>"
-                    . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
-            mail($visita->getLocatario()->getEmail(), "Visita Confirmada", $msg, 'MIME-Version: 1.0' . "\r\n"
-                    . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
-                    . 'From: Suporte Imobiliaria <suporte.imobiliaria@grupo-gpa.com>' . "\r\n");
-        //confirmação de visita pelo Locador
-        }else{
-            $visita->setStatus("confirmada");
-            $msg = ", sua visita foi confirmada,<br>"
-                            . "acesse o link abaixo para visualizar sua ficha de visita:</p>"
-                            . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/fichavisita', array(
-                                'controller' => 'imovel',
-                                'action' => 'fichavisita',
-                                'id' => $visita->getImovel()->getId()
-                            ))
-                            . "'>ficha de visita</a><br>"
-                            . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
-            $msgLocatario = "<h2>Visita Confirmada</h2><p>Sr(ª). " . $visita->getLocatario()->getNome() . $msg;
-            $msgLocador = "<h2>Visita Confirmada</h2><p>Sr(ª). " . $visita->getLocador()->getNome() . $msg;
-            mail($visita->getLocatario()->getEmail(), "Visita Confirmada", $msgLocatario, $header);
-            mail($visita->getLocador()->getEmail(), "Visita Confirmada", $msgLocador, $header);
+        if ($this->getRequest()->isPost()){
+            $header = 'MIME-Version: 1.0' . "\r\n"
+                . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
+                . 'From: Suporte Imobiliaria <suporte.imobiliaria@grupo-gpa.com>' . "\r\n";
+            //reagendamento de visita pelo Locador
+            if ($this->getRequest()->getPost('opcao') == "reagendar visita"){
+                $visita->setData($this->getRequest()->getPost('horarioVisita'));
+                $visita->setStatus("reagendada");
+                //notifica o Locatário por e-mail
+                $msg = "<h2>Visita Reagendada</h2>"
+                        . "<p>Sr(ª). " . $visita->getLocatario()->getNome() . ", sua visita foi reagendada pelo Locador do imovel,<br>"
+                        . "acesse o link abaixo para confirmar ou reagendar novamente a visita:</p>"
+                        . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/agendavisita', array(
+                            'controller' => 'imovel',
+                            'action' => 'agendavisita',
+                            'id' => $visita->getImovel()->getId(), 
+                            'confirma' => 0,
+                            'visita' => $visita->getId()
+                        ))
+                        . "'>confirmar/reagendar visita</a><br>"
+                        . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
+                mail($visita->getLocatario()->getEmail(), "Visita Reagendada", $msg, $header);
+            //confirmação de visita pelo Locador
+            }elseif ($this->getRequest()->getPost('opcao') == "confirmar visita"){
+                $visita->setStatus("confirmada");
+                //notifica Locatario e Locador por e-mail
+                $msg = ", sua visita foi confirmada,<br>"
+                                . "acesse o link abaixo para visualizar sua ficha de visita:</p>"
+                                . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/fichavisita', array(
+                                    'controller' => 'imovel',
+                                    'action' => 'fichavisita',
+                                    'id' => $visita->getImovel()->getId()
+                                ))
+                                . "'>ficha de visita</a><br>"
+                                . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
+                $msgLocatario = "<h2>Visita Confirmada</h2><p>Sr(ª). " . $visita->getLocatario()->getNome() . $msg;
+                $msgLocador = "<h2>Visita Confirmada</h2><p>Sr(ª). " . $visita->getLocador()->getNome() . $msg;
+                mail($visita->getLocatario()->getEmail(), "Visita Confirmada", $msgLocatario, $header);
+                mail($visita->getLocador()->getEmail(), "Visita Confirmada", $msgLocador, $header);
+            }
         }
         $this->getEm()->persist($visita);
         $this->getEm()->flush();
-        return new ViewModel(array('id'=>$visita->getId()));
+        return new ViewModel(array('opcao'=> $this->getRequest()->getPost('opcao')));
     }
 
 }

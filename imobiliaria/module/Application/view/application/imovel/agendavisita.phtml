@@ -26,7 +26,7 @@
 
 <div id="conteudo">
     <?php if (isset($this->confirma)): ?>
-        <label>Sua visita foi agenda!<br>Assim que o locador confirmar entraremos em contato.</label><?php
+        <label>Sua visita foi agendada!<br>Assim que o locador confirmar entraremos em contato.</label><?php
     else: ?>
         <div style="margin-right:30px;float:left;width:263px;height:300px;overflow:auto">
             <table id="visita">
@@ -58,7 +58,7 @@
                 <tfoot></tfoot>
             </table>
         </div>
-        <form method="post" action="<?= $this->basePath() ?>/imovel/agendavisita/id/<?=$this->imovel->getId()?>/confirma">
+        <form method="post" action="<?= $this->basePath() ?>/imovel/agendavisita/id/<?=$this->imovel->getId()?>/confirma<?=($this->visita)?'/'.$this->visita:null?>">
             <?php if ($this->horarioVisita): 
                 $textoBotao = "reagendar";?>
                 <h2>Podemos confirmar sua visita para o dia <b><?=$this->horarioVisita?></b>?</h2>
