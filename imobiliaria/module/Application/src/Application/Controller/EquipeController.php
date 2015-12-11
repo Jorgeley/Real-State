@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador de Equipes
+ * Team controller
  */
 namespace Application\Controller;
 
@@ -18,7 +18,7 @@ class EquipeController extends PadraoController{
     }
     
     /**
-     * lista as equipes
+     * list the teams
      * @return \Zend\View\Model\ViewModel
      */
     public function indexAction(){
@@ -27,7 +27,7 @@ class EquipeController extends PadraoController{
     }
     
     /**
-     * formulário nova equipe
+     * form new team
      * @return \Zend\View\Model\ViewModel
      */
     public function novoAction(){
@@ -36,7 +36,7 @@ class EquipeController extends PadraoController{
     }
     
     /**
-     * visualiza equipe para edição
+     * view team for edit
      * @return \Zend\View\Model\ViewModel
      */
     public function editaAction(){
@@ -50,7 +50,7 @@ class EquipeController extends PadraoController{
     }
     
     /**
-     * exclui a equipe do BD
+     * delete team
      * @return \Zend\View\Model\ViewModel
      */
     public function excluiAction(){
@@ -62,25 +62,25 @@ class EquipeController extends PadraoController{
     }
     
     /**
-     * persiste equipe no BD
+     * save the team
      * @return \Zend\View\Model\ViewModel
      */
     public function gravaAction(){
         if ($this->getRequest()->isPost()){
-            if ($this->getRequest()->getPost("equipe")) //altera equipe
+            if ($this->getRequest()->getPost("equipe")) //update team
                 $equipe = $this->getEm()->getRepository('MyClasses\Entities\AclPerfil')
                             ->findOneBy(array("id"=>$this->getRequest()->getPost("equipe")));
-            else //nova equipe
+            else //new team
                 $equipe = new AclPerfil();
             $equipe->setPerfil($this->getRequest()->getPost("nome"));
-            //seta o perfil dos usuários da equipe
+            //set profile for team's users
             $usuariosEquipe = $this->getRequest()->getPost("usuariosequipe");
             foreach ($usuariosEquipe as $usuarioEquipe){
                 $usuario = $this->getEm()->getRepository('MyClasses\Entities\AclUsuario')
                             ->findOneBy(array("id"=>$usuarioEquipe));
                 $equipe->addUsuario($usuario);
             }
-            //adiciona os recursos(permissoes) do perfil/equipe
+            //add resources to profile
             $equipe->addRecurso($this->getEm()->getRepository('MyClasses\Entities\AclRecurso')
                             ->findOneBy(array("id"=>1)));
             $equipe->addRecurso($this->getEm()->getRepository('MyClasses\Entities\AclRecurso')
