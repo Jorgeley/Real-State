@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Controlador de Imoveis
+ * Property Controller
  */
 
 namespace Application\Controller;
@@ -22,7 +22,7 @@ class ImovelController extends PadraoControllerSite{
     public function __construct() {
         if (!isset($this->sessao)) {
             $this->sessao = new Sessao('ip' . str_replace('.', '_', $_SERVER['REMOTE_ADDR']));
-            $this->sessao->setExpirationSeconds(86400); //expira em 24h
+            $this->sessao->setExpirationSeconds(86400); //24h to expire
         }
     }
 
@@ -31,7 +31,7 @@ class ImovelController extends PadraoControllerSite{
     }
 
     /**
-     * pesquisa de imóveis por parâmetro
+     * search properties by parameter
      * @return ViewModel
      */
     public function pesquisaAction() {
@@ -54,31 +54,31 @@ class ImovelController extends PadraoControllerSite{
     }
 
     /**
-     * Visualiza o imóvel selecionado, se Locatario pedir +informações, solicita cadastro e confirma
+     * view the property selected, if tenant ask for more informations, as him to register
      * @return ViewModel
      */
     public function visualizaAction() {
-        //grava novo Locatario ou recupera Locatario já cadastrado anteriormente
+        //save new tenant or get the tenant prior registered
         if ($this->getRequest()->isPost()) {
-            //buscando possível Locatário já cadastrado anteriormente
+            //getting posible tenant prior registered
             $criterio = new Criteria();
             $criterio->where($criterio->expr()->eq('nome', $this->getRequest()->getPost('nome')))
                     ->andWhere($criterio->expr()->eq('email', $this->getRequest()->getPost('email')))
                     ->andWhere($criterio->expr()->eq('foneCelular', $this->getRequest()->getPost('telefone')));
             $locatario = $this->getEm()->getRepository('MyClasses\Entities\Locatario')->matching($criterio);
-            //se qtd de Locatarios de acordo com os critérios acima for 0...
-            if (!$locatario->count()){ //...cadastra novo Locatario...
+            //if quantity of tenants by criteria above is zero...
+            if (!$locatario->count()){ //...register new tenant...
                 $locatario = new Locatario();
                 $locatario->setNome($this->getRequest()->getPost('nome'));
                 $locatario->setEmail($this->getRequest()->getPost('email'));
                 $locatario->setFoneCelular($this->getRequest()->getPost('telefone'));
                 $this->getEm()->persist($locatario);
                 $this->getEm()->flush();
-            //...senão, pega Locatario já cadastrado anteriormente
+            //...else, get the tenant prior registered
             }else $locatario = $locatario->first();
             $this->sessao->locatario = $locatario;
         }
-        //busca o imóvel e envia pra view
+        //get the property and send to view
         if ($this->Params('id')){
             $imovel = $this->getEm()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
             return new ViewModel(array(
@@ -89,15 +89,15 @@ class ImovelController extends PadraoControllerSite{
     }
     
     /**
-     * Agenda/Reagenda/Confirma visita pelo Locatario e notifica Locador
+     * Schedule/Reschedule/Confirm the visit by tenant and notify locator
      * @return ViewModel
      */
     public function agendavisitaAction(){
-        if ($this->Params('id')) //busca imóvel
+        if ($this->Params('id')) //search the property
             $imovel = $this->getEm()->getRepository("MyClasses\Entities\Imovel")->find($this->Params('id'));
-        if ($this->Params('visita')) //busca visita do imóvel
+        if ($this->Params('visita')) //search the property's visit
             $visita = $this->getEm()->getRepository("MyClasses\Entities\Visita")->find($this->Params('visita'));
-        //agenda/reagenda/confirma visita
+        //Schedule/Reschedule/Confirm the visit
         if ($this->Params('confirma')) {
             $header = 'MIME-Version: 1.0' . "\r\n"
                 . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
@@ -105,10 +105,10 @@ class ImovelController extends PadraoControllerSite{
             if ($this->Params('visita')){
                 $visita = $this->getEm()->getRepository("MyClasses\Entities\Visita")->find($this->Params('visita'));
                 $horarioVisita = $visita->getData();
-                //confirmação da visita pelo Locatário
+                ////confirmation of the visit by tenant
                 if ($visita->getData() == $this->getRequest()->getPost('horarioVisita')){
                     $visita->setStatus("confirmada");
-                    //notifica Locatario e Locador por e-mail
+                    //notify tenant and locator by e-mail
                     $msg = ", sua visita foi confirmada,<br>"
                             . "acesse o link abaixo para visualizar sua ficha de visita:</p>"
                             . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/fichavisita', array(
@@ -122,11 +122,11 @@ class ImovelController extends PadraoControllerSite{
                     $msgLocador = "<h2>Visita Confirmada</h2><p>Sr(ª). " . $visita->getLocador()->getNome() . $msg;
                     mail($visita->getLocatario()->getEmail(), "Visita Confirmada", $msgLocatario, $header);
                     mail($visita->getLocador()->getEmail(), "Visita Confirmada", $msgLocador, $header);
-                //reagendamento da visita pelo Locatário
+                //reesceduling the visit by tenant
                 }else{
                     $visita->setData($this->getRequest()->getPost('horarioVisita'));
                     $visita->setStatus("agendada");
-                    //notifica Locador por e-mail
+                    //notify Locator by e-mail
                     $msg = "<p>Sr(ª) " . $visita->getLocador()->getNome() . ", o locatário reagendou a visita,<br>"
                             . "acesse o link abaixo para confirmar ou reagendar a visita:</p>"
                             . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('Locador/visita/altera', array(
@@ -138,7 +138,7 @@ class ImovelController extends PadraoControllerSite{
                             . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
                     mail($visita->getLocador()->getEmail(), "Reagendamento de Visita", $msg, $header);
                 }
-            //agendamento de nova visita pelo Locatário
+            //schedule of a new visit by tenant
             }else{
                 $horarioVisita = 0;
                 $visita = new Visita();
@@ -148,7 +148,7 @@ class ImovelController extends PadraoControllerSite{
                 $visita->setImovel($imovel);
                 $visita->setData($this->getRequest()->getPost('horarioVisita'));
                 $visita->setStatus("agendada");
-                //notifica Locador por e-mail
+                //notify Locator by e-mail
                 $msg = "<p>Sr(ª) " . $visita->getLocador()->getNome() . ", um locatário solicitou o agendamento de uma visita,<br>"
                         . "acesse o link abaixo para confirmar ou reagendar a visita:</p>"
                         . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('Locador/visita/altera', array(
@@ -163,7 +163,7 @@ class ImovelController extends PadraoControllerSite{
             $this->getEm()->persist($visita);
             $this->getEm()->flush();
             return new ViewModel(array('id' => $this->Params('id'), 'confirma' => true));
-        //monta calendário da semana atual para agendar/reagendar visita
+        //build actual week calendár to schedule/reschedule the visit
         }else{
             $hoje = new \DateTime("-1 day");
             for ($s=0; $s<=6; $s++){
@@ -189,7 +189,7 @@ class ImovelController extends PadraoControllerSite{
     }
 
     /**
-     * gera ficha de visita do imóvel
+     * generate property visit form
      * @return ViewModel
      */
     public function fichavisitaAction() {
