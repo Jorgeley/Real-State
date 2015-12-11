@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador Login
+ * Login Controller
  */
 namespace Application\Controller;
 
