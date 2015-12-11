@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Controlador de Locadores
+ * Tenant Controller
  */
 
 namespace Application\Controller;
@@ -19,10 +19,12 @@ class LocadorController extends AbstractActionController {
      */
     private $captcha;
 
+    //list the tenants
     public function indexAction() {
         return new ViewModel();
     }
 
+    //new tenant form
     public function novoAction() {
         $this->captcha = new Captcha();
         $this->captcha->setFont(getcwd()."/../www/imobiliaria/fonts/Ubuntu-C.ttf");
@@ -35,6 +37,7 @@ class LocadorController extends AbstractActionController {
                             );
     }
     
+    //save the tenant and send e-mail to confirm
     public function gravaAction(){
         if ($this->getRequest()->isPost()){
             $locador = new Locador();
@@ -72,6 +75,7 @@ class LocadorController extends AbstractActionController {
         }
     }
     
+    //confirms the register when user open e-mail and clik on link, so activate the account
     public function confirmaAction(){
         if ($this->getRequest()->isGet()){
             $locador = $this->getEm()->getRepository('MyClasses\Entities\Locador')
@@ -85,6 +89,7 @@ class LocadorController extends AbstractActionController {
         }
     }
 
+    //entity manager
     private $em;
     /** @return Doctrine\ORM\EntityManager */
     public function getEm(){
