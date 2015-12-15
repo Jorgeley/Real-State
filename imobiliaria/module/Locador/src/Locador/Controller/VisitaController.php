@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador de Imoveis
+ * Property Controller
  */
 namespace Locador\Controller;
 
@@ -15,7 +15,7 @@ use Zend\View\Model\ViewModel,
 class VisitaController extends PadraoControllerLocador{
 
     /**
-     * lista as visitas paginadas
+     * list the visits
      * @return ViewModel
      */
     public function indexAction() {
@@ -30,7 +30,7 @@ class VisitaController extends PadraoControllerLocador{
     }
     
     /**
-     * visualiza a visita e dá opção de confirmar/reagendar
+     * view the visit and show options to confirm or reschedule
      * @return ViewModel
      */
     public function alteraAction(){
@@ -53,21 +53,20 @@ class VisitaController extends PadraoControllerLocador{
                                     'hoje'=>new \DateTime("-1 day")));
     }
     /**
-     * grava a visita confirmada/reagendada e notifica por e-mail Locatário e Locador
+     * save the confirmed or rescheduled visit and notify the tenant and locator by e-mail
      * @return ViewModel
      */
     public function gravaAction(){
         $visita = $this->getEm()->getRepository("MyClasses\Entities\Visita")->find($this->Params('id'));
-        //reagendamento de visita pelo Locador
+        //reschedule of visit by locator
         if ($this->getRequest()->isPost()){
             $header = 'MIME-Version: 1.0' . "\r\n"
                 . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
                 . 'From: Suporte Imobiliaria <suporte.imobiliaria@grupo-gpa.com>' . "\r\n";
-            //reagendamento de visita pelo Locador
             if ($this->getRequest()->getPost('opcao') == "reagendar visita"){
                 $visita->setData($this->getRequest()->getPost('horarioVisita'));
                 $visita->setStatus("reagendada");
-                //notifica o Locatário por e-mail
+                //notify tenant by e-mail
                 $msg = "<h2>Visita Reagendada</h2>"
                         . "<p>Sr(ª). " . $visita->getLocatario()->getNome() . ", sua visita foi reagendada pelo Locador do imovel,<br>"
                         . "acesse o link abaixo para confirmar ou reagendar novamente a visita:</p>"
@@ -81,10 +80,10 @@ class VisitaController extends PadraoControllerLocador{
                         . "'>confirmar/reagendar visita</a><br>"
                         . "<i><b>Suporte Imobiliaria Grupo GPA</b></i></p>";
                 mail($visita->getLocatario()->getEmail(), "Visita Reagendada", $msg, $header);
-            //confirmação de visita pelo Locador
+            //confirmation of visit by locator
             }elseif ($this->getRequest()->getPost('opcao') == "confirmar visita"){
                 $visita->setStatus("confirmada");
-                //notifica Locatario e Locador por e-mail
+                //notify tenant and locator by e-mail
                 $msg = ", sua visita foi confirmada,<br>"
                                 . "acesse o link abaixo para visualizar sua ficha de visita:</p>"
                                 . "<a href='http://imobiliaria.grupo-gpa.com" . $this->url()->fromRoute('imovel/fichavisita', array(
