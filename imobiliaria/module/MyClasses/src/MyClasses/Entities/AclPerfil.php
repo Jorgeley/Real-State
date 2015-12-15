@@ -25,7 +25,7 @@ class AclPerfil{
     /** @ManyToMany(targetEntity="AclUsuario", mappedBy="equipes") */
     private $usuarios;
     
-    /** adiciona AclUsuario para o AclPerfil
+    /** add AclUsuario to AclPerfil
      *  @param AclUsuario $usuario */
     public function addUsuario(AclUsuario $usuario){
         if ($this->usuarios->contains($usuario))
@@ -34,7 +34,7 @@ class AclPerfil{
         $usuario->addEquipe($this);
     }
     
-    /** deleta AclUsuario do AclPerfil
+    /** delete AclUsuario from AclPerfil
      *  @param AclUsuario $usuario */
     public function delUsuario(AclUsuario $usuario){
         if (!$this->usuarios->contains($usuario))
@@ -51,7 +51,7 @@ class AclPerfil{
     /** @ManyToMany(targetEntity="AclRecurso", mappedBy="perfis") */
     private $recursos;
     
-    /** adiciona AclRecurso para o AclPerfil
+    /** add AclRecurso to AclPerfil
      *  @param AclRecurso $recurso */
     public function addRecurso(AclRecurso $recurso){
         if ($this->recursos->contains($recurso))
@@ -60,7 +60,7 @@ class AclPerfil{
         $recurso->addPerfil($this);
     }
     
-    /** deleta AclRecurso do AclPerfil
+    /** delete AclRecurso from AclPerfil
      *  @param AclRecurso $recurso */
     public function delRecurso(AclRecurso $recurso){
         if (!$this->recursos->contains($recurso))
@@ -91,7 +91,7 @@ class AclPerfil{
 	}
 
 	/**
-	 * seta todos os atributos
+	 * set all atributes
 	 * @param array $atributos
 	 */
 	public function sets(array $atributos){
