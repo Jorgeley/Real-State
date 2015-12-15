@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador de Usuários
+ * Users controller
  */
 namespace Application\Controller;
 
@@ -18,7 +18,7 @@ class UsuarioController extends PadraoController{
     }
     
     /**
-     * lista os usuários
+     * list users
      * @return \Zend\View\Model\ViewModel
      */
     public function indexAction(){
@@ -27,7 +27,7 @@ class UsuarioController extends PadraoController{
     }
     
     /**
-     * formulário novo usuario
+     * new user form
      * @return \Zend\View\Model\ViewModel
      */
     public function novoAction(){
@@ -36,7 +36,7 @@ class UsuarioController extends PadraoController{
     }
     
     /**
-     * visualiza usuario para edição
+     * view the user to edit
      * @return \Zend\View\Model\ViewModel
      */
     public function editaAction(){
@@ -61,7 +61,7 @@ class UsuarioController extends PadraoController{
     }
     
     /**
-     * exclui a usuario do BD
+     * delete user
      * @return \Zend\View\Model\ViewModel
      */
     public function excluiAction(){
@@ -73,21 +73,21 @@ class UsuarioController extends PadraoController{
     }
     
     /**
-     * persiste usuario no BD
+     * save the user
      * @return \Zend\View\Model\ViewModel
      */
     public function gravaAction(){
         if ($this->getRequest()->isPost()){
-            if ($this->getRequest()->getPost("usuario")) //altera usuario
+            if ($this->getRequest()->getPost("usuario")) //update user
                 $usuario = $this->getEm()->getRepository('MyClasses\Entities\AclUsuario')
                           ->findOneBy(array("id"=>$this->getRequest()->getPost("usuario")));
-            else //novo usuario
+            else //new user
                 $usuario = new AclUsuario();
             $usuario->setNome($this->getRequest()->getPost("nome"));
             $usuario->setCargo($this->getRequest()->getPost("cargo"));
             $usuario->setLogin($this->getRequest()->getPost("login"));
             $usuario->setSenha($this->getRequest()->getPost("senha"));
-            if ($this->getRequest()->getPost("acesso")=="a"){ //perfil adm
+            if ($this->getRequest()->getPost("acesso")=="a"){ //adm profile
                 $equipeAdm = $this->getEm()->getRepository('MyClasses\Entities\AclPerfil')
                         ->findOneBy(array("id"=>1));
                 $usuario->addEquipe($equipeAdm);
