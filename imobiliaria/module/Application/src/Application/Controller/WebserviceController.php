@@ -17,7 +17,7 @@ class WebserviceController extends AbstractActionController{
     //private static $SERVIDOR = "192.168.0.118:8888";
     //private static $SERVIDOR = "192.168.1.103:8888";
     private static $SERVIDOR = "http://www.grupo-gpa.com";
-    // Armazena na variável o endereço do webserver no servidor
+    // the webservice address
     //private $_WSDL_URI = "http://192.168.1.103:8888/WEB/GPA/public/webservice";
     private $_WSDL_URI = "http://www.grupo-gpa.com/webservice";
     private $em;
