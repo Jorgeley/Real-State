@@ -1,5 +1,5 @@
 <?php
-/** CONTROLOADOR PADRÃO PARA TODOS OS CONTROLADORES DO MÓDULO "usuario"
+/** default controller of user module
  * @author jorgeley 
  * @version **/
 
@@ -38,8 +38,8 @@ abstract class PadraoControllerLocador extends AbstractActionController{
     }
 	
     /**
-     * sobrepondo o método setEventManager do AbstractActionControler
-     * para que chame a autenticacao no "dispatch"
+     * overriding setEventManager method of AbstractActionControler
+     * to do the authentication on "dispatch"
      * @see Zend\Mvc\Controller.AbstractController::setEventManager()
      */
     public function setEventManager(EventManagerInterface $events){
@@ -53,11 +53,11 @@ abstract class PadraoControllerLocador extends AbstractActionController{
     }
 
 	/**
-	 * verifica autenticação
+	 * verify authentication
 	 */
     public function verificaAuth(){
         $this->identity = $this->auth->getStorage()->read();
-        if (!$this->auth->hasIdentity()){//nao existe identidade?
+        if (!$this->auth->hasIdentity()){//there is no id?
             $this->redirect()->toRoute('Locador/logoff');
         }else{
             $this->locador = $this->identity[0];
