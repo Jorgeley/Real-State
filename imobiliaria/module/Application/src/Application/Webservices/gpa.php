@@ -10,13 +10,13 @@ use MyClasses\Conn\Conn,
     Zend\Config\Writer\Xml */;
 
 /**
- * Web Service para o aplicativo android do projeto
+ * Webservice to android app
  */
 class gpa{
     private $em;
 
     /**
-     * Testa o webservice
+     * Test webservice
      * @return string
      */
     public function testa(){
@@ -24,7 +24,7 @@ class gpa{
     }
     
     /**
-     * Autentica o usuário via webservice
+     * Authenticate user by webservice
      * @param string $usuario
      * @param string $senha
      * @return array
@@ -61,8 +61,8 @@ class gpa{
     }
     
     /**
-     * Sincronizacao do app com o webservice.
-     * Retorna os ID's das tarefas novas
+     * Sync the app with webservice.
+     * Returns the ID's of new tasks
      * @param int $idUsuario
      * @param string $ultimaSincronizacao
      * @return array
@@ -90,7 +90,7 @@ class gpa{
             )
             ->andWhere($query->expr()->gt("t.modificado", "'".$ultimaSincronizacao->format("Y/m/d H:i:s")."'"))
             ->andWhere($query->expr()->in("t.status", ":status"));
-        if ( in_array(1, $idsEquipes)) //se faz parte da equipe ADM
+        if ( in_array(1, $idsEquipes)) //if user is administrator
             $query->setParameter("status", array("aberta", "concluir", "arquivada", "excluir"));
         else            
             $query->setParameter("status", array("aberta", "concluida", "rejeitada", "arquivada", "excluir"));
@@ -124,11 +124,11 @@ class gpa{
         $nSemanaHoje = date("w");
         $inicioSemana = new \DateTime("-".$nSemanaHoje." days");
         $fimSemana = new \DateTime("+".(6-$nSemanaHoje)." days");
-        $atualizar[0] = false; //se true, sinaliza atualizar projetos pessoais
-        $atualizar[1] = false; //se true, sinaliza atualizar projetos equipes
-        $atualizar[2] = false; //se true, sinaliza atualizar projetos hoje
-        $atualizar[3] = false; //se true, sinaliza atualizar projetos semana
-        $atualizar[4] = false; //se true, sinaliza atualizar tarefas arquivadas
+        $atualizar[0] = false; //if true, signs to update personal projects
+        $atualizar[1] = false; //if true, signs to update team projects
+        $atualizar[2] = false; //if true, signs to update today projects
+        $atualizar[3] = false; //if true, signs to update week projects
+        $atualizar[4] = false; //if true, signs to update filed tasks
         foreach ($projetosGeral as $projeto){
             if (!$atualizar[0] && $projeto['usuario']['id'] == $idUsuario)
                 $atualizar[0] = true;
@@ -145,7 +145,7 @@ class gpa{
                 $idsTarefas[] = $tarefa['id'];
             }
         }
-        //excluindo definitivamente as tarefas que ja foram sincronizadas a exclusao com toda a equipe
+        //finally delete task after notify all user's team
         $queryExcluir = $this->getEm()->createQueryBuilder();
         $queryExcluir->select("t")
             ->from("MyClasses\Entities\Tarefa", "t")
@@ -166,7 +166,7 @@ class gpa{
     }
     
     /**
-     * Conclui (administrador) ou solicita conclusao (colaborador) de uma tarefa
+     * Conclude (administrator) or as for conclusion (colaborator) of a task
      * @param int $idUsuario
      * @param int $idTarefa
      * @param string $confirma
@@ -204,7 +204,7 @@ class gpa{
     }
     
     /**
-     * Retorna todos os projetos de um usuário
+     * Returns all user's projects
      * @param int $idUsuario
      * @param boolean $login
      * @return string
@@ -216,8 +216,8 @@ class gpa{
         foreach ($usuario->getEquipes() as $equipe)
             $idsEquipes[] = $equipe->getId();
        /**
-        * se 'getNovasTarefas' for True, entao houve alteraçoes nas tarefas do usuario
-        * TODO tenho que melhorar essa logica, pois busca o XML inteiro e nao somente as atualiaçoes
+        * if 'getNovasTarefas' is True, there are updates of the task
+        * TODO I have to improve this, because get the entire xml instead of just the updated part
         */ 
         $xmlProjetosPessoais = null;
         if ($forcarAtualizacao){
@@ -272,14 +272,14 @@ class gpa{
             $query->setParameter("status", array("aberta", "concluida", "rejeitada"));
             $projetosPessoais = $query->getQuery()->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
             $xmlProjetosPessoais = $this->getXmlArray($projetosPessoais);
-            /*$usuario->setNovasTarefas(false);//flag p/ o webservice saber que as tarefas do usuario ja estao atualizadas
+            /*$usuario->setNovasTarefas(false);//signs to webservice knows that the task is already updated
             $this->getEm()->flush();*/
         }
         return $xmlProjetosPessoais;
     }
     
     /**
-     * Retorna todos os projetos das equipes que um usuário pertence
+     * Returns all the user's teams project
      * @param int $idUsuario
      * @return string
      */
@@ -288,8 +288,8 @@ class gpa{
         $usuario = $this->getEm()->getRepository('MyClasses\Entities\AclUsuario')
                                 ->findOneBy(array("id"=>$idUsuario));
        /**
-        * se 'getNovasTarefas' for True, entao houve alteraçoes nas tarefas do usuario
-        * TODO tenho que melhorar essa logica, pois busca o XML inteiro e nao somente as atualiaçoes
+        * if 'getNovasTarefas' is True, there are updates
+        * TODO I have to improve this, because get the entire xml instead of just the updated part
         */ 
         $xmlProjetosEquipes = null;
         if ($forcarAtualizacao){
@@ -297,14 +297,14 @@ class gpa{
                 foreach ($equipe->getProjetos() as $projeto)
                     $projetosEquipes[] = $projeto;
             $xmlProjetosEquipes = $this->getXmlObjeto($projetosEquipes, null);
-            /*$usuario->setNovasTarefas(false);//flag p/ o webservice saber que as tarefas do usuario ja estao atualizadas
+            /*$usuario->setNovasTarefas(false);//signs to webservice knows that the task is already updated
             $this->getEm()->flush();*/
         }
         return $xmlProjetosEquipes;
     }
     
     /**
-     * Retorna todos os projetos do usuario referente a data de hoje
+     * Returns all today projects
      * @param int $idUsuario
      * @return string
      */
@@ -315,8 +315,8 @@ class gpa{
         foreach ($usuario->getEquipes() as $equipe)
             $idsEquipes[] = $equipe->getId();
        /**
-        * se 'getNovasTarefas' for True, entao houve alteraçoes nas tarefas do usuario
-        * TODO tenho que melhorar essa logica, pois busca o XML inteiro e nao somente as atualiaçoes
+        * if 'getNovasTarefas' is True, there are updates
+        * TODO I have to improve this, because get the entire xml instead of just the updated part
         */ 
         $xmlProjetosHoje = null;
         if ($forcarAtualizacao){
@@ -346,14 +346,14 @@ class gpa{
                                 ->setParameter("hoje", $hoje->format("Y-m-d 00:00:00"));*/
             $projetosHoje = $query->getQuery()->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
             $xmlProjetosHoje = $this->getXmlArray($projetosHoje);
-            /*$usuario->setNovasTarefas(false);//flag p/ o webservice saber que as tarefas do usuario ja estao atualizadas
+            /*$usuario->setNovasTarefas(false);//signs to webservice knows that the task is already updated
             $this->getEm()->flush();*/
         }
         return $xmlProjetosHoje;
     }
     
     /**
-     * Retorna todos os projetos do usuario referente a semana atual
+     * Returns all the week projects
      * @param int $idUsuario
      * @return string
      */
@@ -364,8 +364,8 @@ class gpa{
         foreach ($usuario->getEquipes() as $equipe)
             $idsEquipes[] = $equipe->getId();
        /**
-        * se 'getNovasTarefas' for True, entao houve alteraçoes nas tarefas do usuario
-        * TODO tenho que melhorar essa logica, pois busca o XML inteiro e nao somente as atualiaçoes
+        * if 'getNovasTarefas' is True, there are updates
+        * TODO I have to improve this, because get the entire xml instead of just the updated part
         */ 
         $xmlProjetosSemana = null;
         if ($forcarAtualizacao){
@@ -393,20 +393,20 @@ class gpa{
                                             )
                         )
                 ->andWhere($query->expr()->in("t.status", ":status"));
-            if ( in_array(1, $idsEquipes)) //se faz parte da equipe ADM
+            if ( in_array(1, $idsEquipes)) //if user is administrator
                 $query->setParameter("status", array("aberta", "concluir"));
             else            
                 $query->setParameter("status", array("aberta", "concluida", "rejeitada"));
             $projetos = $query->getQuery()->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
             $xmlProjetosSemana = $this->getXmlArray($projetos);
-            /*$usuario->setNovasTarefas(false);//flag p/ o webservice saber que as tarefas do usuario ja estao atualizadas
+            /*$usuario->setNovasTarefas(false);//signs to webservice knows that the task is already updated
             $this->getEm()->flush();*/
         }
         return $xmlProjetosSemana;
     }
     
     /**
-     * Retorna todos as tarefas arquivadas (concluidos) do usuario
+     * Returns all the filed tasks
      * @param int $idUsuario
      * @return string
      */
@@ -443,7 +443,7 @@ class gpa{
     }
     
     /**
-     * Grava comentario de uma Tarefa do AclUsuario
+     * save comment of a task
      * @param int $idUsuario
      * @param int $idTarefa
      * @param String $textoComentario
@@ -463,7 +463,7 @@ class gpa{
         $this->getEm()->flush();
         if ($comentario->getId()){
             /*$equipe = $tarefa->getProjeto()->getEquipe();
-            //se o projeto tiver equipe, notificar todos os usuarios que a tarefa foi atualizada
+            //if is a team project, notify all user's team that the task was updated
             if ($equipe != null)
                 foreach ($equipe->getUsuarios() as $usuario)
                     $usuario->setNovasTarefas(true);
@@ -477,10 +477,10 @@ class gpa{
             $nSemanaHoje = date("w");
             $inicioSemana = new \DateTime("-".$nSemanaHoje." days");
             $fimSemana = new \DateTime("+".(6-$nSemanaHoje)." days");
-            $atualizar[0] = false; //se true, sinaliza atualizar projetos pessoais
-            $atualizar[1] = false; //se true, sinaliza atualizar projetos equipes
-            $atualizar[2] = false; //se true, sinaliza atualizar projetos hoje
-            $atualizar[3] = false; //se true, sinaliza atualizar projetos semana
+            $atualizar[0] = false; //if true, signs to update personal projects
+            $atualizar[1] = false; //if true, signs to update team projects
+            $atualizar[2] = false; //if true, signs to update today projects
+            $atualizar[3] = false; //if true, signs to update week projects
             if (!$atualizar[0] && $tarefa->getUsuario() == $usuarioComentario)
                 $atualizar[0] = true;
             if (!$atualizar[1] && $tarefa->getProjeto()->getEquipe()!=null && in_array($tarefa->getProjeto()->getEquipe()->getId(), $idsEquipes))
@@ -499,7 +499,7 @@ class gpa{
             );
         }else
             return null;
-        /*antes retornava isso mas dava pau nos XMLs pois misturavam nao sei pq
+        /*I don't know why this didn't work, somehow the XML got mixed
         array(   0 => $this->projetosPessoais($idUsuario, true),
                             1 => $this->projetosEquipes($idUsuario, true),
                             2 => $this->projetosHoje($idUsuario, true),
@@ -511,13 +511,13 @@ class gpa{
     }
     
     /**
-     * Grava Projeto
+     * Save Project
      * @param string $nomeProjeto
      * @param string $descricaoProjeto
      * @param string $vencimentoProjeto
      * @param int $equipeProjeto
      * @param int $idUsuario
-     * @return boolean projeto gravado
+     * @return boolean saved project
      */
     public function gravaProjeto(string $nomeProjeto, string $descricaoProjeto, string $vencimentoProjeto, int $equipeProjeto, int $idUsuario){
         $Projeto = new \MyClasses\Entities\Projeto();
@@ -544,14 +544,14 @@ class gpa{
     }
     
     /**
-     * Grava Tarefa
+     * Save task
      * @param int $id
      * @param string $nome
      * @param string $descricao
      * @param string $vencimento
      * @param int $projeto
      * @param int $responsavel
-     * @return boolean tarefa gravada
+     * @return boolean saved task
      */
     public function gravaTarefa(int $id, string $nome, string $descricao, string $vencimento, int $projeto, int $responsavel){
         if ($id == null){
@@ -579,7 +579,7 @@ class gpa{
     }
     
     /**
-     * Exclui Tarefa
+     * Delete task
      * @param int $idTarefa
      * @param int $idUsuario
      * @return array $atualizar
@@ -595,10 +595,10 @@ class gpa{
         $nSemanaHoje = date("w");
         $inicioSemana = new \DateTime("-".$nSemanaHoje." days");
         $fimSemana = new \DateTime("+".(6-$nSemanaHoje)." days");
-        $atualizar[0] = false; //se true, sinaliza atualizar projetos pessoais
-        $atualizar[1] = false; //se true, sinaliza atualizar projetos equipes
-        $atualizar[2] = false; //se true, sinaliza atualizar projetos hoje
-        $atualizar[3] = false; //se true, sinaliza atualizar projetos semana
+        $atualizar[0] = false; //if true, signs to update personal projects
+        $atualizar[1] = false; //if true, signs to update team projects
+        $atualizar[2] = false; //if true, signs to update today projects
+        $atualizar[3] = false; //if true, signs to update week projects
         if (!$atualizar[0] && $tarefa->getUsuario() == $usuario)
             $atualizar[0] = true;
         if (!$atualizar[1] && $tarefa->getProjeto()->getEquipe()!=null && in_array($tarefa->getProjeto()->getEquipe()->getId(), $idsEquipes))
@@ -609,7 +609,7 @@ class gpa{
                                 && $tarefa->getVencimento()->format('Y/m/d') <= $fimSemana->format('Y/m/d')) )
             $atualizar[3] = true;
         /**
-         * se a tarefa tem equipe entao nao pode excluir ainda ate q toda a equipe tenha sincronizado a exclusao
+         * if is a team task, can not delete yet, because have to notify all the team first
         */
         if ($tarefa->getProjeto()->getEquipe()!=null){
             $tarefa->setModificado();
@@ -627,7 +627,7 @@ class gpa{
     }
     
     /** 
-     * @return String xml com equipes
+     * @return String xml with teams
      */
     public function getEquipes(){
         $query = $this->getEm()->createQueryBuilder();
@@ -639,7 +639,7 @@ class gpa{
     /** 
      * @param int $idUsuario
      * @param string $ultimaSincronizacao
-     * @return String xml com projetos
+     * @return String xml with projects
      */
     public function getProjetos(int $usuario, string $ultimaSincronizacao){
         $usuarioProjetos = $this->getEm()->getRepository('MyClasses\Entities\AclUsuario')
@@ -671,7 +671,7 @@ class gpa{
     
     /** 
      * @param string $ultimaSincronizacao
-     * @return String xml com usuarios
+     * @return String xml with users
      */
     public function getUsuarios(string $ultimaSincronizacao){
         $ultimaSincronizacao = new \DateTime($ultimaSincronizacao);
