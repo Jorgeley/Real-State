@@ -38,7 +38,7 @@ class AclUsuario{
     /** @ManyToMany(targetEntity="AclPerfil", inversedBy="usuarios") */
     private $equipes;
     
-    /** adiciona AclPerfil para o AclUsuario
+    /** add AclPerfil to AclUsuario
      *  @param AclPerfil $equipe */
     public function addEquipe(AclPerfil $equipe){
         if ($this->equipes->contains($equipe))
@@ -47,7 +47,7 @@ class AclUsuario{
         $equipe->addUsuario($this);
     }
     
-    /** deleta AclPerfil do AclUsuario
+    /** delete AclPerfil from AclUsuario
      *  @param AclPerfil $equipe */
     public function delEquipe(AclPerfil $equipe){
         if (!$this->equipes->contains($equipe))
@@ -112,7 +112,7 @@ class AclUsuario{
 	}
 
 	/**
-	 * seta todos os atributos
+	 * set all atributes
 	 * @param array $atributos
 	 */
 	public function sets(array $atributos){
