@@ -27,12 +27,12 @@ class Adaptador implements AdapterInterface{
 	 * @throws \Zend\Authentication\Adapter\Exception\ExceptionInterface
 	 */
 	public function authenticate(){
-		// conexao
+		// connection
 		$dbAdapter = new DbAdapter(array(
 			'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
 			'dbname'   => 'RioVerdeShopping',
 		));
-		// setando identificação
+		// set identification
 		$authAdapter = new AuthAdapter($dbAdapter);
 		$authAdapter
 			->setTableName($this->entity)
@@ -41,7 +41,7 @@ class Adaptador implements AdapterInterface{
 		$authAdapter
 			->setIdentity($this->login)
 			->setCredential($this->senha);
-		//autentica
+		//authenticate
 		$result = $authAdapter->authenticate();
 		switch ($result->getCode()) {
 			case Result::FAILURE_IDENTITY_NOT_FOUND:
