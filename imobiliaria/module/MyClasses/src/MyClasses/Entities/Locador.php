@@ -197,16 +197,16 @@ class Locador {
     }
 
     /**
-     * valores possiveis:
-     * inativo (padrao, nao visivel)
-     * ativo (visivel)
-     * expirado (nao visivel)
+     * possible values:
+     * inativo (default, not visible)
+     * ativo (visible)
+     * expirado (not visible)
      */
     public function setStatus($status) {
         $this->status = $status;
     }
 
-    /** adiciona Imovel para o Locatador
+    /** add property to locator
      *  @param Imovel $imovel */
     public function addImovel(Imovel $imovel) {
         $this->imoveis->add($imovel);
@@ -229,7 +229,7 @@ class Locador {
         $visita->setImovel($this);
     }
 
-    /** adiciona Contrato para o Locatario
+    /** add Contract to tenant
      *  @param Contrato $contrato */
     public function addContrato(Contrato $contrato) {
         $this->contrato->add($contrato);
@@ -242,7 +242,7 @@ class Locador {
     }
 
     /**
-     * seta todos os atributos
+     * set all atributes
      * @param array $atributos
      */
     public function sets(array $atributos) {
@@ -257,7 +257,7 @@ class Locador {
     }
     
     /**
-     * retorna todos os imoveis do locador paginados de 5 em 5
+     * returns all locator properties paged 5 by 5
      * @param int $inicio
      * @param int $limite
      * @return Paginator
@@ -274,7 +274,7 @@ class Locador {
     }
     
     /**
-     * retorna todas as visitas do locador paginadas de 5 em 5
+     * returns all locator visits paged 5 by 5
      * @param int $inicio
      * @param int $limite
      * @return Paginator
