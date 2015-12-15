@@ -183,7 +183,7 @@ class Locatario {
         $this->senha = $senha;
     }
 
-    /** adiciona Imovel para o Locatario
+    /** add property to tenant
      *  @param Imovel $imovel */
     public function addImovel(Imovel $imovel) {
         $this->imoveis->add($imovel);
@@ -206,7 +206,7 @@ class Locatario {
         $visita->setImovel($this);
     }
 
-    /** adiciona Contrato para o Locatario
+    /** add Contract to tenant
      *  @param Contrato $contrato */
     public function addContrato(Contrato $contrato) {
         $this->contrato->add($contrato);
@@ -218,7 +218,7 @@ class Locatario {
         return $this->contratos;
     }
 
-    /** adiciona ComentarioLocatarioImovel para o Locatario
+    /** add ComentarioLocatarioImovel to tenant
      *  @param ComentarioLocatarioImovel $comentario */
     public function addComentario(ComentarioLocatarioImovel $comentario) {
         $this->comentarios->add($comentario);
@@ -231,7 +231,7 @@ class Locatario {
     }
 
     /**
-     * seta todos os atributos
+     * set all atributes
      * @param array $atributos
      */
     public function sets(array $atributos) {
