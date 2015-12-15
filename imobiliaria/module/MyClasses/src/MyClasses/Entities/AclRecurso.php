@@ -20,7 +20,7 @@ class AclRecurso{
     /** @ManyToMany(targetEntity="AclPerfil", inversedBy="recursos") */
     private $perfis;
     
-    /** adiciona AclPerfil para o AclRecurso
+    /** add AclPerfil to AclRecurso
      *  @param AclPerfil $perfil */
     public function addPerfil(AclPerfil $perfil){
         if ($this->perfis->contains($perfil))
@@ -29,7 +29,7 @@ class AclRecurso{
         $perfil->addRecurso($this);
     }
     
-    /** deleta AclPerfil do AclRecurso
+    /** delete AclPerfil from AclRecurso
      *  @param AclPerfil $perfil */
     public function delPerfil(AclPerfil $perfil){
         if (!$this->perfis->contains($perfil))
@@ -60,7 +60,7 @@ class AclRecurso{
 	}
 
 	/**
-	 * seta todos os atributos
+	 * set all atributes
 	 * @param array $atributos
 	 */
 	public function sets(array $atributos){
