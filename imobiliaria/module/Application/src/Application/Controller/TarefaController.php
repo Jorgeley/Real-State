@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador de Tarefas
+ * Task Controller
  */
 namespace Application\Controller;
 
@@ -16,7 +16,7 @@ class TarefaController extends PadraoController{
     }
     
     /**
-     * lista as tarefas
+     * list tasks
      * @return \Zend\View\Model\ViewModel
      */
     public function indexAction(){
@@ -35,13 +35,13 @@ class TarefaController extends PadraoController{
                 $idsProjetos[] = $projeto->getId();
             $tarefasPessoais = $usuario->getTarefasCorrelatas($idsProjetos);
             //echo $tarefasPessoais->count();
-            //$tarefasEquipe = $usuario;//TODO pegar tarefas das equipes do usuario
+            //$tarefasEquipe = $usuario;//TODO get the user's team tasks
         }
         return new ViewModel(array('projetos'=>$projetos, 'tarefasPessoais'=>$tarefasPessoais));
     }
     
     /**
-     * formulário nova tarefa
+     * new task form
      * @return \Zend\View\Model\ViewModel
      */
     public function novoAction(){
@@ -60,7 +60,7 @@ class TarefaController extends PadraoController{
     }
     
     /**
-     * visualiza tarefa para edição
+     * view the task to edit
      * @return \Zend\View\Model\ViewModel
      */
     public function editaAction(){
@@ -74,7 +74,7 @@ class TarefaController extends PadraoController{
     }
     
     /**
-     * exclui a tarefa do BD
+     * delete task
      * @return \Zend\View\Model\ViewModel
      */
     public function excluiAction(){
@@ -91,15 +91,15 @@ class TarefaController extends PadraoController{
     }
     
     /**
-     * persiste tarefa no BD
+     * save task
      * @return \Zend\View\Model\ViewModel
      */
     public function gravaAction(){
         if ($this->getRequest()->isPost()){
-            if ($this->getRequest()->getPost("tarefa")) //altera tarefa
+            if ($this->getRequest()->getPost("tarefa")) //update task
                 $tarefa = $this->getEm()->getRepository('MyClasses\Entities\Tarefa')
                           ->findOneBy(array("id"=>$this->getRequest()->getPost("tarefa")));
-            else //nova tarefa
+            else //new task
                 $tarefa = new Tarefa();
             $tarefa->setNome($this->getRequest()->getPost("nome"));
             $tarefa->setDescricao($this->getRequest()->getPost("descricao"));
@@ -115,14 +115,14 @@ class TarefaController extends PadraoController{
             else
                 $usuario = $this->getEm()->getRepository('MyClasses\Entities\AclUsuario')
                                     ->findOneBy(array("id"=>$this->identity()[0]->getId()));
-            /*$usuario->setNovasTarefas(true);//flag p/ o webservice saber que houve atualizaçoes nas tarefas do usuario*/
+            /*$usuario->setNovasTarefas(true);//flag to webservice knows that there are updates*/
             $tarefa->setUsuario($usuario);
             $projeto = $this->getEm()->getRepository('MyClasses\Entities\Projeto')
                         ->findOneBy(array("id"=>$this->getRequest()->getPost("projeto")));
             $tarefa->setProjeto($projeto);
             $tarefa->setModificado();
             $tarefa->setStatus("aberta");
-            /*//se o projeto tiver equipe, notificar todos os usuarios que a tarefa foi atualizada
+            /*//if is a team task, notify the user's team that the task was updated
             if ($projeto->getEquipe() != null)
                 foreach ($projeto->getEquipe()->getUsuarios() as $usuario)
                     $usuario->setNovasTarefas(true);*/
