@@ -1,5 +1,5 @@
 <?php
-/** CONTROLOADOR PADRÃO PARA TODOS OS CONTROLADORES DO MÓDULO "site"
+/** default controller of module site
  * @author jorgeley 
  * @version **/
 
