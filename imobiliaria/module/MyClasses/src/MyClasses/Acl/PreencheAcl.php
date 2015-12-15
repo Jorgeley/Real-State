@@ -3,48 +3,48 @@ class USINAWEB_Acl_PreencheAcl
 {
 
 	/**
-	 * Cria a acl a ser usada no sistema
-	 * @param $roles papéis, ou seja, os usuários
-	 * @param $resources recursos, ou seja, os módulos
+	 * Create the acl
+	 * @param $roles
+	 * @param $resources
 	 */
 	public function criaAcl(array $roles, array $resources)
 	{
-		//Criando o objeto Acl
+		//Creating the Acl object
 		$acl = new Zend_Acl();
 
 		foreach ($roles as $role) {
-			//Crio as roles e as adiciona na acl
+			//Creating the roles and adding on Acl
 			$acl->addRole(new Zend_Acl_Role($role));
 		}
 
 		foreach ($resources as $resource) {
-			//Crio as $resources e as adiciona na acl
+			//Creating the resources and adding on acl
 			$acl->addResource(new Zend_Acl_Resource($resource));
 		}
 
-		//Crio um namespace (sessão) para o objeto Acl
+		//Creating a namespace (session) for the Acl object
 		$ns = new Zend_Session_Namespace();
-		//apaga a variavel acl dentro da sessão caso a mesma exista
+		//clean the session
 		unset($ns->acl);
 		$ns->acl = $acl;
 
 	}
 
 	/**
-	 * Seta as permissões do usuário no sistema
-	 * @param $usuario usuário logado
+	 * Set the permissions
+	 * @param $usuario logged user
 	 */
 	public function setPrivilegios($usuario)
 	{
-		//recupera a acl do namespace (sessão)
+		//retrieve the namespace acl(session)
 		$ns = new Zend_Session_Namespace();
 		if(isset($ns->acl)) {
 			$usr = new Usuarios();
-			//busca as permissões do usuário logado
+			//bring the permissions of logged user
 			$permissoes = $usr->getPermissoesUsuario($usuario);
 
 			foreach ($permissoes as $permissao) {
-				//autoriza o usuário ao acesso
+				//authorize the user
 				$ns->acl->allow($permissao->roles,$permissao->resources,$permissao->privileges);
 			}
 		}
