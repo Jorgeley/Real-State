@@ -8,21 +8,21 @@ use Zend\Authentication\AuthenticationService,
 	Zend\Http\Response,
 	Zend\Mvc\Router\Http\Literal,
 	Zend\Mvc\Controller\AbstractActionController;
-/** CONTROLOADOR PADRÃO PARA TODOS OS CONTROLADORES DO MÓDULO "SUPORTE"
+/** default controller of module support
  * @author jorgeley 
  * @version **/
 
 /**
- * parece ser um bug, não sei porque, mas o proxie não é carregado automaticamente...
- * ...deve ser alguma coisa com a sessão, pois o objeto é recarregado da sessão
+ * maybe a bug? i don't know why, but the proxies are not loaded
+ * ...something to do with session i think, because the object is loaded from session
  */
 //require_once __DIR__.'/../Entities/Proxies/__CG__MyClassesEntitiesAclPerfil.php';
 
 abstract class PadraoControllerSuporte extends AbstractActionController{
 	
 /**
- * sobrepondo o método setEventManager do AbstractActionControler
- * para que chame a autenticacao no "dispatch"
+ * overriding setEventManager method of AbstractActionControler
+ * to call the authentication on "dispatch"
  * @see Zend\Mvc\Controller.AbstractController::setEventManager()
  */
 public function setEventManager(EventManagerInterface $events){
@@ -36,20 +36,20 @@ public function setEventManager(EventManagerInterface $events){
 }
 
 	/**
-	 * verifica autenticação
+	 * verify authentication
 	 */
 	public function verificaAuth(){
-		//quebrando a URL
+		//break the URL
 		$uri = explode('/',substr($_SERVER['REQUEST_URI'],1));
 		$uri[2] = !isset($uri[2]) ? "index" : $uri[2];
 	    $auth = new AuthenticationService();
 	    $identity = $auth->getStorage()->read();
 	    $acl = $identity[2];
-	    //verificando autenticidade
-		if (!$auth->hasIdentity())	//existe identidade?
+	    //verify authenticity
+		if (!$auth->hasIdentity())	//there is no id?
 			$this->redirect()->toRoute('suporte/logoff');
-		elseif (	!$acl->hasResource( $uri[0].'/'.$uri[1] ) || //existe o recurso na acl?	    							 									
-	    			!$acl->isAllowed( $identity[1], $uri[0].'/'.$uri[1], $uri[2] ) ) //ou existe, mas tem a permissão no perfil, recurso, ação, privilégio?
+		elseif (	!$acl->hasResource( $uri[0].'/'.$uri[1] ) || //there is no resources on acl?
+	    			!$acl->isAllowed( $identity[1], $uri[0].'/'.$uri[1], $uri[2] ) ) //or there is, but not allowed, resource, action, privilege?
 						$this->redirect()->toRoute('suporte/logoff');
 			else{
 	    	    $this->layout()->id = $identity[0]->getId();
@@ -59,7 +59,7 @@ public function setEventManager(EventManagerInterface $events){
 	    	}
 	}
 	
-	/** gera PDF de um registro
+	/** generate PDF of a record
 	 * @return void*/	 
 	/* public function pdf(){
 		Zend_Layout::getMvcInstance()->disableLayout();
