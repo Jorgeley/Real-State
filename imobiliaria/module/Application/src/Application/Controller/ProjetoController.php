@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador de Projetos
+ * Projects Controller
  */
 namespace Application\Controller;
 
@@ -16,7 +16,7 @@ class ProjetoController extends PadraoController{
     }
     
     /**
-     * lista os projetos
+     * list the projects
      * @return \Zend\View\Model\ViewModel
      */
     public function indexAction(){
@@ -33,7 +33,7 @@ class ProjetoController extends PadraoController{
     }
     
     /**
-     * formulário novo projeto
+     * new project form
      * @return \Zend\View\Model\ViewModel
      */
     public function novoAction(){
@@ -42,7 +42,7 @@ class ProjetoController extends PadraoController{
     }
     
     /**
-     * visualiza projeto para edição
+     * view the project to edit
      * @return \Zend\View\Model\ViewModel
      */
     public function editaAction(){
@@ -55,7 +55,7 @@ class ProjetoController extends PadraoController{
     }
     
     /**
-     * exclui o projeto do BD
+     * delete project
      * @return \Zend\View\Model\ViewModel
      */
     public function excluiAction(){
@@ -74,15 +74,15 @@ class ProjetoController extends PadraoController{
     }
     
     /**
-     * persiste projeto no BD
+     * save the project
      * @return \Zend\View\Model\ViewModel
      */
     public function gravaAction(){
         if ($this->getRequest()->isPost()){
-            if ($this->getRequest()->getPost("projeto")) //altera projeto
+            if ($this->getRequest()->getPost("projeto")) //update project
                 $projeto = $this->getEm()->getRepository('MyClasses\Entities\Projeto')
                           ->findOneBy(array("id"=>$this->getRequest()->getPost("projeto")));
-            else //novo projeto
+            else //new project
                 $projeto = new Projeto();
             $projeto->setNome($this->getRequest()->getPost("nome"));
             $projeto->setDescricao($this->getRequest()->getPost("descricao"));
@@ -108,7 +108,7 @@ class ProjetoController extends PadraoController{
             }else{
                 $projeto->setUsuario($this->getEm()->getRepository('MyClasses\Entities\AclUsuario')
                           ->findOneBy(array("id"=>$this->identity()[0]->getId())));
-                //$projeto->getUsuario()->setNovasTarefas(true);//flag p/ o webservice saber que houve atualizaçoes nas tarefas do usuario
+                //$projeto->getUsuario()->setNovasTarefas(true);//flag to webservice knows that there are update
             }
             $this->getEm()->persist($projeto);
             $this->getEm()->flush();
