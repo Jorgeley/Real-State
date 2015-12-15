@@ -432,10 +432,10 @@ class Imovel {
     }
 
     /**
-     * valores possiveis:
-     * inativo (padrao, nao visivel)
-     * ativo (visivel)
-     * expirado (nao visivel)
+     * possible values:
+     * inativo (default, not visible)
+     * ativo (visible)
+     * expirado (not visible)
      */
     public function setStatus($status) {
         $this->status = $status;
