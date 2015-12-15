@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador de Imoveis
+ * Property Controller
  */
 namespace Locador\Controller;
 
@@ -27,12 +27,12 @@ class ImovelController extends PadraoControllerLocador{
         $this->path = __DIR__ . '/../../../../../../www/imobiliaria/arquivos/imoveis/img/';
         if (!isset($this->sessao)) {
             $this->sessao = new Sessao('ip' . str_replace('.', '_', $_SERVER['REMOTE_ADDR']));
-            $this->sessao->setExpirationSeconds(86400); //expira em 24h
+            $this->sessao->setExpirationSeconds(86400); //24h to expire
         }
     }
 
     /**
-     * lista os imoveis paginados
+     * list the properties
      * @return ViewModel
      */
     public function indexAction() {
@@ -47,7 +47,7 @@ class ImovelController extends PadraoControllerLocador{
     }
     
     /**
-     * formulario etapas cadastro Imovel
+     * form steps to register a property
      * @return ViewModel
      */
     public function novoAction(){
@@ -57,7 +57,7 @@ class ImovelController extends PadraoControllerLocador{
 //            $arquivos = null;
 //        echo count($arquivos);
         switch ($this->Params("etapa")){
-            case 2: //estrutura do Imovel
+            case 2: //property structure
                 if ($this->getRequest()->isPost()) {
                     $this->sessao->tipo =                           $this->getRequest()->getPost("tipo");
                     $this->sessao->areaLote =                       $this->getRequest()->getPost("areaLote");
@@ -74,7 +74,7 @@ class ImovelController extends PadraoControllerLocador{
                     $this->sessao->idade =                          $this->getRequest()->getPost("idade");
                 }
                 break;
-            case 3: //localizaçao do Imovel
+            case 3: //property localization
                 if ($this->getRequest()->isPost()) {
                     if ($this->getRequest()->getPost("cidade")){
                         $this->sessao->cep =        $this->getRequest()->getPost("cep");
@@ -91,13 +91,13 @@ class ImovelController extends PadraoControllerLocador{
                         $fotos[] = count($fotos)+1;
                         $img = new Img(
                             1, //qtd imgs
-                            $this->getRequest()->getPost(), //post dos hiddens com as coordenadas do recorte
-                            array('/arquivos/imoveis/img/'.$this->locador->getId().'/original.jpg'), //endereço img origem
-                            '/arquivos/imoveis/img/'.$this->locador->getId().'/', //caminho relativo da imagem
-                            $this->path.$this->locador->getId().'/', //caminho absoluto da imagem
-                            600, //largura do recorte
-                            450, //altura do recorte
-                            count($fotos) //identificador da img, Ex: $id.jpg (img única) OU $id/1.jpg, $id/2.jpg (várias imgs)
+                            $this->getRequest()->getPost(), //post of hidden coordenates
+                            array('/arquivos/imoveis/img/'.$this->locador->getId().'/original.jpg'), //image address
+                            '/arquivos/imoveis/img/'.$this->locador->getId().'/', //relative image path
+                            $this->path.$this->locador->getId().'/', //absolute image path
+                            600, //weight cut
+                            450, //height cut
+                            count($fotos) //image identifier, Ex: $id.jpg (one image) OR $id/1.jpg, $id/2.jpg (many images)
                         );
                         $img->recorta();
                         $img->recorta(200, 150, count($fotos)."P");
@@ -105,20 +105,20 @@ class ImovelController extends PadraoControllerLocador{
                     }
                 }
                 break;
-            case 4: //imagem de fachada do Imovel
+            case 4: //front property image
                 if ($this->getRequest()->isPost()) {
-//                    $img = new Img(1, //qtd imgs
-//                        $this->getRequest()->getPost(), //post dos hiddens com as coordenadas do recorte
-//                        array('/arquivos/imoveis/img/'.$this->locador->getId().'.jpg'), //endereço img origem
-//                        '/arquivos/imoveis/img/', //caminho relativo da imagem
-//                        $this->path, //caminho absoluto da imagem
-//                        200, //largura do recorte
-//                        150, //altura do recorte
-//                        $this->locador->getId()); //identificador da img, Ex: $id.jpg (img única) OU $id/1.jpg, $id/2.jpg (várias imgs)
+//                    $img = new Img(1, //quantity of images
+//                        $this->getRequest()->getPost(), //post of hidden coordenates
+//                        array('/arquivos/imoveis/img/'.$this->locador->getId().'.jpg'), //image address
+//                        '/arquivos/imoveis/img/', //relative image path
+//                        $this->path, //absolute image path
+//                        200, //weight cut
+//                        150, //height cut
+//                        $this->locador->getId()); //image identifier, Ex: $id.jpg (one image) OR $id/1.jpg, $id/2.jpg (many images)
 //                    $img->recorta();
                 }
                 break;
-            case 5: //valores do Imovel
+            case 5: //property values
                 if ($this->getRequest()->isPost()) {
                     $this->sessao->valor = $this->getRequest()->getPost("valor");
                     $this->sessao->valorm2 = $this->getRequest()->getPost("valorm2");
@@ -144,7 +144,7 @@ class ImovelController extends PadraoControllerLocador{
     }
 
     /**
-     * faz upload da imagem de fachada
+     * image upload
      */
     public function uploadAction() {
         if ($this->getRequest()->isPost()) {
@@ -164,7 +164,7 @@ class ImovelController extends PadraoControllerLocador{
     }
     
     /**
-     * grava o Imovel
+     * save the property
      * @return ViewModel
      */
     public function gravaAction(){
