@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador Locador
+ * Locator controller
  */
 namespace Locador\Controller;
 
@@ -29,7 +29,7 @@ class IndexController extends AbstractActionController{
     }
 
     /**
-     * autentica o usuário
+     * authenticate user
      */
     public function loginAction(){
         if ($this->getRequest()->isPost()) {
@@ -63,7 +63,7 @@ class IndexController extends AbstractActionController{
     }
 
     /**
-     * faz o logoff
+     * logoff the user
      */
     public function logoffAction(){
         $this->auth->clearIdentity();
